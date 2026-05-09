@@ -22,6 +22,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="QuestionNumberText"
                            FontSize="15" FontWeight="SemiBold" Foreground="White"
@@ -29,6 +30,15 @@
                 <TextBlock x:Name="DifficultyText" Grid.Column="1"
                            FontSize="18" Foreground="#BEE0F8"
                            VerticalAlignment="Center" Margin="16,0,0,0"/>
+                <!-- Timer (exam mode only) -->
+                <Border x:Name="TimerBorder" Grid.Column="2"
+                        Background="#1A5FA8" CornerRadius="4"
+                        Padding="10,4" Margin="16,0,0,0"
+                        Visibility="Collapsed">
+                    <TextBlock x:Name="TimerText"
+                               FontSize="15" FontWeight="Bold" Foreground="White"
+                               VerticalAlignment="Center"/>
+                </Border>
             </Grid>
         </Border>
 
@@ -51,16 +61,16 @@
                                Foreground="#323130" LineHeight="22"/>
                 </Border>
 
-                <!-- Multi-answer hint (shown only for multi-answer questions) -->
+                <!-- Multi-answer hint -->
                 <TextBlock x:Name="MultiAnswerHint"
                            Text="Выберите все правильные ответы:"
                            FontSize="12" FontStyle="Italic" Foreground="#8A8886"
                            Margin="2,0,0,6" Visibility="Collapsed"/>
 
-                <!-- Answer options (populated in code-behind) -->
+                <!-- Answer options -->
                 <StackPanel x:Name="AnswersPanel"/>
 
-                <!-- Feedback (shown after answering) -->
+                <!-- Feedback (study mode only) -->
                 <Border x:Name="FeedbackBorder" Background="White" CornerRadius="6"
                         Padding="16,12" Margin="0,12,0,0" Visibility="Collapsed">
                     <Border.Effect>

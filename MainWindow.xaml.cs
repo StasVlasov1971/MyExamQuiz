@@ -65,6 +65,18 @@ namespace AzureExamQuestions
                 CountSlider.Value = available;
         }
 
+        private void StudyModeRadio_Checked(object sender, RoutedEventArgs e)
+        {
+            if (ModeDescText != null)
+                ModeDescText.Text = "Обучение: сразу показывает правильный ответ и объяснение.";
+        }
+
+        private void ExamModeRadio_Checked(object sender, RoutedEventArgs e)
+        {
+            if (ModeDescText != null)
+                ModeDescText.Text = "Экзамен: без подсказок, таймер, оценка по шкале 0–1000 (порог 700).";
+        }
+
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             if (_selectedExam is null) return;
@@ -85,7 +97,8 @@ namespace AzureExamQuestions
                 return;
             }
 
-            new QuizWindow(questions, _selectedExam.DisplayTitle).Show();
+            var mode = ExamModeRadio.IsChecked == true ? QuizMode.Exam : QuizMode.Study;
+            new QuizWindow(questions, _selectedExam.DisplayTitle, mode).Show();
             Close();
         }
     }

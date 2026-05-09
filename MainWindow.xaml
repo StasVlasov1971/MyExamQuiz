@@ -64,6 +64,28 @@
 
                     <Separator Background="#E1DFDD" Margin="0,0,0,16"/>
 
+                    <!-- Mode selection -->
+                    <TextBlock Text="Режим:" FontSize="13" Foreground="#323130" Margin="0,0,0,8"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                        <RadioButton x:Name="StudyModeRadio"
+                                     Content="Обучение"
+                                     FontSize="13" IsChecked="True"
+                                     GroupName="QuizMode"
+                                     Checked="StudyModeRadio_Checked"
+                                     Margin="0,0,16,0"/>
+                        <RadioButton x:Name="ExamModeRadio"
+                                     Content="Экзамен"
+                                     FontSize="13"
+                                     GroupName="QuizMode"
+                                     Checked="ExamModeRadio_Checked"/>
+                    </StackPanel>
+                    <TextBlock x:Name="ModeDescText"
+                               FontSize="11" Foreground="#8A8886" FontStyle="Italic"
+                               Margin="2,2,0,16" TextWrapping="Wrap"
+                               Text="Обучение: сразу показывает правильный ответ и объяснение."/>
+
+                    <Separator Background="#E1DFDD" Margin="0,0,0,16"/>
+
                     <!-- Difficulty -->
                     <TextBlock Text="Минимальный уровень сложности:" FontSize="13" Foreground="#323130"/>
                     <Grid Margin="0,8,0,4">
