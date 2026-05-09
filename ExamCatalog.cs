@@ -11,7 +11,7 @@ namespace AzureExamQuestions
                 Code        = "AZ-900",
                 Name        = "Azure Fundamentals",
                 Description = "Основы облачных вычислений и Microsoft Azure",
-                GetQuestions = QuestionBank.GetAllQuestions
+                GetQuestions = QuestionBank.GetAllQuestionsExtended
             },
             new ExamDefinition
             {

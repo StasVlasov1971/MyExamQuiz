@@ -863,6 +863,13 @@ namespace AzureExamQuestions
             };
         }
 
+        public static List<Question> GetAllQuestionsExtended()
+        {
+            var all = GetAllQuestions();
+            all.AddRange(QuestionBank2.GetAdditionalQuestions());
+            return all;
+        }
+
         public static List<Question> GetQuestionsByDifficulty(int minDifficulty, int maxDifficulty)
         {
             return GetAllQuestions()
