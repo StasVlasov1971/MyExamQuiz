@@ -141,6 +141,13 @@
                             HorizontalAlignment="Stretch"
                             Visibility="Collapsed"
                             Click="ReviewButton_Click"/>
+                    <Button x:Name="RetryWrongButton"
+                            Content="Повторить ошибочные ↺"
+                            Style="{StaticResource PrimaryButton}"
+                            Padding="12,10" Margin="0,8,0,0"
+                            HorizontalAlignment="Stretch"
+                            Visibility="Collapsed"
+                            Click="RetryWrongButton_Click"/>
                 </StackPanel>
 
             </StackPanel>

@@ -12,6 +12,7 @@ namespace AzureExamQuestions
     {
         private readonly List<Question> _questions;
         private readonly QuizMode _mode;
+        private readonly string _examTitle;
         private readonly DateTime _startTime = DateTime.Now;
 
         private int _currentIndex = 0;
@@ -24,7 +25,7 @@ namespace AzureExamQuestions
         // Exam mode timer
         private DispatcherTimer? _timer;
         private int _secondsLeft;
-        private const int SecondsPerQuestion = 90;
+        private int _secondsPerQuestion;
 
         private static readonly SolidColorBrush GreenBack    = new(Color.FromRgb(223, 246, 221));
         private static readonly SolidColorBrush GreenBorder  = new(Color.FromRgb(108, 184, 108));
@@ -33,11 +34,14 @@ namespace AzureExamQuestions
         private static readonly SolidColorBrush NeutralBack  = Brushes.White;
         private static readonly SolidColorBrush NeutralBorder = new(Color.FromRgb(225, 223, 221));
 
-        public QuizWindow(List<Question> questions, string examTitle = "", QuizMode mode = QuizMode.Study)
+        public QuizWindow(List<Question> questions, string examTitle = "",
+                          QuizMode mode = QuizMode.Study, int timerSeconds = 90)
         {
             InitializeComponent();
             _questions = questions;
             _mode = mode;
+            _examTitle = examTitle;
+            _secondsPerQuestion = timerSeconds > 0 ? timerSeconds : 90;
 
             if (!string.IsNullOrEmpty(examTitle))
                 Title = $"My Exam Quiz — {examTitle}";
@@ -63,7 +67,6 @@ namespace AzureExamQuestions
             var q = Current;
             QuestionNumberText.Text = $"Вопрос {_currentIndex + 1} из {_questions.Count}";
             DifficultyText.Text     = new string('★', q.Difficulty) + new string('☆', 5 - q.Difficulty);
-            ProgressBar.Value       = (double)_currentIndex / _questions.Count * 100;
             QuestionText.Text       = q.Text;
 
             MultiAnswerHint.Visibility = IsMultiAnswer ? Visibility.Visible : Visibility.Collapsed;
@@ -123,6 +126,7 @@ namespace AzureExamQuestions
             ActionButton.Content   = "Ответить";
             ActionButton.IsEnabled = false;
             UpdateStats();
+            UpdateBookmarkButton();
 
             if (_mode == QuizMode.Exam)
                 StartTimer();
@@ -130,7 +134,7 @@ namespace AzureExamQuestions
 
         private void StartTimer()
         {
-            _secondsLeft = SecondsPerQuestion;
+            _secondsLeft = _secondsPerQuestion;
             UpdateTimerDisplay();
             _timer!.Start();
         }
@@ -268,6 +272,34 @@ namespace AzureExamQuestions
             int wrongCount    = answeredCount - _correctCount;
             int remaining     = _questions.Count - answeredCount;
             StatsText.Text    = $"✓ {_correctCount}  ✗ {wrongCount}  •  Осталось: {remaining}";
+            UpdateProgressBar(answeredCount, wrongCount);
+        }
+
+        private void UpdateBookmarkButton()
+        {
+            bool bookmarked = BookmarkService.IsBookmarked(Current.Id);
+            BookmarkButton.Content   = bookmarked ? "★" : "☆";
+            BookmarkButton.Foreground = bookmarked
+                ? System.Windows.Media.Brushes.Gold
+                : new System.Windows.Media.SolidColorBrush(
+                    System.Windows.Media.Color.FromRgb(190, 224, 248));
+            BookmarkButton.ToolTip = bookmarked ? "Убрать из избранного" : "Добавить в избранное";
+        }
+
+        private void BookmarkButton_Click(object sender, RoutedEventArgs e)
+        {
+            BookmarkService.Toggle(Current.Id);
+            UpdateBookmarkButton();
+        }
+
+        private void UpdateProgressBar(int answered, int wrong)
+        {
+            int total   = _questions.Count;
+            int correct = answered - wrong;
+            // Use star-ratio columns: correct* wrong* remain*
+            ColCorrect.Width = new GridLength(correct, GridUnitType.Star);
+            ColWrong.Width   = new GridLength(wrong,   GridUnitType.Star);
+            ColRemain.Width  = new GridLength(Math.Max(0, total - answered), GridUnitType.Star);
         }
 
         private void ShowResults()
@@ -278,7 +310,9 @@ namespace AzureExamQuestions
                 Correct      = _correctCount,
                 Mode         = _mode,
                 TimeSpent    = DateTime.Now - _startTime,
-                WrongAnswers = _wrongAnswers
+                WrongAnswers = _wrongAnswers,
+                ExamTitle    = _examTitle,
+                TimerSeconds = _secondsPerQuestion
             };
             new ResultWindow(result).Show();
             Close();

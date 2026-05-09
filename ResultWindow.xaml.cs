@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -12,6 +13,7 @@ namespace AzureExamQuestions
         {
             InitializeComponent();
             _result = result;
+            SaveToHistory(result);
 
             int total   = result.Total;
             int correct = result.Correct;
@@ -67,7 +69,10 @@ namespace AzureExamQuestions
             }
 
             if (result.WrongAnswers.Count > 0)
-                ReviewButton.Visibility = Visibility.Visible;
+            {
+                ReviewButton.Visibility      = Visibility.Visible;
+                RetryWrongButton.Visibility  = Visibility.Visible;
+            }
         }
 
         private void ApplyStudyTheme(double percent)
@@ -95,6 +100,26 @@ namespace AzureExamQuestions
             }
         }
 
+        private static void SaveToHistory(QuizResult result)
+        {
+            var ts = result.TimeSpent;
+            string timeStr = ts.TotalHours >= 1
+                ? $"{(int)ts.TotalHours}ч {ts.Minutes:D2}м {ts.Seconds:D2}с"
+                : $"{ts.Minutes:D2}м {ts.Seconds:D2}с";
+
+            HistoryService.Append(new HistoryRecord
+            {
+                Date      = System.DateTime.Now,
+                ExamTitle = result.ExamTitle,
+                Mode      = result.Mode == QuizMode.Exam ? "Экзамен" : "Обучение",
+                Total     = result.Total,
+                Correct   = result.Correct,
+                Score     = result.Score,
+                Passed    = result.Passed,
+                TimeSpent = timeStr
+            });
+        }
+
         private void RestartButton_Click(object sender, RoutedEventArgs e)
         {
             new MainWindow().Show();
@@ -109,6 +134,13 @@ namespace AzureExamQuestions
         private void ReviewButton_Click(object sender, RoutedEventArgs e)
         {
             new ReviewWindow(_result).Show();
+        }
+
+        private void RetryWrongButton_Click(object sender, RoutedEventArgs e)
+        {
+            var wrongQuestions = _result.WrongAnswers.Select(w => w.Question).ToList();
+            new QuizWindow(wrongQuestions, _result.ExamTitle, _result.Mode, _result.TimerSeconds).Show();
+            Close();
         }
     }
 }

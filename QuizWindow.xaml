@@ -23,6 +23,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="QuestionNumberText"
                            FontSize="15" FontWeight="SemiBold" Foreground="White"
@@ -30,8 +31,15 @@
                 <TextBlock x:Name="DifficultyText" Grid.Column="1"
                            FontSize="18" Foreground="#BEE0F8"
                            VerticalAlignment="Center" Margin="16,0,0,0"/>
+                <!-- Bookmark button -->
+                <Button x:Name="BookmarkButton" Grid.Column="2"
+                        FontSize="18" Background="Transparent"
+                        BorderThickness="0" Foreground="#BEE0F8"
+                        VerticalAlignment="Center" Margin="12,0,0,0"
+                        ToolTip="Добавить в избранное"
+                        Click="BookmarkButton_Click">☆</Button>
                 <!-- Timer (exam mode only) -->
-                <Border x:Name="TimerBorder" Grid.Column="2"
+                <Border x:Name="TimerBorder" Grid.Column="3"
                         Background="#1A5FA8" CornerRadius="4"
                         Padding="10,4" Margin="16,0,0,0"
                         Visibility="Collapsed">
@@ -42,10 +50,17 @@
             </Grid>
         </Border>
 
-        <!-- Progress bar -->
-        <ProgressBar x:Name="ProgressBar" Grid.Row="1"
-                     Minimum="0" Maximum="100" Value="0"
-                     Background="#4DA6EB" Foreground="White"/>
+        <!-- Tri-color progress bar: green=correct, red=wrong, blue=remaining -->
+        <Grid Grid.Row="1" Height="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="ColCorrect" Width="0*"/>
+                <ColumnDefinition x:Name="ColWrong"   Width="0*"/>
+                <ColumnDefinition x:Name="ColRemain"  Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.Column="0" Fill="#107C10"/>
+            <Rectangle Grid.Column="1" Fill="#A4262C"/>
+            <Rectangle Grid.Column="2" Fill="#4DA6EB"/>
+        </Grid>
 
         <!-- Scrollable content -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Padding="24,16,24,8">
