@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace AzureExamQuestions
@@ -26,6 +27,7 @@ namespace AzureExamQuestions
         private DispatcherTimer? _timer;
         private int _secondsLeft;
         private int _secondsPerQuestion;
+        private bool _paused = false;
 
         private static readonly SolidColorBrush GreenBack    = new(Color.FromRgb(223, 246, 221));
         private static readonly SolidColorBrush GreenBorder  = new(Color.FromRgb(108, 184, 108));
@@ -48,7 +50,8 @@ namespace AzureExamQuestions
 
             if (_mode == QuizMode.Exam)
             {
-                TimerBorder.Visibility = Visibility.Visible;
+                TimerBorder.Visibility  = Visibility.Visible;
+                PauseButton.Visibility  = Visibility.Visible;
                 _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
                 _timer.Tick += Timer_Tick;
             }
@@ -128,8 +131,20 @@ namespace AzureExamQuestions
             UpdateStats();
             UpdateBookmarkButton();
 
+            HintText.Text = _mode == QuizMode.Exam
+                ? "A–D: выбор  •  Enter: подтвердить  •  P: пауза"
+                : "A–D: выбор  •  Enter: подтвердить";
+
             if (_mode == QuizMode.Exam)
+            {
+                _paused                 = false;
+                PauseOverlay.Visibility = Visibility.Collapsed;
+                PauseButton.Content     = "⏸";
+                PauseButton.ToolTip     = "Пауза (P)";
+                PauseButton.IsEnabled   = true;
+                PauseButton.Opacity     = 1.0;
                 StartTimer();
+            }
         }
 
         private void StartTimer()
@@ -137,6 +152,77 @@ namespace AzureExamQuestions
             _secondsLeft = _secondsPerQuestion;
             UpdateTimerDisplay();
             _timer!.Start();
+        }
+
+        private void PauseQuiz()
+        {
+            _paused = true;
+            _timer!.Stop();
+            PauseOverlay.Visibility = Visibility.Visible;
+            ActionButton.IsEnabled  = false;
+            PauseButton.Content     = "▶";
+            PauseButton.ToolTip     = "Продолжить (P)";
+        }
+
+        private void ResumeQuiz()
+        {
+            _paused = false;
+            PauseOverlay.Visibility = Visibility.Collapsed;
+            PauseButton.Content     = "⏸";
+            PauseButton.ToolTip     = "Пауза (P)";
+            ActionButton.IsEnabled  = GetSelectedLetters().Count > 0;
+            _timer!.Start();
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_answered) return;
+            if (_paused) ResumeQuiz(); else PauseQuiz();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.P && _mode == QuizMode.Exam && !_answered)
+            {
+                if (_paused) ResumeQuiz(); else PauseQuiz();
+                e.Handled = true;
+                return;
+            }
+
+            if (_paused) return;
+
+            if (_answered)
+            {
+                if (e.Key == Key.Enter)
+                {
+                    ActionButton_Click(sender, e);
+                    e.Handled = true;
+                }
+                return;
+            }
+
+            string? letter = e.Key switch
+            {
+                Key.A => "A", Key.B => "B", Key.C => "C",
+                Key.D => "D", Key.E => "E", _     => null
+            };
+
+            if (letter != null)
+            {
+                foreach (var (ctrl, _) in _answerItems)
+                {
+                    if (ctrl.Tag?.ToString() != letter) continue;
+                    if (ctrl is RadioButton rb)   rb.IsChecked = true;
+                    else if (ctrl is CheckBox cb) cb.IsChecked = !cb.IsChecked;
+                    e.Handled = true;
+                    break;
+                }
+            }
+            else if (e.Key == Key.Enter && ActionButton.IsEnabled)
+            {
+                ActionButton_Click(sender, e);
+                e.Handled = true;
+            }
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -259,9 +345,16 @@ namespace AzureExamQuestions
                 FeedbackBorder.Visibility = Visibility.Visible;
             }
 
-            bool isLast          = _currentIndex >= _questions.Count - 1;
-            ActionButton.Content  = isLast ? "Завершить тест" : "Следующий вопрос  →";
+            bool isLast            = _currentIndex >= _questions.Count - 1;
+            ActionButton.Content   = isLast ? "Завершить тест" : "Следующий вопрос  →";
             ActionButton.IsEnabled = true;
+            HintText.Text          = isLast ? "Enter: завершить тест" : "Enter: следующий вопрос";
+
+            if (_mode == QuizMode.Exam)
+            {
+                PauseButton.IsEnabled = false;
+                PauseButton.Opacity   = 0.35;
+            }
 
             UpdateStats();
         }
@@ -271,8 +364,15 @@ namespace AzureExamQuestions
             int answeredCount = _currentIndex + (_answered ? 1 : 0);
             int wrongCount    = answeredCount - _correctCount;
             int remaining     = _questions.Count - answeredCount;
-            StatsText.Text    = $"✓ {_correctCount}  ✗ {wrongCount}  •  Осталось: {remaining}";
+
+            int pct = answeredCount > 0
+                ? (int)Math.Round((double)_correctCount / answeredCount * 100)
+                : 0;
+            StatsText.Text = $"✓ {_correctCount}  ✗ {wrongCount}  •  Осталось: {remaining}  •  {pct}% верно";
+
             UpdateProgressBar(answeredCount, wrongCount);
+            ColAccFill.Width  = new GridLength(pct,       GridUnitType.Star);
+            ColAccEmpty.Width = new GridLength(100 - pct, GridUnitType.Star);
         }
 
         private void UpdateBookmarkButton()
