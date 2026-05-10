@@ -473,12 +473,12 @@ namespace AzureExamQuestions
                     Options = new List<string>
                     {
                         "A) Defender for Cloud focuses on Azure resources only; Sentinel focuses on multi-cloud.",
-                        "B) Defender for Cloud provides security posture management and threat protection for Azure workloads; Sentinel is a SIEM/SOAR that aggregates security signals from many sources for broader threat detection and response.",
+                        "B) Defender for Cloud provides security posture management and threat protection across Azure, hybrid, and multi-cloud workloads; Sentinel is a SIEM/SOAR that aggregates security signals from many sources for broader threat detection and response.",
                         "C) Defender for Cloud is free; Sentinel requires a paid plan.",
                         "D) Sentinel cannot ingest logs from non-Microsoft sources."
                     },
                     CorrectAnswer = "B",
-                    CorrectAnswerText = "B) Defender for Cloud provides security posture management and threat protection for Azure workloads; Sentinel is a SIEM/SOAR that aggregates security signals from many sources for broader threat detection and response.",
+                    CorrectAnswerText = "B) Defender for Cloud provides security posture management and threat protection across Azure, hybrid, and multi-cloud workloads; Sentinel is a SIEM/SOAR that aggregates security signals from many sources for broader threat detection and response.",
                     Difficulty = 3
                 },
 
@@ -832,12 +832,12 @@ namespace AzureExamQuestions
                     Options = new List<string>
                     {
                         "A) NSGs and Azure Firewall provide identical functionality; use either one.",
-                        "B) Azure Firewall is a fully managed, stateful firewall with advanced filtering (FQDN, threat intelligence, application rules) at the network perimeter; NSGs are stateless traffic filters applied at the subnet/NIC level.",
+                        "B) Azure Firewall provides centralized, advanced network filtering (FQDN, threat intelligence, application rules) at the network perimeter; NSGs provide distributed, basic filtering (source/destination IP and port) at the subnet or NIC level.",
                         "C) NSGs can only be applied to virtual machines; Azure Firewall applies to all resources in a region.",
                         "D) Azure Firewall is free; NSGs incur per-rule charges."
                     },
                     CorrectAnswer = "B",
-                    CorrectAnswerText = "B) Azure Firewall is a fully managed, stateful firewall with advanced filtering (FQDN, threat intelligence, application rules) at the network perimeter; NSGs are stateless traffic filters applied at the subnet/NIC level.",
+                    CorrectAnswerText = "B) Azure Firewall provides centralized, advanced network filtering (FQDN, threat intelligence, application rules) at the network perimeter; NSGs provide distributed, basic filtering (source/destination IP and port) at the subnet or NIC level.",
                     Difficulty = 4
                 },
 
