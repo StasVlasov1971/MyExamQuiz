@@ -618,21 +618,21 @@ namespace AzureExamQuestions
                     Difficulty = 1
                 },
 
-                // Q156 — Azure AD Connect: синхронизация on-prem → cloud
+                // Q156 — Azure AD Application Proxy: доступ к on-prem приложениям без VPN
                 new Question
                 {
                     Id = 156,
-                    Text = "A company has on-premises Active Directory and wants to synchronize user identities to Azure AD so that employees can sign in to cloud services with the same username and password they use on-premises. Which tool performs this synchronization?",
+                    Text = "Remote employees need to securely access internal on-premises web applications from the internet using their Azure AD credentials, without requiring a VPN connection. Which Azure AD feature publishes these on-premises apps through Azure and supports Conditional Access?",
                     Options = new List<string>
                     {
-                        "A) Azure AD Domain Services",
-                        "B) Azure AD B2B Collaboration",
-                        "C) Azure AD Connect",
-                        "D) Azure ExpressRoute"
+                        "A) Azure AD B2B Collaboration",
+                        "B) Azure AD Application Proxy",
+                        "C) Azure VPN Gateway",
+                        "D) Azure AD Domain Services"
                     },
-                    CorrectAnswer = "C",
-                    CorrectAnswerText = "C) Azure AD Connect",
-                    Difficulty = 1
+                    CorrectAnswer = "B",
+                    CorrectAnswerText = "B) Azure AD Application Proxy",
+                    Difficulty = 3
                 },
 
                 // Q157 — Azure AD Domain Services: managed domain controller
@@ -1285,21 +1285,21 @@ namespace AzureExamQuestions
                     Difficulty = 1
                 },
 
-                // Q195 — TCO Calculator: правильный сценарий использования
+                // Q195 — Azure Cost Management: анализ и распределение текущих затрат
                 new Question
                 {
                     Id = 195,
-                    Text = "The CFO of a company considering cloud migration asks: 'How much money can we save by moving our 200 on-premises servers to Azure over the next 5 years?' Which Azure tool is specifically designed to answer this question?",
+                    Text = "A FinOps team wants to analyze WHERE the company's current Azure spending is going — broken down by resource group, service type, tag (e.g., 'CostCenter'), and time period — and set up automated exports of usage data to a storage account for reporting. Which Azure tool should they use?",
                     Options = new List<string>
                     {
                         "A) Azure Pricing Calculator",
-                        "B) Azure Cost Management + Billing",
-                        "C) Azure Advisor",
-                        "D) Total Cost of Ownership (TCO) Calculator"
+                        "B) Total Cost of Ownership (TCO) Calculator",
+                        "C) Azure Cost Management + Billing (Cost Analysis)",
+                        "D) Azure Advisor cost recommendations"
                     },
-                    CorrectAnswer = "D",
-                    CorrectAnswerText = "D) Total Cost of Ownership (TCO) Calculator",
-                    Difficulty = 1
+                    CorrectAnswer = "C",
+                    CorrectAnswerText = "C) Azure Cost Management + Billing (Cost Analysis)",
+                    Difficulty = 2
                 },
 
                 // Q196 — Azure Stack Hub: Azure в частном ЦОД
@@ -1884,20 +1884,20 @@ namespace AzureExamQuestions
                     Difficulty = 4
                 },
 
-                // Q230 — Agility vs. Scalability: разница
+                // Q230 — Reliability в облаке: восстановление после сбоев
                 new Question
                 {
                     Id = 230,
-                    Text = "Which cloud benefit allows a company to deploy new development environments in minutes, experiment quickly with new ideas, and decommission resources immediately after use — as opposed to waiting weeks for hardware procurement?",
+                    Text = "Which cloud benefit describes the ability of a system to recover from failures and continue delivering services, achieved through features such as geo-redundant data replication, automatic failover, and globally distributed infrastructure?",
                     Options = new List<string>
                     {
-                        "A) Elasticity",
-                        "B) Fault Tolerance",
-                        "C) Agility",
-                        "D) Scalability"
+                        "A) Agility",
+                        "B) Elasticity",
+                        "C) Reliability",
+                        "D) Predictability"
                     },
                     CorrectAnswer = "C",
-                    CorrectAnswerText = "C) Agility",
+                    CorrectAnswerText = "C) Reliability",
                     Difficulty = 2
                 },
 
