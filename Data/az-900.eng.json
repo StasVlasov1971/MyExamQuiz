@@ -1936,13 +1936,13 @@
     "uid": "2Y435",
     "text": "What is the primary difference between Azure DevOps Services and GitHub from Microsoft's perspective?",
     "options": [
-      "A) Azure DevOps is for open-source only, GitHub is for enterprises only",
-      "B) Azure DevOps is a comprehensive suite of development tools (CI/CD, boards, repos), while GitHub is primarily a code hosting platform with strong community features, now also offering CI/CD (Actions)",
-      "C) GitHub cannot be integrated with Azure services",
-      "D) Azure DevOps does not support Git repositories"
+      "A) Azure DevOps is for open-source only, and GitHub is for enterprises only",
+      "B) Azure DevOps is a full suite of development tools; GitHub is chiefly code hosting",
+      "C) GitHub cannot be integrated with any Azure services in any way at all",
+      "D) Azure DevOps does not support Git repositories of any kind at all"
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Azure DevOps is a comprehensive suite of development tools (CI/CD, boards, repos), while GitHub is primarily a code hosting platform with strong community features, now also offering CI/CD (Actions)",
+    "correctAnswerText": "B) Azure DevOps is a full suite of development tools; GitHub is chiefly code hosting",
     "difficulty": 3,
     "explanation": "Both products are Microsoft's, and both cover the software delivery lifecycle, so the difference is one of origin and emphasis rather than capability. Azure DevOps is the integrated enterprise suite with Boards, Repos, Pipelines, Test Plans, and Artifacts, and it has deep hooks into Azure deployment. GitHub began as the code hosting and collaboration platform for the open-source world and has grown its own CI/CD through Actions, along with Codespaces and Advanced Security. Teams frequently combine them, and Microsoft actively supports that.",
     "whyOthersWrong": "The others assign each product to one audience, deny integration, or deny Git support.",
@@ -3069,13 +3069,13 @@
     "uid": "5NJ7E",
     "text": "What is the PRIMARY difference between Microsoft Defender for Cloud and Microsoft Sentinel?",
     "options": [
-      "A) Defender for Cloud focuses on Azure resources only; Sentinel focuses on multi-cloud.",
-      "B) Defender for Cloud is free; Sentinel requires a paid plan.",
-      "C) Sentinel cannot ingest logs from non-Microsoft sources.",
-      "D) Defender for Cloud provides security posture management and threat protection across Azure, hybrid, and multi-cloud workloads; Sentinel is a SIEM/SOAR that aggregates security signals from many sources for broader threat detection and response."
+      "A) Defender for Cloud focuses on Azure resources only; Sentinel focuses on multi-cloud",
+      "B) Defender for Cloud is entirely free, while Sentinel always requires a paid plan",
+      "C) Sentinel cannot ingest logs from any non-Microsoft source whatsoever",
+      "D) Defender for Cloud manages security posture; Sentinel is the SIEM that correlates signals"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Defender for Cloud provides security posture management and threat protection across Azure, hybrid, and multi-cloud workloads; Sentinel is a SIEM/SOAR that aggregates security signals from many sources for broader threat detection and response.",
+    "correctAnswerText": "D) Defender for Cloud manages security posture; Sentinel is the SIEM that correlates signals",
     "difficulty": 3,
     "explanation": "The two services sit at different layers. Defender for Cloud looks at your resources: it assesses their configuration against benchmarks, produces a secure score and recommendations, and protects specific workload types with threat detection. Sentinel looks at signals: it collects logs from many sources, including Defender for Cloud, correlates them into incidents, and drives investigation and automated response across the estate. In a mature environment they are used together, with Defender for Cloud reducing exposure and Sentinel handling detection and response.",
     "whyOthersWrong": "The others draw a false line on scope, pricing, or source support.",
@@ -3489,13 +3489,13 @@
     "uid": "J7A63",
     "text": "What is the key difference between a VNet Service Endpoint and an Azure Private Endpoint when accessing Azure PaaS services like Azure Storage?",
     "options": [
-      "A) Private Endpoint brings the service into the VNet with a private IP, eliminating public internet exposure entirely; Service Endpoint keeps the public endpoint but restricts access to the VNet.",
-      "B) Service Endpoint provides a private IP in the VNet; Private Endpoint uses a public IP.",
-      "C) There is no difference; both route traffic the same way.",
-      "D) Service Endpoint requires a VPN Gateway; Private Endpoint does not."
+      "A) A private endpoint gives the service a private IP in the VNet; a service endpoint does not",
+      "B) Service Endpoint provides a private IP in the VNet; Private Endpoint uses a public IP",
+      "C) There is no difference at all; both route the traffic in exactly the same way",
+      "D) A service endpoint requires a VPN gateway, while a private endpoint does not"
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) Private Endpoint brings the service into the VNet with a private IP, eliminating public internet exposure entirely; Service Endpoint keeps the public endpoint but restricts access to the VNet.",
+    "correctAnswerText": "A) A private endpoint gives the service a private IP in the VNet; a service endpoint does not",
     "difficulty": 4,
     "explanation": "A service endpoint keeps the platform service on its public endpoint but tags traffic from the subnet so the service's firewall can recognize and allow it, while denying everyone else. The path stays on the Microsoft backbone but the resource still has a public presence. A private endpoint goes further by projecting the service into your virtual network on a private IP, which means the public endpoint can be disabled entirely and on-premises networks can reach it over VPN or ExpressRoute. Private endpoints are billed, whereas service endpoints are not, which is the main reason both still exist.",
     "whyOthersWrong": "The others reverse the two, claim they are identical, or invent a gateway requirement.",
@@ -3510,13 +3510,13 @@
     "uid": "H4D6T",
     "text": "Which statement BEST describes the difference between Azure Firewall and Network Security Groups (NSGs)?",
     "options": [
-      "A) NSGs and Azure Firewall provide identical functionality; use either one.",
-      "B) NSGs can only be applied to virtual machines; Azure Firewall applies to all resources in a region.",
-      "C) Azure Firewall provides centralized, advanced network filtering (FQDN, threat intelligence, application rules) at the network perimeter; NSGs provide distributed, basic filtering (source/destination IP and port) at the subnet or NIC level.",
-      "D) Azure Firewall is free; NSGs incur per-rule charges."
+      "A) NSGs and Azure Firewall provide identical functionality, so use either one",
+      "B) NSGs can only be applied to virtual machines; Azure Firewall applies to all resources in a region",
+      "C) Azure Firewall filters centrally with FQDN and threat rules; NSGs filter by IP and port",
+      "D) Azure Firewall is entirely free, while NSGs incur a charge for every rule"
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Firewall provides centralized, advanced network filtering (FQDN, threat intelligence, application rules) at the network perimeter; NSGs provide distributed, basic filtering (source/destination IP and port) at the subnet or NIC level.",
+    "correctAnswerText": "C) Azure Firewall filters centrally with FQDN and threat rules; NSGs filter by IP and port",
     "difficulty": 4,
     "explanation": "Network security groups are distributed and free: each one filters traffic at a subnet or network interface using rules built from addresses, ports, and protocols, and they work at layers 3 and 4. Azure Firewall is a centralized, billed service placed in a hub network, typically with routing that forces traffic through it. It adds capabilities network security groups do not have, including filtering by fully qualified domain name, application rules, threat intelligence feeds, and centralized logging and policy across many virtual networks. Most designs use both, with the firewall at the perimeter and security groups close to the workloads.",
     "whyOthersWrong": "The others equate the two, misstate what each can be attached to, or reverse the pricing.",
@@ -3573,13 +3573,13 @@
     "uid": "XP6FK",
     "text": "What is the key difference between Geo-Redundant Storage (GRS) and Read-Access Geo-Redundant Storage (RA-GRS) for Azure Blob Storage?",
     "options": [
-      "A) RA-GRS allows you to READ data from the secondary region at any time, even when the primary region is available; GRS only allows reads from the secondary during a failover.",
-      "B) GRS replicates to two regions; RA-GRS replicates to three regions.",
-      "C) GRS provides lower latency than RA-GRS.",
-      "D) RA-GRS is less expensive than GRS."
+      "A) RA-GRS allows reads from the secondary at any time; GRS only during a failover",
+      "B) GRS replicates to two regions, while RA-GRS replicates to three regions",
+      "C) GRS provides noticeably lower read latency than RA-GRS does overall",
+      "D) RA-GRS is distinctly less expensive per gigabyte than plain GRS"
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) RA-GRS allows you to READ data from the secondary region at any time, even when the primary region is available; GRS only allows reads from the secondary during a failover.",
+    "correctAnswerText": "A) RA-GRS allows reads from the secondary at any time; GRS only during a failover",
     "difficulty": 3,
     "explanation": "Both options keep six copies of the data, three in the primary region and three in the secondary, and in both cases replication to the secondary is asynchronous. The difference is purely about read access: with GRS the secondary copy is inert until a failover occurs, whereas RA-GRS exposes a secondary endpoint that applications can read from at any time. That secondary endpoint is useful for read-heavy workloads in another region and for verifying that replication is healthy, at the cost of a higher price. Because replication is asynchronous, reads from the secondary can be slightly behind the primary.",
     "whyOthersWrong": "The others miscount the regions, reverse the latency, or reverse the price.",
@@ -4308,13 +4308,13 @@
     "uid": "ADBB6",
     "text": "What is the primary benefit of Azure Paired Regions?",
     "options": [
-      "A) Paired regions always have lower latency between them than non-paired regions.",
-      "B) Microsoft staggers planned maintenance updates so that both paired regions are not updated simultaneously, and if a broad failure occurs, at least one region in each pair is prioritized for recovery.",
-      "C) Resources in paired regions automatically share the same network and billing.",
-      "D) Data stored in one paired region is automatically replicated to the other for free."
+      "A) Paired regions always have lower latency between them than non-paired regions",
+      "B) Planned updates are staggered across the pair, and one region is prioritized in recovery",
+      "C) Resources in paired regions automatically share the same network and billing",
+      "D) Data stored in one paired region is automatically replicated to the other for free"
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Microsoft staggers planned maintenance updates so that both paired regions are not updated simultaneously, and if a broad failure occurs, at least one region in each pair is prioritized for recovery.",
+    "correctAnswerText": "B) Planned updates are staggered across the pair, and one region is prioritized in recovery",
     "difficulty": 3,
     "explanation": "Every Azure region is paired with another region in the same geography, and Microsoft uses that relationship in two ways. Planned platform updates are rolled out to only one region of a pair at a time, so a faulty update cannot affect both halves simultaneously. In a broad outage, recovery of at least one region from each pair is prioritized, and some platform services use the pair as the default target for geo-redundant replication. Pairing does not create network connectivity, shared billing, or automatic replication of your own data, and it does not guarantee the lowest latency between the two regions.",
     "whyOthersWrong": "The others promise lower latency, shared networking and billing, or free automatic replication, none of which pairing provides.",
@@ -4350,13 +4350,13 @@
     "uid": "HD3JJ",
     "text": "What is the PRIMARY conceptual difference between High Availability (HA) and Disaster Recovery (DR)?",
     "options": [
-      "A) HA and DR are the same thing — both protect against outages.",
-      "B) HA focuses on minimizing downtime from expected failures through redundancy within the same infrastructure; DR focuses on recovering from catastrophic, large-scale outages by switching to a separate infrastructure.",
-      "C) HA is only applicable to databases; DR applies to all workloads.",
-      "D) DR provides better performance than HA."
+      "A) HA and DR are the very same thing, because both protect against outages",
+      "B) HA reduces downtime from expected failures; DR recovers from a large-scale outage",
+      "C) HA applies only to databases, while DR applies to every kind of workload",
+      "D) DR provides noticeably better performance than HA does in practice"
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) HA focuses on minimizing downtime from expected failures through redundancy within the same infrastructure; DR focuses on recovering from catastrophic, large-scale outages by switching to a separate infrastructure.",
+    "correctAnswerText": "B) HA reduces downtime from expected failures; DR recovers from a large-scale outage",
     "difficulty": 2,
     "explanation": "High availability and disaster recovery differ in the scale of failure they address and therefore in the design they require. High availability handles the failures you expect within one environment, using redundancy across fault domains or availability zones so that losing a node or a rack does not interrupt service, usually with no data loss and no manual step. Disaster recovery handles the loss of the whole environment, which means a second region, replicated data, and a deliberate failover with an agreed recovery time and recovery point objective. Most production designs need both, because neither substitutes for the other.",
     "whyOthersWrong": "The others equate the two, restrict them to particular workloads, or compare them on performance.",
@@ -4665,13 +4665,13 @@
     "uid": "RRVEZ",
     "text": "What is the difference between *fault tolerance* and *high availability* in cloud computing?",
     "options": [
-      "A) They are synonymous; both describe systems that never fail.",
-      "B) High availability is a software feature; fault tolerance is a hardware feature.",
-      "C) Fault tolerance means the system continues to operate with ZERO disruption even when a component fails; high availability minimizes downtime but may have brief interruptions during failover.",
-      "D) Fault tolerance applies only to databases; high availability applies only to compute."
+      "A) They are synonymous, since both describe systems that never fail at all",
+      "B) High availability is a software feature; fault tolerance is a hardware feature",
+      "C) Fault tolerance keeps running with zero disruption; high availability allows brief gaps",
+      "D) Fault tolerance applies only to databases; high availability only to compute"
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) Fault tolerance means the system continues to operate with ZERO disruption even when a component fails; high availability minimizes downtime but may have brief interruptions during failover.",
+    "correctAnswerText": "C) Fault tolerance keeps running with zero disruption; high availability allows brief gaps",
     "difficulty": 3,
     "explanation": "Fault tolerance and high availability differ in what the user experiences during a failure. A fault-tolerant design absorbs a component failure with no visible disruption, typically by running redundant components in parallel that all process the same work. A highly available design accepts a short interruption while traffic is redirected or a standby is promoted, and it measures success as a percentage of uptime. Fault tolerance is more expensive because it duplicates work rather than merely capacity, which is why most cloud designs aim for high availability and reserve fault tolerance for the few components that truly require it.",
     "whyOthersWrong": "The others treat the terms as identical, split them by software and hardware, or restrict them to particular workloads.",
