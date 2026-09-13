@@ -505,23 +505,23 @@
   },
   {
     "id": 25,
-    "uid": "YM2K8",
-    "text": "Your Azure virtual machine needs to securely access a password or a connection string stored in Azure. Which service should you use to store and manage these secrets?",
+    "uid": "DTDKC",
+    "text": "Soft delete is enabled on an Azure Key Vault and a secret is deleted. What happens to that secret?",
     "options": [
-      "A) Azure Storage Account with encryption enabled",
-      "B) Azure Information Protection",
-      "C) Azure Key Vault",
-      "D) Azure Security Center's secure storage"
+      "A) It is destroyed immediately and cannot be recovered",
+      "B) It is kept in a recoverable state for the retention period and can be restored",
+      "C) It is moved to a different vault in the paired region",
+      "D) It remains fully usable by applications until the retention period ends"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Key Vault",
-    "difficulty": 1,
-    "explanation": "Azure Key Vault is the managed service for secrets, keys, and certificates, with access controlled by policy or Azure roles and every operation logged. Storing a connection string there keeps it out of source code and configuration files, and it can be rotated centrally without redeploying the application. The recommended pattern is to give the virtual machine a managed identity and grant that identity access to the vault, so no credential is stored anywhere at all. Keys can be protected by hardware security modules where compliance requires it.",
-    "whyOthersWrong": "The others store data, classify documents, or are not a secret store at all.",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) It is kept in a recoverable state for the retention period and can be restored",
+    "difficulty": 2,
+    "explanation": "Soft delete keeps a deleted vault or object in a recoverable state instead of destroying it, for a retention period between seven and ninety days. During that window the object cannot be used by applications, but a user with the right permissions can recover it, which is what protects against an accidental or malicious deletion. Purge protection goes one step further and blocks permanent deletion entirely until the retention period has elapsed, so not even an owner can shorten it. Soft delete is enabled by default on new vaults, and its presence is why a vault name cannot be reused immediately after deletion.",
+    "whyOthersWrong": "The others destroy the secret at once, relocate it, or leave it usable, none of which matches how the recovery window works.",
     "whyWrong": {
-      "A": "An encrypted storage account holds data but offers no secret lifecycle management.",
-      "B": "Azure Information Protection classifies and labels documents.",
-      "D": "Defender for Cloud has no secure secret storage of this kind."
+      "A": "Immediate destruction is exactly what soft delete prevents.",
+      "C": "Nothing is copied to another region; the object stays in the same vault in a deleted state.",
+      "D": "A deleted secret cannot be read by applications until it is recovered."
     }
   },
   {
@@ -1240,23 +1240,23 @@
   },
   {
     "id": 60,
-    "uid": "6V2MV",
-    "text": "A company wants to ensure that if an Azure region becomes unavailable, their application can be failed over to another region with minimal data loss. Which Azure feature should they implement for their Azure SQL Database to meet this requirement?",
+    "uid": "A6NMJ",
+    "text": "What do the recovery time objective and the recovery point objective measure?",
     "options": [
-      "A) Geo-redundant storage (GRS)",
-      "B) Auto-failover groups",
-      "C) Read-scale replicas",
-      "D) Local redundant storage (LRS)"
+      "A) How long service may be unavailable, and how much data loss is acceptable",
+      "B) How quickly a virtual machine boots, and how fast its disk is",
+      "C) The cost of a disaster recovery plan, and the cost of backup storage",
+      "D) The number of regions used, and the number of copies of the data"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Auto-failover groups",
-    "difficulty": 3,
-    "explanation": "Auto-failover groups are the Azure SQL Database feature that combines geo-replication with automatic failover and a stable listener endpoint. The application connects to the listener name rather than to a specific server, so a failover does not require a connection string change. Replication is asynchronous, which keeps the recovery point objective very small but not zero. Plain geo-replication copies the data but leaves the failover decision and endpoint redirection to you.",
-    "whyOthersWrong": "The others protect storage rather than the database service, or provide read scaling within a region.",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) How long service may be unavailable, and how much data loss is acceptable",
+    "difficulty": 2,
+    "explanation": "The recovery time objective is the maximum acceptable period during which a service may be unavailable after an incident, and the recovery point objective is the maximum amount of data, measured in time, that the business is prepared to lose. Together they drive the design: a recovery point of minutes rules out nightly backups and requires replication, while a recovery time of minutes rules out rebuilding from scratch. Both are business decisions rather than technical ones, because tightening either raises cost sharply. Stating them first is what makes it possible to judge whether backup, replication, or a multi-region active design is the appropriate answer.",
+    "whyOthersWrong": "The others describe performance, cost, or redundancy counts, while these two objectives are about time without service and tolerable data loss.",
     "whyWrong": {
-      "A": "Geo-redundant storage protects storage accounts, not the Azure SQL Database service.",
-      "C": "Read-scale replicas serve read traffic and do not provide regional failover.",
-      "D": "Locally redundant storage keeps every copy in one datacenter."
+      "B": "Boot time and disk speed are performance characteristics, not recovery objectives.",
+      "C": "Cost follows from the objectives but is not what they measure.",
+      "D": "Region and copy counts are design choices made to satisfy the objectives."
     }
   },
   {
@@ -1597,23 +1597,23 @@
   },
   {
     "id": 77,
-    "uid": "F754H",
-    "text": "If you need to run a workload that requires a specific, non-standard version of a Linux kernel module or direct access to hardware virtualization features, which Azure compute option gives you the *highest level of control*?",
+    "uid": "6AWNQ",
+    "text": "What does an Azure Spot Virtual Machine trade in exchange for its much lower price?",
     "options": [
-      "A) Azure App Service",
-      "B) Azure Virtual Machines",
-      "C) Azure Container Instances",
-      "D) Azure Functions"
+      "A) It runs on older hardware with reduced performance",
+      "B) It is limited to Linux operating systems",
+      "C) It cannot be attached to a virtual network",
+      "D) Azure can evict it with short notice when the capacity is needed elsewhere"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Virtual Machines",
-    "difficulty": 2,
-    "explanation": "Virtual machines give you the guest operating system in full, including the kernel, so non-standard modules, custom drivers, and nested virtualization features are all available. No managed platform can offer this, because the whole point of PaaS is that the operating system is abstracted away and standardized. The cost of that control is that patching, hardening, and monitoring the operating system become your responsibility. This is the classic trade-off the exam tests: the more control you need, the further down the stack you have to go, and the more operational work you take on.",
-    "whyOthersWrong": "The others hide the operating system behind a managed platform or a container runtime.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) Azure can evict it with short notice when the capacity is needed elsewhere",
+    "difficulty": 3,
+    "explanation": "Spot virtual machines run on capacity that Azure currently has spare, which is why they are heavily discounted, and that same capacity can be reclaimed at any time. The machine is then evicted with about thirty seconds of notice, either deallocated or deleted according to the policy you choose, and a maximum price can be set so that eviction also occurs if the going rate exceeds it. There is no service level agreement, so the workload must be interruptible and able to resume: batch processing, rendering, and development environments fit, while a production web tier does not. Performance, operating system choice, and networking are identical to a normal virtual machine.",
+    "whyOthersWrong": "The others invent slower hardware, an operating system restriction, or a networking limit, while the only real trade is that the capacity can be taken back.",
     "whyWrong": {
-      "A": "App Service is a managed platform with no kernel-level access.",
-      "C": "Container Instances shares the host kernel and offers no such control.",
-      "D": "Functions provides a managed runtime with no operating system access."
+      "A": "Spot machines use the same hardware and deliver the same performance.",
+      "B": "Both Windows and Linux images are available on Spot.",
+      "C": "Spot machines join virtual networks like any other virtual machine."
     }
   },
   {
@@ -1681,65 +1681,65 @@
   },
   {
     "id": 81,
-    "uid": "QX3ED",
-    "text": "Which Azure service provides a fully managed identity service with seamless single sign-on (SSO) to thousands of pre-integrated SaaS applications like Salesforce, Slack, and Dropbox?",
+    "uid": "G5KQG",
+    "text": "What does a Microsoft Entra tenant represent?",
     "options": [
-      "A) Azure Active Directory (Azure AD)",
-      "B) Azure AD Domain Services",
-      "C) Azure RBAC",
-      "D) Azure Information Protection"
+      "A) A billing container that groups Azure subscriptions for invoicing",
+      "B) A physical datacenter that hosts identity servers",
+      "C) A single user account with administrative rights",
+      "D) A dedicated, isolated instance of the directory belonging to one organization"
     ],
-    "correctAnswer": "A",
-    "correctAnswerText": "A) Azure Active Directory (Azure AD)",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) A dedicated, isolated instance of the directory belonging to one organization",
     "difficulty": 2,
-    "explanation": "Microsoft Entra ID is the managed identity service, and its application gallery contains thousands of pre-integrated SaaS applications with single sign-on already configured. Federating those applications means users authenticate once against the directory rather than maintaining separate credentials for each service. Because authentication is centralized, security controls such as multifactor authentication and Conditional Access apply everywhere, and disabling one account removes access to all of it. Provisioning can also be automated, so accounts in the SaaS applications are created and removed as directory membership changes.",
-    "whyOthersWrong": "The others provide managed domain services, authorize resource actions, or protect documents.",
+    "explanation": "A tenant is one organization's own instance of Microsoft Entra ID, created when it signs up for a Microsoft cloud service, and it holds that organization's users, groups, and application registrations in isolation from every other tenant. A subscription always trusts exactly one tenant for authentication, while a tenant can contain many subscriptions, which is why moving a subscription between tenants breaks its role assignments. The tenant is an identity boundary rather than a billing or physical one: invoicing is organized by billing account and subscription, and the directory itself is a globally distributed service with no single location.",
+    "whyOthersWrong": "The others describe a billing container, a physical site, or a single account, while a tenant is the organization's isolated directory instance.",
     "whyWrong": {
-      "B": "Azure AD Domain Services provides a managed domain for legacy protocols.",
-      "C": "Azure RBAC authorizes actions on Azure resources.",
-      "D": "Azure Information Protection classifies and protects documents."
+      "A": "Billing is organized through billing accounts and subscriptions, not the tenant.",
+      "B": "The directory is a distributed service and is not a datacenter.",
+      "C": "A tenant contains many accounts; it is not itself an account."
     }
   },
   {
     "id": 82,
-    "uid": "6GRAG",
-    "text": "You need to store application secrets like database connection strings. Which Azure service is specifically designed for secure storage and retrieval of such secrets, and also provides automatic rotation for secrets and keys?",
+    "uid": "SCNAC",
+    "text": "What do security defaults provide in a Microsoft Entra tenant?",
     "options": [
-      "A) Azure Storage Account with encryption enabled",
-      "B) Azure SQL Database with Transparent Data Encryption (TDE)",
-      "C) Azure Key Vault",
-      "D) Azure Security Center secure storage"
+      "A) A discount on Microsoft Entra ID premium licences",
+      "B) An automatic daily backup of the directory",
+      "C) A report listing every permission granted in the tenant",
+      "D) A preconfigured baseline that enforces multifactor authentication registration and blocks legacy authentication"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Key Vault",
-    "difficulty": 2,
-    "explanation": "Azure Key Vault is purpose-built for secrets, keys, and certificates, with access governed by policy or Azure roles and every operation written to the audit log. Storing a connection string there removes it from source control and configuration files, and it can be changed centrally without a redeployment. Key Vault supports rotation, including automatic rotation for supported secret types and certificate renewal from an integrated authority, together with expiry notifications. The recommended access pattern is a managed identity, so the application holds no bootstrap credential of its own.",
-    "whyOthersWrong": "The others encrypt data at rest or report on security posture, but none of them manages the secret lifecycle.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) A preconfigured baseline that enforces multifactor authentication registration and blocks legacy authentication",
+    "difficulty": 3,
+    "explanation": "Security defaults are a single switch that applies a baseline of protections to tenants that have no Conditional Access policies of their own: every user must register for multifactor authentication, administrators are challenged every time they sign in, users are challenged when the sign-in looks risky, and legacy authentication protocols that cannot enforce a second factor are blocked. They are free and are enabled by default in newer tenants, which makes them the sensible starting point for a small organization. They are deliberately not configurable, so the moment an exception is genuinely needed, the answer is to turn them off and express the requirement through Conditional Access, which needs a paid plan.",
+    "whyOthersWrong": "The others describe licensing discounts, backups, or a permissions report, none of which is what this baseline does.",
     "whyWrong": {
-      "A": "An encrypted storage account protects data but is not a managed secret store.",
-      "B": "Transparent Data Encryption protects the database files, not application secrets.",
-      "D": "Defender for Cloud has no secret storage of this kind."
+      "A": "Security defaults are a set of protections, not a commercial offer.",
+      "B": "The directory is not backed up for customers through this feature.",
+      "C": "Listing granted permissions is done through access reviews and reporting."
     }
   },
   {
     "id": 83,
-    "uid": "87KT4",
-    "text": "Which Azure compute service is specifically designed to run event-driven, serverless code that automatically scales and charges you only for the time your code is executing?",
+    "uid": "47TCR",
+    "text": "What is a cold start on a serverless platform?",
     "options": [
-      "A) Azure Virtual Machines",
-      "B) Azure App Service",
-      "C) Azure Functions",
-      "D) Azure Kubernetes Service (AKS)"
+      "A) The delay when a request has to wait for a new instance to be initialized because none is running",
+      "B) The time a platform takes to install operating system updates",
+      "C) The first deployment of an application to production",
+      "D) A restart triggered when an application runs out of memory"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Functions",
-    "difficulty": 1,
-    "explanation": "Azure Functions is the event-driven serverless compute service in Azure. Code runs when a trigger fires, and the platform scales instances out as the event rate grows and back to zero when it stops. On the consumption plan billing is based on executions and the memory-seconds they consume, so idle time costs nothing. That model fits short, stateless work such as responding to an HTTP call, reacting to a new blob, or processing a queue message, and Durable Functions extends it to longer stateful workflows.",
-    "whyOthersWrong": "The others bill for allocated capacity whether or not code is running.",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) The delay when a request has to wait for a new instance to be initialized because none is running",
+    "difficulty": 3,
+    "explanation": "A serverless platform removes idle instances so that nothing is billed while there is no traffic, and the consequence is that the first request after a quiet period has to wait while a new instance is created and the runtime and application are loaded. That added latency is the cold start, and it is most visible for large dependency sets and for runtimes that need to compile on startup. It is the direct cost of paying only for execution, and mitigations trade some of that saving back: a premium or always-ready plan keeps instances warm, and smaller deployments initialize faster. For a background job the delay rarely matters, while for an interactive request path it may decide the hosting choice.",
+    "whyOthersWrong": "The others describe patching, an initial deployment, or an out-of-memory restart, none of which is the latency caused by starting a new instance.",
     "whyWrong": {
-      "A": "Virtual machines are billed while allocated, regardless of activity.",
-      "B": "App Service bills for the plan even when idle.",
-      "D": "AKS bills for the node pool that keeps running."
+      "B": "Operating system maintenance is handled by the platform and is not what this term means.",
+      "C": "A first deployment is a release event, not a per-request latency.",
+      "D": "An out-of-memory restart is a failure, not the normal scale-from-zero path."
     }
   },
   {
@@ -1786,23 +1786,23 @@
   },
   {
     "id": 86,
-    "uid": "KHRWT",
-    "text": "You need to ensure that developers in your company can only create virtual machines of specific sizes (e.g., Standard_D2s_v3) and cannot create the most expensive sizes. Which Azure governance service should you use?",
+    "uid": "TRDHG",
+    "text": "What does the location chosen for a resource group determine?",
     "options": [
-      "A) Azure Cost Management",
-      "B) Azure Policy",
-      "C) Resource Locks",
-      "D) Azure Advisor"
+      "A) Where the metadata about the group is stored, while its resources may live in other regions",
+      "B) The region in which every resource inside the group must be created",
+      "C) The currency used to bill the resources in the group",
+      "D) The latency between the resources inside the group"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Policy",
-    "difficulty": 2,
-    "explanation": "Azure Policy evaluates each deployment request against its rules, and the built-in allowed virtual machine SKUs policy denies any size outside the approved list. Because the check happens before the resource is created, expensive sizes never appear on the bill. Assigning the policy at a management group or subscription scope means it covers every resource group beneath without being repeated. Policy also reports on existing resources, so anything created before the assignment shows up as non-compliant and can be dealt with.",
-    "whyOthersWrong": "The others report spending, protect existing resources, or make recommendations without enforcing anything.",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) Where the metadata about the group is stored, while its resources may live in other regions",
+    "difficulty": 3,
+    "explanation": "A resource group is a management container, and its location only says where Azure keeps the group's own metadata. The resources placed in it may sit in any region, which is exactly how a solution spanning several regions is still managed as one unit. The location does matter in one respect: if that region is unavailable, the metadata may be unreachable and operations against the group can be affected, even though the resources themselves keep running. Choosing a group location close to where the resources will live is the usual convention for that reason, not because it constrains them.",
+    "whyOthersWrong": "The others constrain the resources to one region, tie the group to a currency, or make it responsible for latency, none of which follows from a metadata location.",
     "whyWrong": {
-      "A": "Cost Management reports and alerts on spend but does not block deployments.",
-      "C": "Resource locks protect existing resources from change or deletion.",
-      "D": "Advisor recommends and enforces nothing."
+      "B": "Resources in a group can be deployed to any region.",
+      "C": "Currency is a property of the billing account, not of a resource group.",
+      "D": "Latency depends on where the resources actually run, not on the group."
     }
   },
   {
@@ -2122,44 +2122,44 @@
   },
   {
     "id": 102,
-    "uid": "728FM",
-    "text": "Which Azure service is specifically designed to run large-scale parallel and high-performance computing (HPC) batch jobs, automatically managing the creation, scaling, and deletion of a pool of compute nodes?",
+    "uid": "DFKQK",
+    "text": "What does the term noisy neighbour describe in a multitenant cloud?",
     "options": [
-      "A) Azure Virtual Machine Scale Sets",
-      "B) Azure Kubernetes Service (AKS)",
-      "C) Azure Batch",
-      "D) Azure Container Instances (ACI)"
+      "A) One tenant's workload consuming shared resources and degrading performance for others",
+      "B) An alert that fires too often and is ignored by operators",
+      "C) A misconfigured network security group that logs excessive traffic",
+      "D) A region that is close to another region and shares its power supply"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Batch",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) One tenant's workload consuming shared resources and degrading performance for others",
     "difficulty": 3,
-    "explanation": "Azure Batch is the managed service for large-scale parallel and high-performance computing work. You describe the job and the pool, and Batch provisions the nodes, distributes tasks, handles failures and retries, and removes the nodes when the work finishes. Pools can use dedicated or low-priority nodes, and low-priority or spot nodes make long simulations dramatically cheaper when they can tolerate interruption. Because the compute exists only while the job runs, there is no idle cluster between runs, which is the main economic argument against building the same thing on-premises.",
-    "whyOthersWrong": "The others require you to define the scaling and scheduling yourself or target long-running services.",
+    "explanation": "In a multitenant platform many customers share physical hardware, and a workload that consumes a disproportionate share of CPU, disk throughput, or network capacity can degrade the performance of others on the same host. Cloud providers limit the effect through quotas, throttling, and performance tiers that reserve a guaranteed level of resource, which is one reason premium tiers are more predictable rather than simply faster. Customers who cannot tolerate any sharing at all move to isolation options such as a dedicated host or an isolated virtual machine size. The term captures a genuine trade-off of the pooled resources that make cloud economics work in the first place.",
+    "whyOthersWrong": "The others describe alert fatigue, a logging misconfiguration, or regional geography, none of which involves one tenant affecting another.",
     "whyWrong": {
-      "A": "Scale sets provide the machines but no job scheduling.",
-      "B": "AKS orchestrates containerized services and requires cluster operation.",
-      "D": "Container Instances runs individual containers without batch scheduling."
+      "B": "An alert that fires too often is alert fatigue, unrelated to shared hardware.",
+      "C": "Excessive logging is a configuration problem, not resource contention between tenants.",
+      "D": "Paired regions concern disaster recovery and do not share a power supply."
     }
   },
   {
     "id": 103,
-    "uid": "XRZNA",
-    "text": "You need to establish a dedicated, private network connection from your on-premises data center to Azure that does not travel over the public internet and offers the highest reliability and predictable bandwidth. Which Azure service should you use?",
+    "uid": "MSHFQ",
+    "text": "What is the difference between a site-to-site VPN and a point-to-site VPN?",
     "options": [
-      "A) Site-to-Site VPN (VPN Gateway)",
-      "B) VNet Peering",
-      "C) Azure ExpressRoute",
-      "D) Azure Private Link"
+      "A) Site-to-site connects an entire on-premises network through a VPN device; point-to-site connects one client machine",
+      "B) Site-to-site is encrypted while point-to-site is not",
+      "C) Point-to-site connects two Azure regions; site-to-site connects two subnets",
+      "D) Site-to-site works only with Windows clients; point-to-site works with any operating system"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure ExpressRoute",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) Site-to-site connects an entire on-premises network through a VPN device; point-to-site connects one client machine",
     "difficulty": 2,
-    "explanation": "ExpressRoute provides a private circuit to Microsoft through a connectivity provider, so traffic bypasses the public internet entirely. That produces the predictable bandwidth and lower, more consistent latency the requirement asks for, and the service carries a connectivity SLA that internet-based VPNs cannot match. Circuits come in a range of bandwidths and can be configured with private peering for virtual networks and Microsoft peering for platform services. The trade-offs are cost and lead time, since a provider must physically provision the circuit.",
-    "whyOthersWrong": "The others cross the public internet, connect Azure networks to each other, or expose a single service privately.",
+    "explanation": "A site-to-site connection is built between an on-premises VPN device and an Azure VPN gateway, so every machine on that network can reach the virtual network without any client software, which suits an office or a datacenter. A point-to-site connection is established by an individual computer running a VPN client, which suits remote workers and administrators who need occasional access from anywhere. Both run encrypted over the public internet, which is what distinguishes them from ExpressRoute and its private circuit. The two can coexist on the same gateway, and the gateway SKU determines how many tunnels and how much throughput are supported.",
+    "whyOthersWrong": "The others claim one is unencrypted, reverse the two definitions, or invent an operating system restriction.",
     "whyWrong": {
-      "A": "A site-to-site VPN sends encrypted traffic across the public internet.",
-      "B": "VNet peering connects Azure virtual networks, not an on-premises datacenter.",
-      "D": "Private Link provides private access to a specific service, not site connectivity."
+      "B": "Both connection types are encrypted.",
+      "C": "This reverses the two: site-to-site joins networks, point-to-site joins a single client.",
+      "D": "Point-to-site clients exist for Windows, macOS, and Linux alike."
     }
   },
   {
@@ -2226,23 +2226,23 @@
   },
   {
     "id": 107,
-    "uid": "22BZ4",
-    "text": "A startup is building a new mobile game that needs a database to store player profiles and scores. The game is expected to launch globally. They need a database that can automatically scale and replicate data to multiple regions with a single click to ensure low latency for players worldwide. Which Azure database service is the best fit?",
+    "uid": "WM5W8",
+    "text": "What is a request unit in Azure Cosmos DB?",
     "options": [
-      "A) Azure SQL Database",
-      "B) Azure Database for MySQL",
-      "C) Azure Cosmos DB",
-      "D) Azure Cache for Redis"
+      "A) The number of documents returned by a query",
+      "B) The monthly invoice line for the database account",
+      "C) A limit on how many applications may connect at once",
+      "D) A normalized measure of the cost of a database operation, covering processor, memory, and IO"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Cosmos DB",
-    "difficulty": 2,
-    "explanation": "Cosmos DB is built for the pattern this game needs: global reach, unpredictable scale, and simple documents keyed by player. Adding a region is a configuration change, after which players read and write against a nearby replica, and throughput scales automatically with autoscale. Latency and availability commitments are backed by SLA, and the schema-free document model tolerates profiles and scores evolving as the game develops. A regional relational database would work at launch but would need substantial work to serve players on other continents with the same latency.",
-    "whyOthersWrong": "The others are regional relational services or a cache, none of which offers turnkey global distribution.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) A normalized measure of the cost of a database operation, covering processor, memory, and IO",
+    "difficulty": 4,
+    "explanation": "Cosmos DB abstracts the resources an operation consumes into a single currency called the request unit, so a read, a write, or a query is priced by the processor time, memory, and IO it actually required rather than by its type. Throughput is provisioned or autoscaled in request units per second, and exceeding that rate causes requests to be throttled and retried rather than to fail outright. Because a badly shaped query can cost many times what an efficient one does, tuning the data model and the partition key is what keeps the figure down. Serverless accounts bill per request unit consumed instead of reserving a rate.",
+    "whyOthersWrong": "The others count documents, describe an invoice line, or limit connections, while a request unit measures the resource cost of an operation.",
     "whyWrong": {
-      "A": "Azure SQL Database requires configuring replication and is relational.",
-      "B": "Azure Database for MySQL is a regional relational service.",
-      "D": "Azure Cache for Redis is a cache, not the system of record."
+      "A": "A query returning few documents can still be expensive if it scans widely.",
+      "B": "Charges derive from provisioned or consumed request units; the unit itself is not an invoice line.",
+      "C": "Connection limits are a separate concern from throughput."
     }
   },
   {
@@ -4452,23 +4452,23 @@
   },
   {
     "id": 213,
-    "uid": "F96JT",
-    "text": "A company wants to use Azure as a disaster recovery target for their on-premises Hyper-V virtual machines. In the event of an on-premises outage, the VMs should automatically fail over to Azure and be accessible within minutes. Which Azure service provides this capability?",
+    "uid": "VCV8Y",
+    "text": "An organization keeps nightly backups of a critical database and nothing else. Which requirement can this arrangement NOT satisfy?",
     "options": [
-      "A) Azure Migrate",
-      "B) Azure Backup with instant restore",
-      "C) Azure Site Recovery (ASR)",
-      "D) Azure Arc"
+      "A) Restoring the database after a table is deleted by mistake",
+      "B) Keeping monthly copies for a seven-year retention obligation",
+      "C) Recovering the data if the storage holding the live database is corrupted",
+      "D) Bringing the service back online within minutes of a regional outage, with almost no data loss"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Site Recovery (ASR)",
-    "difficulty": 2,
-    "explanation": "Azure Site Recovery supports on-premises Hyper-V and VMware machines as well as Azure ones, replicating them into Azure as the disaster recovery target. This removes the need for a second physical datacenter, since storage for the replicas is inexpensive and compute is only paid for when a failover actually happens. Recovery plans control the boot order and can run scripts, so an application returns in a usable state, and test failovers let the plan be rehearsed in an isolated network. Failback to the original site is supported once the outage is over.",
-    "whyOthersWrong": "The others assess and move workloads once, restore data, or manage servers where they run.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) Bringing the service back online within minutes of a regional outage, with almost no data loss",
+    "difficulty": 3,
+    "explanation": "Nightly backups give a recovery point measured in hours and a recovery time measured in however long a restore takes, which is perfectly adequate for accidental deletion, corruption, and long-term retention obligations. What they cannot do is bring a service back within minutes of losing a region while losing almost no data, because by definition up to a day of changes sits only in the failed location. Meeting that objective requires continuous replication to a second region together with an orchestrated failover, which is a different mechanism with a different cost. Recognizing which objective a given protection actually satisfies is the point: backup and disaster recovery are complementary rather than interchangeable.",
+    "whyOthersWrong": "The others are exactly what periodic backups are for: reversing mistakes, satisfying retention rules, and recovering from corruption.",
     "whyWrong": {
-      "A": "Azure Migrate performs a one-time migration rather than continuous disaster recovery replication.",
-      "B": "Azure Backup restores data but does not fail machines over automatically.",
-      "D": "Azure Arc manages servers rather than replicating them."
+      "A": "Restoring after an accidental deletion is a standard use of a backup.",
+      "B": "Long-term retention is met by keeping periodic copies for years.",
+      "C": "A backup held separately from the live data protects against corruption."
     }
   },
   {
