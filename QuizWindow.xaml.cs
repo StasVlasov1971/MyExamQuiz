@@ -164,7 +164,7 @@ namespace AzureExamQuestions
                     {
                         Content = label, FontSize = 14, Tag = letter,
                         IsChecked = chosen,
-                        VerticalContentAlignment = VerticalAlignment.Center
+                        VerticalContentAlignment = VerticalAlignment.Top
                     };
                     cb.Checked   += OnSelectionChanged;
                     cb.Unchecked += OnSelectionChanged;
@@ -176,7 +176,7 @@ namespace AzureExamQuestions
                     {
                         Content = label, GroupName = "QuizAnswer", FontSize = 14, Tag = letter,
                         IsChecked = chosen,
-                        VerticalContentAlignment = VerticalAlignment.Center
+                        VerticalContentAlignment = VerticalAlignment.Top
                     };
                     rb.Checked += OnSelectionChanged;
                     ctrl = rb;
