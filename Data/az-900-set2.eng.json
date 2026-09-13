@@ -1345,23 +1345,23 @@
   },
   {
     "id": 1065,
-    "uid": "4NVCD",
-    "text": "A company must run a licensed database on physical hardware that no other Azure customer shares, for compliance reasons. Which option meets this need?",
+    "uid": "FXNM8",
+    "text": "How is an Azure Dedicated Host billed?",
     "options": [
-      "A) Availability zones",
-      "B) Azure Dedicated Host",
-      "C) Proximity placement group",
-      "D) Azure Spot Virtual Machines"
+      "A) Per host, for as long as the host is allocated, regardless of how many virtual machines run on it",
+      "B) Per virtual machine running on the host, at the normal pay-as-you-go rate",
+      "C) Only for the hours during which at least one virtual machine is running",
+      "D) Per vCPU actually consumed by the guest operating systems"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Dedicated Host",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) Per host, for as long as the host is allocated, regardless of how many virtual machines run on it",
     "difficulty": 3,
-    "explanation": "Azure Dedicated Host allocates an entire physical server to your subscription, so no other customer's workloads run on that hardware. Beyond the isolation itself, you gain visibility of and control over the maintenance window applied to the host, which matters for sensitive workloads. Licensing can also benefit, because some server licences are counted per physical core and can be brought to a dedicated host. The trade-offs are cost, since you pay for the host regardless of how many machines run on it, and the capacity planning that comes with it.",
-    "whyOthersWrong": "The others improve resilience, reduce latency, or reduce price, but all of them still run on shared hardware.",
+    "explanation": "A Dedicated Host is charged as a unit of physical capacity: you pay for the host from the moment it is provisioned until it is deleted, and the virtual machines you place on it are not billed separately for compute. That inverts the usual economics, because an underused host costs the same as a full one, so the aim is to pack it well. The model also explains why Dedicated Hosts pair naturally with Azure Hybrid Benefit and with per-core software licences, since you control and can count the physical cores. Reserved capacity is available for hosts and reduces the rate for a one or three year commitment.",
+    "whyOthersWrong": "The others bill per virtual machine, per running hour, or per consumed vCPU, none of which is how a reserved physical host is charged.",
     "whyWrong": {
-      "A": "Availability zones improve resilience but do not stop other customers from sharing the hardware.",
-      "C": "A proximity placement group only controls physical distance between machines.",
-      "D": "Spot virtual machines are a pricing option and run on shared capacity."
+      "B": "Virtual machines on a dedicated host are not billed individually for compute; the host itself is the billed item.",
+      "C": "The host is billed while it is allocated, even if every virtual machine on it is stopped.",
+      "D": "Billing follows the physical host, not the vCPUs the guests happen to use."
     }
   },
   {
@@ -1387,23 +1387,23 @@
   },
   {
     "id": 1067,
-    "uid": "XCS3F",
-    "text": "A development team wants to run microservices in containers with automatic scale-to-zero, revision-based rollouts, and built-in ingress, without operating Kubernetes directly. Which service should they choose?",
+    "uid": "AJT3T",
+    "text": "An app in Azure Container Apps is configured with a minimum replica count of zero. What happens when no requests arrive for a period?",
     "options": [
-      "A) Azure Kubernetes Service",
-      "B) Azure Virtual Machines",
-      "C) Azure Batch",
-      "D) Azure Container Apps"
+      "A) The app is deleted and must be redeployed before it can serve traffic again",
+      "B) The platform keeps one replica warm and continues to bill for it",
+      "C) Requests received later are rejected until an administrator scales the app manually",
+      "D) It scales to no replicas and stops incurring compute charges until the next request starts one"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Azure Container Apps",
+    "correctAnswerText": "D) It scales to no replicas and stops incurring compute charges until the next request starts one",
     "difficulty": 2,
-    "explanation": "Azure Container Apps runs containers serverlessly on a managed Kubernetes foundation that is never exposed to you. Scaling is driven by KEDA, so rules can respond to HTTP concurrency, queue length, or custom metrics, and the application can scale to zero when idle so nothing is billed. Revisions give versioned releases with traffic splitting for blue-green and canary rollouts, and ingress with managed certificates is built in. It sits deliberately between Container Instances, which has no orchestration, and AKS, which gives full Kubernetes control at the cost of operating it.",
-    "whyOthersWrong": "The others either expose the Kubernetes layer the team wants to avoid or are not container platforms for services at all.",
+    "explanation": "Scale to zero means the platform removes every replica while the app is idle, and compute charges stop because nothing is running. The next incoming request is held briefly while a replica is started, which is the cold start you trade for the saving. The app definition, its revisions and its configuration all survive, so nothing needs redeploying. This behaviour suits bursty or intermittent workloads such as internal tools and event handlers, while a service that must answer instantly at any hour is given a minimum of one replica instead.",
+    "whyOthersWrong": "The others destroy the app, keep paying for a warm replica, or require manual intervention, none of which is what scaling to zero does.",
     "whyWrong": {
-      "A": "AKS provides the same power but requires operating Kubernetes directly.",
-      "B": "Virtual machines mean managing the operating system and scaling yourself.",
-      "C": "Azure Batch runs finite compute jobs, not long-lived services."
+      "A": "The app and its revisions remain defined; only the running replicas go away.",
+      "B": "Keeping a replica warm is what a minimum count of one does, and it is billed.",
+      "C": "An incoming request triggers scale-up automatically; no administrator action is needed."
     }
   },
   {
@@ -1534,23 +1534,23 @@
   },
   {
     "id": 1074,
-    "uid": "Q62NQ",
-    "text": "Which Azure compute service is the best fit for a workload that runs thousands of independent, short-lived jobs in parallel and then releases the compute?",
+    "uid": "AZ6TP",
+    "text": "Which statement about the compute nodes in an Azure Batch pool is TRUE?",
     "options": [
-      "A) Azure App Service",
-      "B) Azure Virtual Desktop",
-      "C) Azure Container Registry",
-      "D) Azure Batch"
+      "A) Every node must be created manually before jobs can be submitted",
+      "B) Nodes can be Spot or low-priority virtual machines, and the pool can resize automatically from a formula",
+      "C) A pool can contain only a single node",
+      "D) Nodes must run the same operating system as the machine that submitted the job"
     ],
-    "correctAnswer": "D",
-    "correctAnswerText": "D) Azure Batch",
-    "difficulty": 2,
-    "explanation": "Azure Batch is designed for exactly this shape of work: many independent tasks that need a large amount of compute for a limited time. You define the job and the pool specification, and Batch provisions the nodes, schedules tasks onto them, retries failures, and deletes the pool when the work completes, so nothing sits idle afterwards. Pools can use low-priority or spot nodes, which cuts the cost substantially for work that tolerates interruption. Building the same behaviour on scale sets or Kubernetes is possible but means writing and operating the scheduler yourself.",
-    "whyOthersWrong": "The others host web applications, user desktops, or container images rather than parallel batch jobs.",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Nodes can be Spot or low-priority virtual machines, and the pool can resize automatically from a formula",
+    "difficulty": 3,
+    "explanation": "A Batch pool is a managed set of virtual machines, and it can be built from Spot or low-priority nodes whose cost is far below dedicated ones, which suits work that tolerates an interrupted node being retried. The pool size can follow an autoscale formula written against metrics such as the number of pending tasks, so capacity grows with the queue and returns to zero when the work is finished. Mixing dedicated nodes for the critical portion with Spot nodes for the bulk is a common arrangement. The client that submits the job has no bearing on the node operating system, which is chosen in the pool configuration.",
+    "whyOthersWrong": "The others require manual node creation, cap the pool at one node, or tie the node image to the submitting client, none of which reflects how pools work.",
     "whyWrong": {
-      "A": "App Service hosts long-running web applications.",
-      "B": "Azure Virtual Desktop delivers desktops to people.",
-      "C": "Azure Container Registry stores images and runs nothing."
+      "A": "Batch provisions and removes nodes for you, either at a fixed size or by autoscale formula.",
+      "C": "A pool scales to as many nodes as quota allows, which is the point of the service.",
+      "D": "The pool defines its own operating system image, independently of the submitting client."
     }
   },
   {
@@ -1849,23 +1849,23 @@
   },
   {
     "id": 1089,
-    "uid": "T39NX",
-    "text": "Which Azure service lets administrators open an RDP or SSH session to a virtual machine through the Azure portal over TLS, without giving the virtual machine a public IP address?",
+    "uid": "9BRTK",
+    "text": "What must exist in a virtual network before Azure Bastion can be deployed into it?",
     "options": [
-      "A) Azure Firewall",
-      "B) Azure Bastion",
-      "C) Azure Front Door",
-      "D) Azure Private Link"
+      "A) A public IP address assigned to every virtual machine that will be reached",
+      "B) A subnet named AzureBastionSubnet of at least /26",
+      "C) A VPN gateway in the same virtual network",
+      "D) A network security group that allows inbound RDP from the internet"
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Bastion",
-    "difficulty": 1,
-    "explanation": "Azure Bastion is a managed jump host deployed into a dedicated subnet in the virtual network. Sessions start from the Azure portal over TLS on port 443, and Bastion connects onward to the target machine using its private IP address, so the target needs neither a public IP nor an open management port. That removes one of the most commonly attacked exposures in any Azure estate. Access is governed by Azure roles, and higher tiers add native client support, file transfer, and session recording.",
-    "whyOthersWrong": "The others filter traffic, accelerate web content, or expose services privately, but none of them provides a browser-based console session.",
+    "correctAnswerText": "B) A subnet named AzureBastionSubnet of at least /26",
+    "difficulty": 3,
+    "explanation": "Bastion is deployed into a subnet that must carry the exact name AzureBastionSubnet, and the portal refuses any other name. The subnet has to be at least /26 so that the service has room to scale out its instances; smaller prefixes were allowed in older documentation but are no longer sufficient for current SKUs. Nothing else in the network needs changing, and in particular the target machines keep their private addressing. That is the whole point of the service: the session is brokered over TLS through the Bastion host, so no virtual machine needs a public IP address and no management port has to be opened to the internet.",
+    "whyOthersWrong": "The others add public addressing, an unrelated gateway, or an inbound rule that Bastion exists precisely to avoid.",
     "whyWrong": {
-      "A": "Azure Firewall filters traffic but does not provide a session broker.",
-      "C": "Azure Front Door accelerates and protects web applications.",
-      "D": "Azure Private Link exposes services privately, not interactive sessions."
+      "A": "Bastion reaches machines by their private address; giving them public IPs defeats its purpose.",
+      "C": "A VPN gateway is a separate service and is not a prerequisite for Bastion.",
+      "D": "Opening inbound RDP from the internet is exactly the exposure Bastion removes."
     }
   },
   {
@@ -1954,107 +1954,107 @@
   },
   {
     "id": 1094,
-    "uid": "885MR",
-    "text": "A retailer must connect 400 branch offices to Azure and to each other, with centralized routing and security policy. Which service is designed for this hub-and-spoke scale?",
+    "uid": "JPDZ8",
+    "text": "In a hub-and-spoke network, what makes traffic leaving a spoke subnet pass through a firewall appliance in the hub?",
     "options": [
-      "A) Virtual network peering",
-      "B) Azure Virtual WAN",
-      "C) Azure Bastion",
-      "D) Azure Private Link"
+      "A) Peering the spoke to the hub, which routes all traffic through it automatically",
+      "B) A service endpoint on the spoke subnet",
+      "C) A network security group rule that names the firewall",
+      "D) A user-defined route on the spoke subnet whose next hop is the firewall's private address"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Virtual WAN",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) A user-defined route on the spoke subnet whose next hop is the firewall's private address",
     "difficulty": 4,
-    "explanation": "Azure Virtual WAN is built around hubs: branch sites connect to a hub over VPN or ExpressRoute, virtual networks connect to the same hub, and the hub provides transit routing between all of them. That removes the mesh of individual connections that ordinary peering and gateways would require at this scale, and hubs in different regions are interconnected automatically over the Microsoft backbone. A secured hub adds Azure Firewall so security policy is enforced centrally. Managing four hundred branches any other way quickly becomes unworkable.",
-    "whyOthersWrong": "The others scale poorly to hundreds of sites or solve a different problem entirely.",
+    "explanation": "Virtual network peering makes the two address spaces reachable from each other, but it does not redirect anything: traffic still follows the system routes, which send internet-bound packets straight out. Forcing it through an inspection point requires a user-defined route in a route table attached to the spoke subnet, with the destination prefix pointing at a next hop of type virtual appliance and the firewall's private IP address. This is usually called forced tunnelling, and a default route of 0.0.0.0/0 is the common form. Without that route table the firewall exists but simply never sees the traffic, which is a classic misconfiguration.",
+    "whyOthersWrong": "The others provide reachability, restrict access to platform services, or filter traffic in place, but none of them changes where a packet is sent.",
     "whyWrong": {
-      "A": "Peering each pair of networks does not scale to hundreds of branch sites.",
-      "C": "Azure Bastion provides administrative sessions to virtual machines.",
-      "D": "Azure Private Link exposes platform services privately."
+      "A": "Peering makes the networks reachable; it does not redirect traffic to an appliance.",
+      "B": "A service endpoint controls access to platform services from a subnet, not routing.",
+      "C": "A network security group allows or denies traffic; it cannot forward it to another hop."
     }
   },
   {
     "id": 1095,
-    "uid": "SB3KC",
-    "text": "Which load balancing service should be used to distribute traffic between virtual machines based on the URL path of an HTTP request?",
+    "uid": "HSKMX",
+    "text": "What does a health probe on an Azure load balancer do?",
     "options": [
-      "A) Azure Load Balancer",
-      "B) Azure Traffic Manager",
-      "C) Azure Application Gateway",
-      "D) Azure NAT gateway"
+      "A) It restarts a backend virtual machine that stops responding",
+      "B) It measures the latency between the user and the load balancer",
+      "C) It stops sending new connections to a backend instance that fails the probe",
+      "D) It scales the backend pool out when the response time rises"
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Application Gateway",
+    "correctAnswerText": "C) It stops sending new connections to a backend instance that fails the probe",
     "difficulty": 2,
-    "explanation": "Application Gateway operates at layer 7, so it terminates the HTTP connection and can inspect the request before choosing a backend. Path-based routing sends requests for one URL path to one backend pool and another path elsewhere, and multi-site hosting does the same by host header. It also handles TLS termination and end-to-end TLS, session affinity, autoscaling, and an optional web application firewall. A layer 4 service such as Azure Load Balancer sees only addresses and ports and therefore cannot make routing decisions from a URL.",
-    "whyOthersWrong": "The others work at layer 4, route by DNS, or handle outbound connectivity, so none of them can see a URL path.",
+    "explanation": "A health probe polls each backend instance on a configured protocol, port, and interval, and the result decides only one thing: whether that instance stays in rotation. An instance that fails the probe receives no new connections until it starts answering again, so users stop being sent to a broken member. The load balancer does not repair or restart anything, and it does not add capacity; recovery is the job of the workload or of an availability feature, and scaling belongs to virtual machine scale sets or the application platform. Choosing a probe path that genuinely reflects application health, rather than a port that is open regardless, is what makes the mechanism useful.",
+    "whyOthersWrong": "The others repair, measure, or scale, while the probe only decides which backends remain eligible for new connections.",
     "whyWrong": {
-      "A": "Azure Load Balancer works at layer 4 and cannot see URLs.",
-      "B": "Traffic Manager routes by DNS and never sees the request path.",
-      "D": "A NAT gateway handles outbound traffic only."
+      "A": "The load balancer never restarts a backend; it only removes it from rotation.",
+      "B": "Client latency is not what a backend probe measures.",
+      "D": "Adding instances is the job of a scale set, not of a health probe."
     }
   },
   {
     "id": 1096,
-    "uid": "3KQGH",
-    "text": "Which Azure load balancing service makes routing decisions using DNS responses rather than proxying the traffic itself?",
+    "uid": "EFEE8",
+    "text": "Which Azure Traffic Manager routing method sends each user to the endpoint that gives them the lowest network latency?",
     "options": [
-      "A) Azure Application Gateway",
-      "B) Azure Load Balancer",
-      "C) Azure Traffic Manager",
-      "D) Azure Firewall"
+      "A) Performance routing",
+      "B) Priority routing",
+      "C) Weighted routing",
+      "D) Multivalue routing"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Traffic Manager",
-    "difficulty": 2,
-    "explanation": "Traffic Manager works at the DNS layer: when a client resolves the name, Traffic Manager returns the endpoint selected by the configured routing method, and the client then connects to that endpoint directly. Because it is never in the data path, it works for any protocol and adds no latency to the traffic, and it can include endpoints outside Azure. Routing methods include priority, weighted, performance, geographic, and subnet. The trade-off is that DNS responses are cached by clients and resolvers, so failover takes as long as the time-to-live allows.",
-    "whyOthersWrong": "The others sit in the data path and proxy or filter the traffic itself.",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) Performance routing",
+    "difficulty": 3,
+    "explanation": "Performance routing compares the client's source network against a latency table that Microsoft maintains between network regions and Azure regions, and returns the endpoint expected to answer fastest for that client. It is the method to choose when the same application is deployed in several regions and the goal is responsiveness rather than a fixed split. Priority routing instead orders endpoints for failover, weighted routing divides traffic by proportion for gradual rollouts, and geographic routing forces users from a given territory to a nominated endpoint, which serves data residency rather than speed. All of them operate in DNS, so the choice affects which address the client is given, not the path the traffic then takes.",
+    "whyOthersWrong": "The others order endpoints for failover, split traffic by proportion, or return several addresses at once, none of which considers latency.",
     "whyWrong": {
-      "A": "Application Gateway terminates and proxies HTTP traffic.",
-      "B": "Azure Load Balancer forwards packets at layer 4.",
-      "D": "Azure Firewall inspects and filters traffic rather than resolving names."
+      "B": "Priority routing is for failover: traffic goes to the first healthy endpoint in a list.",
+      "C": "Weighted routing splits traffic by assigned proportions, ignoring latency.",
+      "D": "Multivalue routing returns several healthy addresses so the client can retry."
     }
   },
   {
     "id": 1097,
-    "uid": "RBWZD",
-    "text": "An application is hosted in three regions. Which service provides global HTTP load balancing at the edge with caching and a web application firewall in one product?",
+    "uid": "V4HQ2",
+    "text": "What is the effect of purging a content delivery network endpoint?",
     "options": [
-      "A) Azure Load Balancer",
-      "B) Azure Bastion",
-      "C) Azure Front Door",
-      "D) Azure ExpressRoute"
+      "A) It deletes the files from the origin storage account",
+      "B) It disables caching permanently for that endpoint",
+      "C) It moves the content to a different region",
+      "D) It removes the cached copies from edge locations so the next request is fetched from the origin"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Front Door",
-    "difficulty": 4,
-    "explanation": "Azure Front Door is the global entry point for web applications, running at Microsoft's edge locations. It terminates TLS close to the user, routes to the nearest healthy backend using anycast and health probes, caches static content at the edge, and includes a web application firewall for exploits such as SQL injection. Because the connection terminates nearby and the rest of the journey uses the Microsoft backbone, both latency and reliability improve. Application Gateway offers similar layer 7 features but within a single region.",
-    "whyOthersWrong": "The others are regional, serve a different purpose, or provide private connectivity rather than global web delivery.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) It removes the cached copies from edge locations so the next request is fetched from the origin",
+    "difficulty": 2,
+    "explanation": "Edge nodes keep copies of content until their time to live expires, which is what makes delivery fast but also means a newly published file can sit behind a stale cached version. A purge invalidates those cached copies so the next request at each edge goes back to the origin and picks up the current file. The origin itself is untouched, caching continues to work normally afterwards, and nothing is relocated. Teams that publish often usually combine a purge with versioned file names or query strings, because a unique URL never collides with a cached predecessor in the first place.",
+    "whyOthersWrong": "The others delete the source content, switch caching off, or relocate data, while a purge only invalidates what the edges have cached.",
     "whyWrong": {
-      "A": "Azure Load Balancer is regional and works at layer 4.",
-      "B": "Azure Bastion provides administrative access to virtual machines.",
-      "D": "ExpressRoute is a private connection to on-premises networks."
+      "A": "The origin keeps its files; only edge copies are invalidated.",
+      "B": "Caching resumes immediately, repopulating on the next request.",
+      "C": "A purge does not move content anywhere."
     }
   },
   {
     "id": 1098,
-    "uid": "SZNX6",
-    "text": "Which Azure service hosts the DNS records for a public domain name such as contoso.com?",
+    "uid": "3YMD8",
+    "text": "A virtual machine must resolve the name of a storage account to the address of its private endpoint. Which Azure capability provides that resolution inside the virtual network?",
     "options": [
-      "A) Azure Private Link",
-      "B) Azure Traffic Manager",
-      "C) Azure DNS",
-      "D) Azure Content Delivery Network"
+      "A) A public Azure DNS zone for the company domain",
+      "B) A network security group rule permitting DNS traffic",
+      "C) A service endpoint on the virtual machine's subnet",
+      "D) A private DNS zone linked to the virtual network"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure DNS",
-    "difficulty": 1,
-    "explanation": "Azure DNS hosts DNS zones on Microsoft's global name server infrastructure, using anycast so queries are answered by a nearby server. Records are managed as Azure resources, so role-based access control, resource locks, activity logging, and template deployment all apply. Alias records can point directly at Azure resources such as a public IP address or a Front Door endpoint and follow them automatically when they change. Azure DNS hosts the zone but does not register the domain name itself, which is done through App Service domains or an external registrar.",
-    "whyOthersWrong": "The others expose services privately, route between endpoints, or cache content, but none of them hosts a DNS zone.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) A private DNS zone linked to the virtual network",
+    "difficulty": 4,
+    "explanation": "A private endpoint gives a platform service an address inside your virtual network, but clients keep using the service's public host name, so name resolution has to be redirected or they will continue to receive the public address. A private DNS zone holding the matching zone name, linked to the virtual network, is what answers those queries with the private address instead. The portal can create and wire the zone automatically when the private endpoint is created, and in hybrid designs the same zone is reached from on-premises through a DNS forwarder. Getting this wrong is the usual reason a private endpoint appears healthy while traffic still leaves over the public path.",
+    "whyOthersWrong": "The others publish names on the internet, permit traffic, or restrict service access, and none of them answers a query with the private address.",
     "whyWrong": {
-      "A": "Azure Private Link provides private access to platform services.",
-      "B": "Traffic Manager provides DNS-based routing but does not host your zone.",
-      "D": "A content delivery network caches content at the edge."
+      "A": "A public zone serves internet clients and would still hand out the public address.",
+      "B": "Allowing DNS traffic does not change the answer a resolver returns.",
+      "C": "A service endpoint keeps the public address and only restricts who may use it."
     }
   },
   {
@@ -2101,44 +2101,44 @@
   },
   {
     "id": 1101,
-    "uid": "ZMTXF",
-    "text": "Which Azure Storage service should be used for a distributed application that needs a managed SMB file share mounted by both on-premises servers and Azure virtual machines?",
+    "uid": "NXSWN",
+    "text": "Which capability lets domain-joined Windows clients open an Azure file share using their existing Active Directory identity rather than the storage account key?",
     "options": [
-      "A) Azure Blob Storage",
-      "B) Azure Queue Storage",
-      "C) Azure Table Storage",
-      "D) Azure Files"
+      "A) A shared access signature generated for the share",
+      "B) A private endpoint on the storage account",
+      "C) Identity-based authentication over SMB",
+      "D) Customer-managed keys in Azure Key Vault"
     ],
-    "correctAnswer": "D",
-    "correctAnswerText": "D) Azure Files",
-    "difficulty": 2,
-    "explanation": "Azure Files provides fully managed SMB file shares that can be mounted by Windows, Linux, and macOS clients, both inside Azure and from on-premises over a VPN or ExpressRoute. Because it speaks SMB, existing applications and scripts that expect a drive letter or UNC path work without modification, which is what makes it the answer for lift-and-shift file workloads. Identity-based access through Active Directory or Microsoft Entra Domain Services allows familiar NTFS permissions. Azure File Sync extends the model by caching the share on local file servers.",
-    "whyOthersWrong": "The others store objects, messages, or key-value rows, and none of them can be mounted as a file share.",
+    "correctAnswer": "C",
+    "correctAnswerText": "C) Identity-based authentication over SMB",
+    "difficulty": 4,
+    "explanation": "Identity-based authentication lets an Azure file share accept Kerberos tickets from on-premises Active Directory Domain Services or from Microsoft Entra Domain Services, so a user reaches the share as themselves. Share-level permissions are granted through Azure roles, while the familiar NTFS permissions continue to govern directories and files, which is what makes a lift-and-shift of an existing file server practical. The storage account key stays available but no longer has to be distributed, and that is the security gain: a key is shared by everyone and grants full control, whereas an identity can be audited and revoked individually. The other options in this list secure the network path or the encryption key rather than the sign-in.",
+    "whyOthersWrong": "The others delegate access with a token, control the network path, or manage encryption keys, and none of them signs a user in as themselves.",
     "whyWrong": {
-      "A": "Blob Storage stores objects and is not mounted as an SMB share.",
-      "B": "Queue Storage holds messages between components.",
-      "C": "Table Storage holds key-value rows."
+      "A": "A shared access signature is a delegated token, not the user's own identity.",
+      "B": "A private endpoint changes how the share is reached, not who is authenticated.",
+      "D": "Customer-managed keys control encryption, not authentication."
     }
   },
   {
     "id": 1102,
-    "uid": "37NZ8",
-    "text": "Which Azure Storage service is designed to hold messages that decouple application components, with messages of up to 64 KB?",
+    "uid": "XYVPF",
+    "text": "A consumer retrieves a message from an Azure Storage queue but has not deleted it yet. What happens to that message?",
     "options": [
-      "A) Azure Table Storage",
-      "B) Azure Blob Storage",
-      "C) Azure Files",
-      "D) Azure Queue Storage"
+      "A) It is removed from the queue as soon as it is retrieved",
+      "B) It stays visible, so another consumer may process it at the same time",
+      "C) It is moved to a dead-letter queue immediately",
+      "D) It becomes invisible for a visibility timeout and returns to the queue if it is not deleted in time"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Azure Queue Storage",
-    "difficulty": 1,
-    "explanation": "Azure Queue Storage holds large numbers of messages of up to 64 KB, letting producers and consumers work independently so a slow consumer does not block the producer. Delivery is at least once, with a visibility timeout that returns a message to the queue if the consumer fails before deleting it, which means handlers must be idempotent. It is part of a storage account, so there is no separate namespace to provision and the cost is very low. Service Bus is the alternative when ordering, transactions, or dead-lettering are required.",
-    "whyOthersWrong": "The others store rows, objects, or file shares rather than messages for decoupling.",
+    "correctAnswerText": "D) It becomes invisible for a visibility timeout and returns to the queue if it is not deleted in time",
+    "difficulty": 2,
+    "explanation": "Retrieving a message hides it rather than removing it: for the duration of the visibility timeout no other consumer can see it, and the consumer is expected to delete it explicitly once the work is done. If the consumer crashes or takes too long, the timeout expires, the message reappears, and another consumer picks it up, which is what stops work from being lost. The cost of that guarantee is that delivery is at-least-once, so handlers must tolerate seeing the same message twice. A dequeue count is tracked on each message, which lets an application detect a message that keeps failing and set it aside itself.",
+    "whyOthersWrong": "The others delete on read, leave the message open to duplicate processing, or invent automatic dead-lettering that Storage queues do not perform.",
     "whyWrong": {
-      "A": "Table Storage holds structured key-value rows.",
-      "B": "Blob Storage holds unstructured objects.",
-      "C": "Azure Files provides mounted file shares."
+      "A": "Deletion is a separate explicit call; retrieval only hides the message.",
+      "B": "The message is hidden from other consumers for the visibility timeout.",
+      "C": "Storage queues have no dead-letter queue; that is a Service Bus feature."
     }
   },
   {
@@ -2185,44 +2185,44 @@
   },
   {
     "id": 1105,
-    "uid": "PCRPD",
-    "text": "Which Azure Storage redundancy option keeps three synchronous copies of data spread across three availability zones in the primary region?",
+    "uid": "BENAY",
+    "text": "What does read-access geo-redundant storage add compared with plain geo-redundant storage?",
     "options": [
-      "A) Locally redundant storage",
-      "B) Geo-redundant storage",
-      "C) Geo-zone-redundant storage",
-      "D) Zone-redundant storage"
+      "A) A third copy of the data in a third region",
+      "B) Synchronous replication between the two regions",
+      "C) Read access to the copy in the secondary region without waiting for a failover",
+      "D) Automatic failover with no data loss"
     ],
-    "correctAnswer": "D",
-    "correctAnswerText": "D) Zone-redundant storage",
+    "correctAnswer": "C",
+    "correctAnswerText": "C) Read access to the copy in the secondary region without waiting for a failover",
     "difficulty": 2,
-    "explanation": "Zone-redundant storage writes three copies synchronously across three availability zones in the primary region, so an acknowledged write already exists in three physically separate datacenters. That survives the loss of an entire datacenter with no failover and no data loss, while write latency stays low because the zones are close together. It requires a region that offers availability zones. Locally redundant storage keeps all three copies in one datacenter, and the geo variants add a second region asynchronously.",
-    "whyOthersWrong": "The others keep all copies in one location or add an asynchronous copy in a second region.",
+    "explanation": "Both options keep three copies in the primary region and replicate asynchronously to a paired secondary. The difference is purely about access: with plain geo-redundant storage the secondary copy is unreachable until a failover is performed, whereas the read-access variant exposes it continuously through a separate endpoint with the suffix -secondary. Applications can use that endpoint to serve reads during a regional outage, or simply to offload read traffic, provided they accept that the data may lag slightly behind the primary. Replication stays asynchronous either way, so neither option promises a zero recovery point.",
+    "whyOthersWrong": "The others add a region, change replication to synchronous, or promise lossless failover, none of which the read-access option provides.",
     "whyWrong": {
-      "A": "Locally redundant storage keeps all three copies in a single datacenter.",
-      "B": "Geo-redundant storage copies to a second region but keeps the primary copies local.",
-      "C": "Geo-zone-redundant storage adds a secondary region on top of zone redundancy."
+      "A": "Both options use two regions; the read-access variant adds no third copy.",
+      "B": "Replication to the secondary region remains asynchronous.",
+      "D": "Because replication is asynchronous, recent writes can still be lost."
     }
   },
   {
     "id": 1106,
-    "uid": "CMXYB",
-    "text": "Which redundancy option combines synchronous replication across availability zones in the primary region with asynchronous replication to a secondary region?",
+    "uid": "Q7TH7",
+    "text": "A storage account fails over to its secondary region. What should be expected of writes that were accepted shortly before the outage?",
     "options": [
-      "A) Zone-redundant storage",
-      "B) Geo-zone-redundant storage",
-      "C) Locally redundant storage",
-      "D) Geo-redundant storage"
+      "A) They are always present, because replication is synchronous across regions",
+      "B) They are replayed automatically from a transaction log after failover",
+      "C) They may be lost, because replication to the secondary region is asynchronous",
+      "D) They are held in the primary region and applied when it returns"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Geo-zone-redundant storage",
-    "difficulty": 4,
-    "explanation": "Geo-zone-redundant storage combines both forms of protection: synchronous replication across three availability zones in the primary region, plus asynchronous replication to the paired secondary region where three further copies are kept locally. That covers the loss of a datacenter without failover and the loss of an entire region with one. It is the most durable of the standard options, and the read-access variant adds a secondary endpoint readable at any time. Because the secondary is asynchronous, a regional failover can still lose the most recent writes.",
-    "whyOthersWrong": "The others cover only one region or lack the zone-level spread in the primary region.",
+    "correctAnswer": "C",
+    "correctAnswerText": "C) They may be lost, because replication to the secondary region is asynchronous",
+    "difficulty": 2,
+    "explanation": "Cross-region replication in Azure Storage is asynchronous: a write is acknowledged once it is durable in the primary region, and it travels to the secondary afterwards. A failover therefore has a non-zero recovery point, and the last writes accepted before the primary became unavailable can be missing. The last sync time property reports how far behind the secondary was, which is the figure to check when deciding whether to fail over. Synchronous replication exists only inside a region, across availability zones, which is why zone redundancy protects against a datacenter loss with no data loss but regional redundancy cannot make the same promise.",
+    "whyOthersWrong": "The others claim synchronous cross-region replication, an automatic replay, or queued writes, none of which Azure Storage performs between regions.",
     "whyWrong": {
-      "A": "Zone-redundant storage stays within the primary region.",
-      "C": "Locally redundant storage keeps every copy in one datacenter.",
-      "D": "Geo-redundant storage replicates to a second region but keeps the primary copies in one datacenter."
+      "A": "Synchronous replication applies across availability zones, not across regions.",
+      "B": "There is no cross-region transaction replay after a failover.",
+      "D": "Writes that never reached the secondary are not preserved for later application."
     }
   },
   {
@@ -2332,23 +2332,23 @@
   },
   {
     "id": 1112,
-    "uid": "J3MYK",
-    "text": "A regulator requires that financial records cannot be modified or deleted for five years, even by an administrator. Which storage capability satisfies this?",
+    "uid": "GFT7E",
+    "text": "What does a lifecycle management rule on a storage account do?",
     "options": [
-      "A) Read-access geo-redundant storage",
-      "B) A resource lock set to ReadOnly",
-      "C) Soft delete with a five-year retention",
-      "D) Immutable blob storage with a time-based retention policy"
+      "A) It prevents blobs from being deleted for a fixed period",
+      "B) It replicates blobs to a second region on a schedule",
+      "C) It encrypts blobs that were uploaded without encryption",
+      "D) It moves blobs to a cooler tier or deletes them automatically based on age or last access"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Immutable blob storage with a time-based retention policy",
-    "difficulty": 4,
-    "explanation": "Immutable blob storage enforces write once, read many at the platform level. A time-based retention policy set to five years means the data cannot be modified or deleted by anyone, including a subscription Owner, until the period expires. Policies begin unlocked so they can be tested, and must be locked to be compliant, after which the retention period can be extended but never shortened. Legal hold is the companion feature when the retention period is not known in advance, remaining in force until it is explicitly cleared.",
-    "whyOthersWrong": "The others improve durability or allow recovery, but none of them prevents a privileged user from deleting the data.",
+    "correctAnswerText": "D) It moves blobs to a cooler tier or deletes them automatically based on age or last access",
+    "difficulty": 1,
+    "explanation": "A lifecycle rule is a policy evaluated by the platform once a day against the blobs that match its filters. Typical actions move a blob to cool or cold after it has gone untouched for a month, to archive after a quarter, and delete it after a retention period expires, all without anyone writing a job. Because storage cost differs by an order of magnitude between tiers, this is usually the single largest saving available on a large blob estate. It is about cost and housekeeping rather than protection: preventing deletion is the job of immutability policies, and encryption at rest is applied to every blob automatically.",
+    "whyOthersWrong": "The others block deletion, copy data between regions, or apply encryption, while a lifecycle rule only tiers or removes blobs on a schedule.",
     "whyWrong": {
-      "A": "Read-access geo-redundant storage improves durability and read availability, not immutability.",
-      "B": "A ReadOnly resource lock can be removed by an administrator.",
-      "C": "Soft delete allows recovery after deletion but does not prevent it."
+      "A": "Blocking deletion is what an immutability policy does.",
+      "B": "Cross-region copies come from the account's redundancy setting or object replication.",
+      "C": "Data at rest is encrypted automatically; no rule is needed."
     }
   },
   {
@@ -2395,23 +2395,23 @@
   },
   {
     "id": 1115,
-    "uid": "RGHMA",
-    "text": "Which service synchronizes on-premises Windows file server content with an Azure file share and can keep only frequently used files on local disk?",
+    "uid": "2A2GA",
+    "text": "Why must the name of an Azure Storage account be unique across all of Azure, not just within the subscription?",
     "options": [
-      "A) Azure File Sync",
-      "B) Azure Data Box",
-      "C) Azure Site Recovery",
-      "D) Azure Import/Export"
+      "A) Because Azure allows only one storage account name per subscription",
+      "B) Because the name forms part of the public endpoint URL, such as name.blob.core.windows.net",
+      "C) Because the name is used as the identifier of the encryption key",
+      "D) Because billing records are keyed by account name"
     ],
-    "correctAnswer": "A",
-    "correctAnswerText": "A) Azure File Sync",
-    "difficulty": 2,
-    "explanation": "Azure File Sync installs an agent on a Windows file server and turns that server into a cache of an Azure file share. Cloud tiering keeps frequently accessed files on local disk while older files exist only in Azure and are recalled transparently when opened, which keeps local storage requirements small. Several servers in different offices can sync the same share, giving each site fast local access to centrally stored data. Because the authoritative copy lives in Azure, backup and disaster recovery are simplified considerably.",
-    "whyOthersWrong": "The others move data once, replicate whole machines, or ship disks, rather than keeping a server continuously in sync.",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Because the name forms part of the public endpoint URL, such as name.blob.core.windows.net",
+    "difficulty": 1,
+    "explanation": "Every storage account is published under DNS names derived from its own name, one per service endpoint, so two accounts sharing a name would resolve to the same address and the system could not tell them apart. That is why the name must be globally unique and why it is restricted to three to twenty-four lowercase letters and digits, the character set DNS labels allow. The constraint also explains why account names are usually generated with a prefix and a short suffix in deployment templates, since a fixed name fails the moment someone else has taken it. Resources whose names do not appear in a public endpoint, such as resource groups, only need to be unique within their own scope.",
+    "whyOthersWrong": "The others invent a per-subscription limit, tie the name to encryption, or claim billing depends on it, while the real reason is public DNS.",
     "whyWrong": {
-      "B": "Azure Data Box is a one-time offline transfer appliance.",
-      "C": "Azure Site Recovery replicates entire workloads for disaster recovery.",
-      "D": "Azure Import/Export ships disks for bulk transfer."
+      "A": "A subscription can hold many storage accounts.",
+      "C": "Encryption keys are identified independently of the account name.",
+      "D": "Billing is keyed by resource identifier, not by the name alone."
     }
   },
   {
@@ -2479,44 +2479,44 @@
   },
   {
     "id": 1119,
-    "uid": "V9EQS",
-    "text": "Which managed disk type should be selected for a latency-sensitive database that needs the highest and most configurable IOPS and throughput?",
+    "uid": "WPETE",
+    "text": "What does disk bursting provide for an Azure managed disk?",
     "options": [
-      "A) Ultra Disk",
-      "B) Standard HDD",
-      "C) Standard SSD",
-      "D) Premium SSD"
+      "A) Permanently higher IOPS after the disk is resized",
+      "B) Automatic replication of the disk to a second region",
+      "C) Short periods of throughput and IOPS above the provisioned level",
+      "D) A guaranteed sub-millisecond latency for every request"
     ],
-    "correctAnswer": "A",
-    "correctAnswerText": "A) Ultra Disk",
+    "correctAnswer": "C",
+    "correctAnswerText": "C) Short periods of throughput and IOPS above the provisioned level",
     "difficulty": 3,
-    "explanation": "Ultra Disks deliver the highest performance in the managed disk family, with sub-millisecond latency and IOPS and throughput configured independently of capacity and adjustable while the machine runs. Every other disk type ties performance limits to size, so reaching high IOPS otherwise means over-provisioning space. The trade-offs are cost, limited regional and zonal availability, and some feature restrictions such as snapshot support. Premium SSD v2 has since become the common middle ground, offering configurable performance at a lower price than Ultra.",
-    "whyOthersWrong": "The others offer lower performance tiers, and their throughput is tied to the size of the disk.",
+    "explanation": "Bursting lets a disk exceed its baseline limits for limited periods, which suits workloads that are mostly quiet but face sharp spikes, such as a machine booting or a nightly batch starting. Smaller premium SSDs get credit-based bursting at no extra cost: credits accumulate while the disk runs below its baseline and are spent when it goes above. Larger disks can use on-demand bursting, which is billed for what it uses and is not limited by accumulated credits. It is a smoothing mechanism rather than a capacity decision, so a workload that genuinely needs sustained high throughput should be provisioned for it instead.",
+    "whyOthersWrong": "The others describe resizing, cross-region replication, or a latency guarantee, while bursting is a temporary lift above the baseline.",
     "whyWrong": {
-      "B": "Standard HDD is the slowest option and suits backups and infrequent access.",
-      "C": "Standard SSD offers modest, consistent performance.",
-      "D": "Premium SSD is fast but does not match Ultra Disk, and its limits are tied to disk size."
+      "A": "Resizing raises the baseline permanently; bursting is temporary by definition.",
+      "B": "Disk replication is a separate feature and unrelated to bursting.",
+      "D": "Bursting raises throughput and IOPS; it makes no latency guarantee."
     }
   },
   {
     "id": 1120,
-    "uid": "85QFF",
-    "text": "Which Azure Storage service stores large amounts of semi-structured, schemaless key-value data at low cost?",
+    "uid": "2YNWS",
+    "text": "What does enabling the hierarchical namespace option on a storage account provide?",
     "options": [
-      "A) Azure Files",
-      "B) Azure Table Storage",
-      "C) Azure Queue Storage",
-      "D) Azure Disk Storage"
+      "A) Automatic encryption of every blob with a customer-managed key",
+      "B) A relational schema over the stored objects",
+      "C) Unlimited capacity for a single blob",
+      "D) Data Lake Storage Gen2 semantics, with real directories and atomic renames"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Table Storage",
-    "difficulty": 1,
-    "explanation": "Azure Table Storage is a schemaless key-value store where each entity is addressed by a partition key and a row key, and entities in the same table can have different properties. It is very inexpensive per gigabyte and scales to large volumes without provisioning throughput, which suits telemetry, configuration, and user preference data. What it does not provide is rich querying, joins, or transactions across partitions, so queries that do not use the keys become slow and costly. Cosmos DB's Table API offers the same programming model with global distribution and latency guarantees at a higher price.",
-    "whyOthersWrong": "The others provide file shares, message queues, or virtual machine disks.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) Data Lake Storage Gen2 semantics, with real directories and atomic renames",
+    "difficulty": 3,
+    "explanation": "A normal blob container has a flat namespace: a path such as year/month/file is simply part of the blob name, so renaming a folder means copying and deleting every object beneath it. The hierarchical namespace turns the account into Data Lake Storage Gen2, where directories are real objects, renames and deletes are atomic metadata operations, and POSIX-style access control lists can be applied at directory level. Analytics engines such as Spark and Synapse depend on those semantics for performance and for correct handling of partitioned output. The option has to be chosen when the account is created and cannot be toggled afterwards.",
+    "whyOthersWrong": "The others describe key management, a relational model, or a capacity limit, none of which follows from the namespace setting.",
     "whyWrong": {
-      "A": "Azure Files provides mounted SMB file shares.",
-      "C": "Queue Storage holds messages for decoupling components.",
-      "D": "Disk Storage provides block storage for virtual machines."
+      "A": "Encryption with customer-managed keys is configured separately and applies either way.",
+      "B": "The store remains object storage; no relational schema is imposed.",
+      "C": "Blob size limits are unrelated to the namespace option."
     }
   },
   {
@@ -2899,23 +2899,23 @@
   },
   {
     "id": 1139,
-    "uid": "64KE8",
-    "text": "Which Azure service is designed to store cryptographic keys, certificates, and secrets in a hardware-protected vault with access controlled by policy?",
+    "uid": "3P28Z",
+    "text": "An organization must keep its encryption keys in a single-tenant hardware security module validated to FIPS 140-2 Level 3, under its sole control. Which option meets this?",
     "options": [
-      "A) Azure Storage account",
-      "B) Microsoft Entra ID",
-      "C) Azure Key Vault",
-      "D) Azure App Configuration"
+      "A) The standard tier of Azure Key Vault",
+      "B) Azure Key Vault Managed HSM",
+      "C) A storage account with infrastructure encryption enabled",
+      "D) A certificate stored in the operating system of a virtual machine"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure Key Vault",
-    "difficulty": 2,
-    "explanation": "Azure Key Vault stores keys, secrets, and certificates, with access governed by Azure roles or vault access policies and every operation written to the audit log. Keys can be protected by FIPS-validated hardware security modules, and Managed HSM offers a single-tenant option where the requirement is stricter. Certificates can be issued and renewed automatically from an integrated authority, which removes a common cause of outages. The recommended access pattern is a managed identity, and soft delete with purge protection guards against a vault or secret being destroyed.",
-    "whyOthersWrong": "The others store data, identities, or application settings, and none of them is a hardware-protected secret store.",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Azure Key Vault Managed HSM",
+    "difficulty": 3,
+    "explanation": "Managed HSM allocates a pool of dedicated hardware security modules to one customer, validated to FIPS 140-2 Level 3, and Microsoft operates the infrastructure without holding access to the key material. Control is expressed through a local role-based model administered by designated security officers, and recovery depends on a security domain that the customer downloads and safeguards at creation. The standard and premium tiers of Key Vault are multi-tenant, and although the premium tier is HSM-backed it does not give the single-tenant boundary that stricter regimes demand. The trade-off is cost and operational responsibility, since a lost security domain means the keys cannot be recovered by anyone.",
+    "whyOthersWrong": "The others are multi-tenant, protect data rather than keys, or leave the key on a machine the organization must secure itself.",
     "whyWrong": {
-      "A": "A storage account holds data, not managed secrets.",
-      "B": "Microsoft Entra ID manages identities.",
-      "D": "Azure App Configuration holds application settings and feature flags."
+      "A": "The standard tier is multi-tenant and software-protected.",
+      "C": "Infrastructure encryption adds a second layer of data encryption; it is not a key store.",
+      "D": "A key on a virtual machine has none of the protections or attestations of an HSM."
     }
   },
   {
@@ -3046,23 +3046,23 @@
   },
   {
     "id": 1146,
-    "uid": "E7YSK",
-    "text": "Which Azure service collects security signals across the estate, correlates them into incidents, and can run automated response playbooks?",
+    "uid": "DKG66",
+    "text": "What mainly drives the monthly cost of Microsoft Sentinel?",
     "options": [
-      "A) Azure Monitor",
-      "B) Azure Advisor",
-      "C) Azure Policy",
-      "D) Microsoft Sentinel"
+      "A) The number of analytics rules that are enabled",
+      "B) The volume of data ingested and how long it is retained",
+      "C) The number of incidents that analysts close",
+      "D) The number of users granted access to the workspace"
     ],
-    "correctAnswer": "D",
-    "correctAnswerText": "D) Microsoft Sentinel",
-    "difficulty": 1,
-    "explanation": "Microsoft Sentinel is the cloud-native SIEM and SOAR service. Connectors ingest logs from Azure, Microsoft 365, other clouds, and third-party appliances into a Log Analytics workspace, analytics rules correlate those signals into incidents, and hunting queries and workbooks support the analyst. Automation rules and logic app playbooks then carry out the response, from enriching an incident to disabling an account. Because it is a managed service, there is no SIEM infrastructure to scale, and cost is driven mainly by how much data is ingested and how long it is retained.",
-    "whyOthersWrong": "The others monitor performance, recommend improvements, or enforce configuration, and none of them correlates security incidents.",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) The volume of data ingested and how long it is retained",
+    "difficulty": 2,
+    "explanation": "Sentinel is billed on the data that flows into its Log Analytics workspace and on how long that data is kept, not on the analytical work performed over it. Rules, workbooks, hunting queries, and the analysts using them add no charge, which is why the cost lever is the connector configuration: sending every verbose log from every source is what makes a deployment expensive. Common controls are filtering noisy tables at the source, choosing an auxiliary or basic table plan for data kept only for investigation, and shortening retention where regulation permits. A commitment tier reduces the rate once daily ingestion is predictable.",
+    "whyOthersWrong": "The others count rules, incidents, or users, and none of those is a billable dimension in Sentinel.",
     "whyWrong": {
-      "A": "Azure Monitor collects telemetry but does not perform security correlation and response.",
-      "B": "Azure Advisor gives recommendations, not incident handling.",
-      "C": "Azure Policy enforces resource configuration."
+      "A": "Analytics rules are not billed individually.",
+      "C": "Closing incidents is analyst work and carries no charge.",
+      "D": "Access is granted through role assignments and costs nothing."
     }
   },
   {
@@ -3424,23 +3424,23 @@
   },
   {
     "id": 1164,
-    "uid": "PWXXT",
-    "text": "Which tool should be used to estimate the cost of a proposed Azure architecture that has not yet been deployed?",
+    "uid": "FVSP8",
+    "text": "Two engineers model the same architecture in the Azure pricing calculator and get noticeably different monthly totals. What is the most likely explanation?",
     "options": [
-      "A) Azure pricing calculator",
-      "B) Azure Cost Management cost analysis",
-      "C) Azure Advisor",
-      "D) Azure Monitor metrics"
+      "A) The calculator applies a random margin to each estimate",
+      "B) They chose different regions or different commitment options such as reservations",
+      "C) One of them has already deployed the resources and the other has not",
+      "D) The calculator bills the estimate to the subscription of whoever opened it"
     ],
-    "correctAnswer": "A",
-    "correctAnswerText": "A) Azure pricing calculator",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) They chose different regions or different commitment options such as reservations",
     "difficulty": 1,
-    "explanation": "The Azure pricing calculator is the estimation tool for something that does not exist yet. You assemble the services, regions, sizes, and quantities, and it produces a monthly figure that can be saved, shared, and exported. It reflects list prices and lets you model commercial options such as reservations, savings plans, and Azure Hybrid Benefit, which makes it useful for comparing design choices rather than only totalling them. It says nothing about what you are actually spending, which is what cost analysis in Cost Management reports on.",
-    "whyOthersWrong": "The others report on resources that already exist and are producing data.",
+    "explanation": "The calculator is deterministic: the same selections always produce the same figure. Different totals therefore come from different inputs, and the usual culprits are the region, since list prices vary by location, and the commercial options chosen, since a three-year reservation, a savings plan, or Azure Hybrid Benefit can change a compute line dramatically. Currency and the assumed hours per month matter too. The tool never looks at a subscription, never measures real consumption, and never charges anything, which is exactly why it is used before anything is deployed.",
+    "whyOthersWrong": "The others invent randomness, confuse the estimate with measured usage, or suggest the calculator charges money, none of which is true.",
     "whyWrong": {
-      "B": "Cost analysis reports what you have already spent.",
-      "C": "Azure Advisor recommends improvements to existing resources.",
-      "D": "Azure Monitor reports telemetry from running resources."
+      "A": "The calculator is deterministic and applies no random adjustment.",
+      "C": "It never reads deployed resources; it only totals what you enter.",
+      "D": "Nothing is billed for using the calculator."
     }
   },
   {
@@ -3571,44 +3571,44 @@
   },
   {
     "id": 1171,
-    "uid": "3TC5Z",
-    "text": "A company has Windows Server licenses with active Software Assurance. Which program lets it apply those licenses to reduce the cost of Azure virtual machines?",
+    "uid": "Y6TTV",
+    "text": "A company holds a three-year reservation for a virtual machine size and later resizes its machines to a different size in the same family. What happens to the discount?",
     "options": [
-      "A) Azure Reservations",
-      "B) Azure Hybrid Benefit",
-      "C) Azure savings plan for compute",
-      "D) Enterprise Agreement credits"
+      "A) The reservation is cancelled automatically and a penalty is charged",
+      "B) The discount stops until the machines are returned to the original size",
+      "C) The reservation converts into a savings plan at the new rate",
+      "D) Instance size flexibility applies the benefit to the new size within the same family"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Hybrid Benefit",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) Instance size flexibility applies the benefit to the new size within the same family",
     "difficulty": 3,
-    "explanation": "Azure Hybrid Benefit lets an organization apply Windows Server or SQL Server licences it already owns, provided they carry active Software Assurance or an equivalent subscription, to workloads running in Azure. The virtual machine is then billed at the base compute rate, as a Linux machine would be, removing the embedded licensing charge. The same principle applies to SQL Server with Azure SQL Database and SQL Managed Instance. It stacks with reservations, and the two together are the standard way to reduce the cost of steady Windows workloads.",
-    "whyOthersWrong": "The others discount usage commitments or billing agreements, but none of them reuses licenses you already own.",
+    "explanation": "A reservation commits to an amount of capacity rather than to named machines, and for most virtual machine families instance size flexibility lets the benefit apply across the sizes in that family in proportion to their relative footprint. One reservation for a larger size can therefore cover several smaller machines, or part of a larger one, without any action from the customer. The benefit is matched automatically each hour against eligible running machines, and anything not covered simply falls back to pay-as-you-go. Moving to a different family or a different region is what breaks the match, and that is handled by exchanging the reservation instead.",
+    "whyOthersWrong": "The others cancel the commitment, suspend the benefit, or convert it into a different product, none of which happens on a resize within a family.",
     "whyWrong": {
-      "A": "Reservations discount committed capacity, not licenses.",
-      "C": "A savings plan discounts an hourly compute spend commitment.",
-      "D": "An Enterprise Agreement sets commercial terms rather than reusing licenses."
+      "A": "Resizing does not cancel a reservation, and no penalty applies.",
+      "B": "The benefit continues to apply across sizes in the same family.",
+      "C": "Reservations and savings plans are separate products; one does not become the other."
     }
   },
   {
     "id": 1172,
-    "uid": "BTJ5G",
-    "text": "Which offer provides discounted rates on Azure services for non-production workloads used by developers and testers?",
+    "uid": "QT3PD",
+    "text": "A subscription created under the Azure free account reaches its spending limit. What happens?",
     "options": [
-      "A) Azure free account",
-      "B) Azure Dev/Test pricing",
-      "C) Azure Hybrid Benefit",
-      "D) Azure Spot Virtual Machines"
+      "A) The subscription is deleted along with its resources",
+      "B) Deployed resources are disabled until the next billing period or until the limit is removed",
+      "C) Charges continue and appear on the next invoice",
+      "D) Resources keep running at a reduced performance level"
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Dev/Test pricing",
-    "difficulty": 3,
-    "explanation": "Azure Dev/Test pricing offers reduced rates for non-production workloads in eligible subscriptions, most visibly by removing the Windows Server and SQL Server licence charges from virtual machines used for development and testing. Eligibility depends on the subscription type, typically an Enterprise Agreement dev/test subscription or a Visual Studio subscription, and use is restricted to non-production by the terms rather than by a technical control. Combining it with scheduled shutdown outside working hours compounds the saving, since compute charges stop when a machine is deallocated.",
-    "whyOthersWrong": "The others provide starting credits, license reuse, or spare capacity rather than a development discount.",
+    "correctAnswerText": "B) Deployed resources are disabled until the next billing period or until the limit is removed",
+    "difficulty": 2,
+    "explanation": "The spending limit is a guard designed to make a free or credit-based subscription incapable of producing a bill. When the credit is exhausted, Azure disables the deployed resources rather than continuing to charge: virtual machines are deallocated and services stop serving, but the resources and their data are not removed. Service is restored at the start of the next billing period, or immediately if the limit is removed, which also converts the subscription to paid usage. Some purchases, such as third-party Marketplace offers and support plans, are not covered by the credit and cannot be bought while the limit is in force.",
+    "whyOthersWrong": "The others delete the subscription, keep billing, or throttle performance, while the limit simply switches resources off.",
     "whyWrong": {
-      "A": "The free account provides an initial credit and free service tiers, not ongoing dev/test rates.",
-      "C": "Azure Hybrid Benefit applies existing licenses.",
-      "D": "Spot pricing offers spare capacity that can be reclaimed."
+      "A": "Resources are disabled, not deleted, and the subscription remains.",
+      "C": "The point of the limit is that charges do not accrue beyond the credit.",
+      "D": "There is no reduced performance mode; resources stop."
     }
   },
   {
@@ -3844,65 +3844,65 @@
   },
   {
     "id": 1184,
-    "uid": "C3BMT",
-    "text": "Which service helps an organization discover, classify, and map its data estate across on-premises, multicloud, and software as a service sources?",
+    "uid": "A435S",
+    "text": "A subscription is moved so that it sits under a different management group. What happens to the policy assignments it inherited from the previous parent?",
     "options": [
-      "A) Azure Policy",
-      "B) Azure Monitor",
-      "C) Microsoft Purview",
-      "D) Microsoft Sentinel"
+      "A) They continue to apply until they are deleted manually",
+      "B) They are copied into the subscription automatically",
+      "C) The move is blocked while inherited assignments exist",
+      "D) They no longer apply, and the assignments of the new parent take effect instead"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Microsoft Purview",
-    "difficulty": 2,
-    "explanation": "Microsoft Purview is the unified data governance platform. It scans data sources across Azure, on-premises systems, other clouds, and software as a service applications, catalogues what it finds, classifies sensitive data against built-in and custom rule sets, and records lineage showing how data moves between systems. The result is one view of the data estate rather than a per-system one, which is what questions about where personal data lives actually require. Sensitivity labels defined in Purview also apply within Microsoft 365, so classification follows the data.",
-    "whyOthersWrong": "The others enforce configuration, collect telemetry, or investigate security incidents rather than catalogue data.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) They no longer apply, and the assignments of the new parent take effect instead",
+    "difficulty": 3,
+    "explanation": "Inheritance in Azure governance is positional: what applies to a scope is whatever is assigned at that scope or above it in the current hierarchy. Moving a subscription therefore changes its effective policy immediately, dropping everything inherited from the old branch and picking up everything assigned on the new one. Compliance is then re-evaluated against the new set, so resources that were compliant can appear non-compliant afterwards, and a Deny policy on the new parent starts blocking deployments that used to be allowed. Assignments made directly on the subscription itself travel with it and are unaffected.",
+    "whyOthersWrong": "The others keep the old assignments, copy them down, or prevent the move, none of which matches how inheritance is evaluated.",
     "whyWrong": {
-      "A": "Azure Policy enforces resource configuration rules.",
-      "B": "Azure Monitor collects operational telemetry.",
-      "D": "Microsoft Sentinel handles security incidents."
+      "A": "Inherited assignments are not owned by the subscription, so they simply stop applying.",
+      "B": "Nothing is copied; assignments stay where they were made.",
+      "C": "Inherited assignments do not block a management group move."
     }
   },
   {
     "id": 1185,
-    "uid": "YA8RQ",
-    "text": "Which online resource provides Azure audit reports and compliance certifications such as SOC 2 and ISO 27001 for download?",
+    "uid": "C3QGD",
+    "text": "What is the Microsoft cloud security benchmark?",
     "options": [
-      "A) The Azure pricing calculator",
-      "B) The Service Trust Portal",
-      "C) Azure Advisor",
-      "D) Azure Service Health"
+      "A) A set of Microsoft-authored security recommendations that Defender for Cloud assesses by default",
+      "B) A performance rating published for each virtual machine size",
+      "C) A contractual guarantee of uptime for security services",
+      "D) A licensing programme for security tooling"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) The Service Trust Portal",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) A set of Microsoft-authored security recommendations that Defender for Cloud assesses by default",
     "difficulty": 2,
-    "explanation": "The Service Trust Portal is Microsoft's public library of audit reports and compliance documentation, where customers download SOC 1, SOC 2, and ISO certifications along with regional, industry, and penetration test reports. Auditors typically ask for these as evidence that the platform under a workload is independently certified. It documents Microsoft's own compliance, which is a different question from whether your resources are configured correctly; that is answered by Azure Policy compliance and the regulatory compliance dashboard in Defender for Cloud. Some documents require signing in with a work account.",
-    "whyOthersWrong": "The others estimate cost, recommend improvements, or report service incidents.",
+    "explanation": "The benchmark is Microsoft's own baseline of security controls for cloud workloads, organized into families such as network security, identity management, data protection, and logging, and mapped to industry frameworks including CIS and NIST. Defender for Cloud applies it as the default standard in the regulatory compliance dashboard, so an environment is measured against it without anyone assigning anything. Its recommendations are also what secure score is calculated from. It describes how you should configure your own resources, which is a different question from whether the platform itself is certified, and that is what the audit reports in the Service Trust Portal cover.",
+    "whyOthersWrong": "The others describe hardware performance, an availability commitment, or a licensing scheme, none of which is a security baseline.",
     "whyWrong": {
-      "A": "The pricing calculator estimates cost.",
-      "C": "Azure Advisor recommends improvements to your resources.",
-      "D": "Azure Service Health reports incidents affecting your services."
+      "B": "It concerns security configuration, not machine performance.",
+      "C": "Uptime commitments live in service level agreements.",
+      "D": "It is guidance, not a licensing programme."
     }
   },
   {
     "id": 1186,
-    "uid": "4K7D4",
-    "text": "Which document explains what data Microsoft collects, how it is used, and the rights customers have over it?",
+    "uid": "ZPJCM",
+    "text": "What does the term data sovereignty mean?",
     "options": [
-      "A) The Azure service level agreement",
-      "B) The Product Terms",
-      "C) The Microsoft Privacy Statement",
-      "D) The Azure support plan comparison"
+      "A) Data is encrypted with keys the customer alone controls",
+      "B) Data is subject to the laws of the country in which it is physically stored",
+      "C) Data is replicated to at least two regions",
+      "D) Data may be accessed only by the account that created it"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) The Microsoft Privacy Statement",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Data is subject to the laws of the country in which it is physically stored",
     "difficulty": 2,
-    "explanation": "The Microsoft Privacy Statement is the public document describing what personal data Microsoft collects across its products and services, why it is collected, how it is used and shared, and what rights individuals have over it, including access and deletion. It spans consumer and commercial products alike, from Azure and Microsoft 365 to Windows and Bing. It addresses personal data specifically, which distinguishes it from the contractual commitments Microsoft makes to an organization as a data processor. Those contractual terms live in the Product Terms and its data protection addendum.",
-    "whyOthersWrong": "The others set availability commitments, licensing terms, or compare support offerings.",
+    "explanation": "Sovereignty is a legal concept rather than a technical control: wherever bytes physically sit, the courts and regulators of that jurisdiction can assert authority over them. That is why the choice of region is a compliance decision and not only a latency one, and why Azure publishes which services store data at rest within the selected geography. It is related to but distinct from data residency, which is the narrower question of where data is kept, and from data privacy, which concerns how personal data may be used. Sovereign and government clouds exist precisely for customers whose obligations cannot be met in the public regions.",
+    "whyOthersWrong": "The others describe key control, redundancy, or access restriction, which are technical measures rather than the legal jurisdiction over data.",
     "whyWrong": {
-      "A": "The service level agreement defines availability commitments.",
-      "B": "The Product Terms define licensing and use rights.",
-      "D": "Support plan comparisons describe response times and features."
+      "A": "Customer-controlled keys are a technical control, not a question of jurisdiction.",
+      "C": "Replication concerns durability and availability, not applicable law.",
+      "D": "Restricting access is authorization, which is unrelated to sovereignty."
     }
   },
   {
@@ -4201,23 +4201,23 @@
   },
   {
     "id": 1201,
-    "uid": "7MS86",
-    "text": "Which Azure management tool runs in the browser, requires no local installation, and offers both Bash and PowerShell sessions?",
+    "uid": "KDG6V",
+    "text": "A script must deploy the same resources into three different subscriptions in one run. What does it need to do between deployments?",
     "options": [
-      "A) Azure PowerShell installed locally",
-      "B) Azure Cloud Shell",
-      "C) Azure Resource Manager",
-      "D) Azure Storage Explorer"
+      "A) Sign in again with a different account for each subscription",
+      "B) Change the active subscription context before each deployment",
+      "C) Create a separate Microsoft Entra tenant for each subscription",
+      "D) Run from a virtual machine located in each subscription"
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Cloud Shell",
-    "difficulty": 1,
-    "explanation": "Azure Cloud Shell is a browser-based shell available from the portal, from shell.azure.com, and from the mobile app, with both Bash and PowerShell sessions. The Azure CLI, Azure PowerShell modules, and common tools such as git, kubectl, and terraform are preinstalled and kept current, so nothing is installed or maintained locally. Because it authenticates with the identity already signed in to the portal, there is no separate login step. The trade-offs are a session timeout after inactivity and the small storage cost of the file share that persists your files.",
-    "whyOthersWrong": "The others require local installation, are not a shell at all, or manage only storage.",
+    "correctAnswerText": "B) Change the active subscription context before each deployment",
+    "difficulty": 2,
+    "explanation": "A signed-in identity can hold role assignments in many subscriptions at once, and both the Azure CLI and Azure PowerShell keep a notion of the currently selected subscription that every subsequent command targets. Switching it, with az account set or Set-AzContext, is all that is required between deployments, and most commands also accept an explicit subscription parameter for the same purpose. No second sign-in is needed provided the same identity has rights in each subscription. Subscriptions under one tenant share an identity boundary, which is exactly what makes this pattern work.",
+    "whyOthersWrong": "The others sign in repeatedly, create tenants, or place compute in each subscription, none of which is required to target several subscriptions.",
     "whyWrong": {
-      "A": "Locally installed Azure PowerShell must be installed and maintained on the machine.",
-      "C": "Azure Resource Manager is the management layer, not an interactive shell.",
-      "D": "Azure Storage Explorer is a desktop application for storage."
+      "A": "One identity with rights in each subscription is enough; repeated sign-in is unnecessary.",
+      "C": "Subscriptions can share a single tenant, and creating tenants would complicate access.",
+      "D": "Deployment requests go to Azure Resource Manager from anywhere; location is irrelevant."
     }
   },
   {
@@ -4348,23 +4348,23 @@
   },
   {
     "id": 1208,
-    "uid": "HFBYD",
-    "text": "Which service extends Azure management, policy, and role-based access control to servers and Kubernetes clusters running outside Azure?",
+    "uid": "PEXFZ",
+    "text": "A server outside Azure has been connected with Azure Arc. What identity does it use to authenticate to Azure services?",
     "options": [
-      "A) Azure Migrate",
-      "B) Azure Lighthouse",
-      "C) Azure Site Recovery",
-      "D) Azure Arc"
+      "A) The credentials of the administrator who ran the onboarding script, stored on the machine",
+      "B) A system-assigned managed identity created for the connected machine",
+      "C) A shared access signature issued per service",
+      "D) The computer account from the on-premises Active Directory domain"
     ],
-    "correctAnswer": "D",
-    "correctAnswerText": "D) Azure Arc",
-    "difficulty": 3,
-    "explanation": "Azure Arc projects resources that run outside Azure, including Windows and Linux servers, Kubernetes clusters, and some data services, into Azure Resource Manager, where they appear as first-class resources with an identity, tags, and role assignments. Once connected, Azure Policy can audit or configure them, Azure Monitor can collect their telemetry, Update Manager can patch them, and Defender for Cloud can assess and protect them, whether they sit on-premises or in another cloud. An agent on each machine makes only outbound connections, so no inbound firewall change is needed. Arc manages the workload where it is; it does not move it.",
-    "whyOthersWrong": "The others migrate, delegate, or replicate workloads rather than extend Azure management to them.",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) A system-assigned managed identity created for the connected machine",
+    "difficulty": 4,
+    "explanation": "Onboarding a machine to Arc creates a resource in Azure Resource Manager together with a system-assigned managed identity belonging to that resource. Extensions and agents on the machine request tokens for that identity from a local endpoint, so they can reach Key Vault, Monitor, or storage with no secret stored anywhere on the server. The onboarding credential is used once to register the machine and is not retained. Because the identity is an ordinary Microsoft Entra principal, it can be granted Azure roles exactly like a virtual machine's identity, which is what lets Arc-enabled servers participate in policy, monitoring, and Defender for Cloud on the same terms as Azure resources.",
+    "whyOthersWrong": "The others keep an administrator credential on disk, use a storage token, or rely on a domain account that Azure does not recognize.",
     "whyWrong": {
-      "A": "Azure Migrate assesses and moves workloads into Azure.",
-      "B": "Azure Lighthouse delegates management across tenants.",
-      "C": "Azure Site Recovery replicates workloads for disaster recovery."
+      "A": "The onboarding credential is used once and not stored for ongoing authentication.",
+      "C": "A shared access signature grants access to storage data, not to Azure management.",
+      "D": "An on-premises computer account is not a Microsoft Entra principal."
     }
   },
   {
@@ -4390,23 +4390,23 @@
   },
   {
     "id": 1210,
-    "uid": "PRXBA",
-    "text": "Which service assesses on-premises servers for readiness, sizing, and cost before moving them to Azure?",
+    "uid": "XTTS7",
+    "text": "What is the purpose of dependency analysis during a migration assessment?",
     "options": [
-      "A) Azure Site Recovery",
-      "B) Azure Advisor",
-      "C) Azure Data Box",
-      "D) Azure Migrate"
+      "A) To calculate the licence cost of each server",
+      "B) To verify that backups exist before the move",
+      "C) To show which servers communicate with each other so applications move as a group",
+      "D) To check that each server has a supported operating system version"
     ],
-    "correctAnswer": "D",
-    "correctAnswerText": "D) Azure Migrate",
+    "correctAnswer": "C",
+    "correctAnswerText": "C) To show which servers communicate with each other so applications move as a group",
     "difficulty": 3,
-    "explanation": "Azure Migrate is the hub for pre-migration work. An appliance deployed on-premises discovers VMware, Hyper-V, and physical servers, collects performance data over time, and produces an assessment covering Azure readiness, right-sized virtual machine and disk recommendations based on observed utilization, and a monthly cost estimate. Dependency analysis maps which servers communicate, so applications can be moved as coherent groups rather than one machine at a time. The same hub then hosts the tools that perform the migration of servers, databases, and web applications.",
-    "whyOthersWrong": "The others replicate for disaster recovery, recommend improvements to existing Azure resources, or ship data offline.",
+    "explanation": "Applications are rarely confined to one machine: a web tier talks to an application tier, which talks to a database, and often to a licence server or an authentication service as well. Dependency analysis records the network connections between discovered servers and presents them as a map, so those related machines can be grouped into a single migration wave. Moving one member of such a group on its own is what produces an application that starts but does not work, or a chatty link that now crosses the internet. The analysis answers a sequencing question, which is separate from readiness checks and cost estimates produced by the same assessment.",
+    "whyOthersWrong": "The others price licences, check backups, or validate operating system support, while dependency analysis is about which machines must move together.",
     "whyWrong": {
-      "A": "Azure Site Recovery replicates workloads rather than assessing them.",
-      "B": "Azure Advisor analyses resources already running in Azure.",
-      "C": "Azure Data Box transfers bulk data offline."
+      "A": "Licence cost appears in the cost estimate, not in the dependency map.",
+      "B": "Backup verification is not part of dependency analysis.",
+      "D": "Operating system support is covered by the readiness assessment."
     }
   },
   {
@@ -4432,23 +4432,23 @@
   },
   {
     "id": 1212,
-    "uid": "MGETW",
-    "text": "Which Azure Monitor component stores log data and is queried with Kusto Query Language?",
+    "uid": "RXYJC",
+    "text": "What does a diagnostic setting on an Azure resource do?",
     "options": [
-      "A) An action group",
-      "B) A metric namespace",
-      "C) A Log Analytics workspace",
-      "D) A storage account container"
+      "A) It enables verbose logging inside the application code",
+      "B) It raises an alert whenever the resource reports an error",
+      "C) It sends the resource's platform logs and metrics to a destination such as a workspace, storage account, or event hub",
+      "D) It records which users signed in to the Azure portal"
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) A Log Analytics workspace",
+    "correctAnswerText": "C) It sends the resource's platform logs and metrics to a destination such as a workspace, storage account, or event hub",
     "difficulty": 2,
-    "explanation": "A Log Analytics workspace is the store behind Azure Monitor Logs. Data arrives from resource diagnostic settings, agents on virtual machines and Arc-enabled servers, Application Insights, and connectors from other clouds and third-party products, landing in tables queried with Kusto Query Language. Because everything is in one place, a single query can join application telemetry with infrastructure and security events, which is also why Microsoft Sentinel is built on the same workspace. Retention, daily caps, and table plans are configured per workspace, and cost is driven mainly by ingestion volume.",
-    "whyOthersWrong": "The others deliver notifications, organize metric definitions, or store files rather than queryable logs.",
+    "explanation": "Most Azure resources emit platform logs and metrics, but they are not retained anywhere until a diagnostic setting says where to put them. The setting selects which log categories and metrics to export and routes them to a Log Analytics workspace for querying, a storage account for cheap long-term retention, an event hub for forwarding to an external system, or a combination of these. Without it, a resource can be running perfectly while producing no history to investigate later, which is why creating diagnostic settings is usually enforced with Azure Policy across a subscription. Raising alerts is a separate step built on the data once it is being collected.",
+    "whyOthersWrong": "The others change application logging, create alerts, or describe sign-in auditing, while a diagnostic setting only routes the telemetry a resource already produces.",
     "whyWrong": {
-      "A": "An action group defines who is notified when an alert fires.",
-      "B": "A metric namespace organizes metric definitions.",
-      "D": "A storage account container can archive data but is not queried with KQL."
+      "A": "Application logging is controlled by the application, not by this setting.",
+      "B": "Alerts are configured separately, on top of collected data.",
+      "D": "Portal sign-ins are recorded in Microsoft Entra sign-in logs."
     }
   },
   {
@@ -4474,23 +4474,23 @@
   },
   {
     "id": 1214,
-    "uid": "7AFRG",
-    "text": "Which Azure Monitor feature provides application performance monitoring, including request rates, dependency calls, and exceptions for a web app?",
+    "uid": "5R5PZ",
+    "text": "What distinguishes the Azure activity log from a resource log?",
     "options": [
-      "A) Azure Advisor",
-      "B) Service Health",
-      "C) Application Insights",
-      "D) Network Watcher"
+      "A) The activity log is available only with a paid support plan",
+      "B) The activity log records operations performed on resources; resource logs record what happens inside a resource",
+      "C) Resource logs cover the whole subscription; the activity log covers one resource",
+      "D) The activity log stores metrics while resource logs store numbers"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Application Insights",
-    "difficulty": 2,
-    "explanation": "Application Insights is the application performance management component of Azure Monitor. It collects request rates and durations, dependency calls to databases and external services, exceptions, traces, and client-side telemetry, and presents them as live metrics, failure analysis, and an application map showing components and the calls between them. Distributed tracing links a single user request across services, which is what turns a vague report of slowness into an identifiable bottleneck. Its data is stored in a Log Analytics workspace, so it can be queried with Kusto alongside infrastructure telemetry.",
-    "whyOthersWrong": "The others recommend improvements, report platform incidents, or diagnose networking.",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) The activity log records operations performed on resources; resource logs record what happens inside a resource",
+    "difficulty": 3,
+    "explanation": "The activity log is the control-plane record for a subscription: it answers who created, changed, or deleted a resource, when, and whether the operation succeeded, and it is collected automatically with no configuration. Resource logs are the data-plane counterpart, produced inside a resource about its own work, such as the requests a storage account served or the queries a database ran, and they are only retained once a diagnostic setting routes them somewhere. The practical rule is that the activity log explains changes to a resource while resource logs explain behaviour within it. Both can land in the same Log Analytics workspace and be queried together.",
+    "whyOthersWrong": "The others tie the log to a support plan, reverse the scopes, or confuse logs with metrics.",
     "whyWrong": {
-      "A": "Azure Advisor produces recommendations, not application telemetry.",
-      "B": "Service Health reports platform incidents.",
-      "D": "Network Watcher diagnoses network connectivity."
+      "A": "The activity log is available to every subscription at no cost.",
+      "C": "The scopes are the other way round: the activity log is subscription-wide.",
+      "D": "Both are logs; metrics are a separate kind of telemetry."
     }
   },
   {
@@ -4537,23 +4537,23 @@
   },
   {
     "id": 1217,
-    "uid": "6KMPY",
-    "text": "An engineer needs a single query across every subscription that returns all virtual machines missing a required tag, returning results in seconds. Which tool fits best?",
+    "uid": "Y9QHZ",
+    "text": "What does the complete deployment mode of an ARM template do that incremental mode does not?",
     "options": [
-      "A) Azure Monitor metrics explorer",
-      "B) Azure Resource Graph",
-      "C) Cost analysis",
-      "D) Azure Service Health"
+      "A) It deletes resources in the resource group that are not present in the template",
+      "B) It validates the template without deploying anything",
+      "C) It deploys the resources in parallel rather than in sequence",
+      "D) It rolls the deployment back if any resource fails"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Resource Graph",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) It deletes resources in the resource group that are not present in the template",
     "difficulty": 4,
-    "explanation": "Azure Resource Graph queries an index of resource properties that Azure maintains across subscriptions, using a Kusto-based language. Because it reads that index rather than calling each resource provider in turn, a query spanning many thousands of resources returns in seconds, and it can be scoped to a management group to cover the whole organization. Filtering on the presence or absence of a tag is a standard pattern, as is joining resource types together or summarizing by property. Log Analytics is the wrong tool here, because it queries telemetry rather than the resource inventory.",
-    "whyOthersWrong": "The others explore numeric telemetry, report spend, or report platform incidents.",
+    "explanation": "Incremental mode, the default, only adds or updates what the template describes and leaves anything else in the resource group untouched. Complete mode treats the template as the full definition of that resource group, so a resource present in Azure but absent from the file is removed. That makes the template the single source of truth and is how configuration drift is eliminated, but it is unforgiving: a resource someone created by hand disappears on the next deployment. Running a what-if operation first is the standard precaution, because it lists exactly what complete mode would delete before anything is actually removed.",
+    "whyOthersWrong": "The others validate, parallelize, or roll back, none of which is what distinguishes the two deployment modes.",
     "whyWrong": {
-      "A": "Metrics explorer works with numeric telemetry, not resource properties.",
-      "C": "Cost analysis reports spending.",
-      "D": "Service Health reports platform incidents."
+      "B": "Validating without deploying is a separate validate operation.",
+      "C": "Both modes deploy resources according to their dependencies.",
+      "D": "Rollback to the last successful deployment is an option available to either mode."
     }
   },
   {
@@ -4600,23 +4600,23 @@
   },
   {
     "id": 1220,
-    "uid": "DCX37",
-    "text": "Which Azure service protects data by taking scheduled recovery points of virtual machines, files, and databases and storing them in a vault?",
+    "uid": "V9FPJ",
+    "text": "Which Azure Backup capability prevents backup data from being deleted before its retention period expires, even by someone holding administrative rights?",
     "options": [
-      "A) Azure Site Recovery",
-      "B) Azure Archive Storage",
-      "C) Azure File Sync",
-      "D) Azure Backup"
+      "A) Soft delete on the vault",
+      "B) Geo-redundant storage for the vault",
+      "C) A ReadOnly lock on the recovery services vault",
+      "D) An immutable vault"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Azure Backup",
-    "difficulty": 1,
-    "explanation": "Azure Backup is the managed backup service, protecting Azure virtual machines, on-premises machines through the MARS agent or MABS, Azure Files shares, SQL Server and SAP HANA inside virtual machines, and Azure Database for PostgreSQL. Policies define schedule and retention, including long-term retention measured in years for compliance. Recovery points are stored in a vault that sits outside the normal management surface of the protected resource, and soft delete retains deleted backup data for an extra period. Immutable vaults and multi-user authorization harden it further against ransomware.",
-    "whyOthersWrong": "The others replicate whole workloads, archive objects cheaply, or synchronize file servers.",
+    "correctAnswerText": "D) An immutable vault",
+    "difficulty": 3,
+    "explanation": "Making a vault immutable blocks operations that would shorten retention or destroy recovery points, and once the setting is locked it cannot be reversed even by an owner. That is the point: ransomware operators commonly hold or steal administrative credentials and delete the backups before encrypting production, so a control that an administrator can undo is not a defence. Soft delete helps by keeping deleted backup data recoverable for a period, and multi-user authorization adds a second approver for sensitive operations, but only immutability makes early deletion impossible. The three are designed to be used together rather than as alternatives.",
+    "whyOthersWrong": "The others delay deletion, improve durability, or protect the resource definition, and each of them can still be undone by an administrator.",
     "whyWrong": {
-      "A": "Azure Site Recovery replicates workloads for failover.",
-      "B": "Archive storage is a cheap blob tier, not a backup service.",
-      "C": "Azure File Sync synchronizes file servers with Azure file shares."
+      "A": "Soft delete retains deleted data for a window but does not prevent the deletion.",
+      "B": "Geo-redundancy protects against regional loss, not against deliberate deletion.",
+      "C": "A resource lock can be removed by anyone with the rights to manage locks."
     }
   },
   {
@@ -4684,23 +4684,23 @@
   },
   {
     "id": 1224,
-    "uid": "YWKM8",
-    "text": "Which mobile capability allows an administrator to check resource health and restart a virtual machine from a phone?",
+    "uid": "JAHGY",
+    "text": "Which Azure Resource Manager operation shows what a template deployment would change before it is actually run?",
     "options": [
-      "A) Azure Cloud Shell only",
-      "B) Azure Storage Explorer",
-      "C) Azure Data Studio",
-      "D) The Azure mobile app"
+      "A) A resource lock",
+      "B) The what-if operation",
+      "C) The activity log",
+      "D) A policy exemption"
     ],
-    "correctAnswer": "D",
-    "correctAnswerText": "D) The Azure mobile app",
-    "difficulty": 1,
-    "explanation": "The Azure mobile app gives administrators a portable subset of the portal: browsing resources, viewing health and metrics, receiving alert push notifications, and performing common actions such as starting, stopping, or restarting a virtual machine. It also embeds Cloud Shell, so Bash or PowerShell commands can be run from the phone when a button is not enough. Authentication uses the same Microsoft Entra identity and honours Conditional Access and role assignments, so it grants no additional privilege. It is intended for on-call response rather than day-to-day administration.",
-    "whyOthersWrong": "The others are command-line, storage, or database tools rather than a mobile administration app.",
+    "correctAnswer": "B",
+    "correctAnswerText": "B) The what-if operation",
+    "difficulty": 3,
+    "explanation": "The what-if operation compares the template against the current state of the target scope and reports the result as a list of creations, modifications, deletions, and resources left untouched, without changing anything. It is the safety check that belongs in a pipeline before every production deployment, and it matters most in complete mode, where a missing resource in the template means deletion in Azure. Reviewing that output is how an unintended removal is caught while it is still reversible. It is a preview rather than a guarantee, because the environment can change between the preview and the deployment itself.",
+    "whyOthersWrong": "The others block changes, record what already happened, or waive a policy, and none of them previews a deployment.",
     "whyWrong": {
-      "A": "Cloud Shell is a command line, and the mobile app offers more than that alone.",
-      "B": "Azure Storage Explorer manages storage from a desktop.",
-      "C": "Azure Data Studio is a desktop database tool."
+      "A": "A resource lock prevents changes; it does not describe them in advance.",
+      "C": "The activity log reports operations after they have run.",
+      "D": "An exemption excludes a scope from a policy and has nothing to do with previews."
     }
   },
   {
@@ -4789,65 +4789,65 @@
   },
   {
     "id": 1229,
-    "uid": "7NYCX",
-    "text": "Which Azure service ingests and analyzes streaming data continuously, for example to raise an alert when sensor readings exceed a threshold?",
+    "uid": "2W28G",
+    "text": "Why do stream processing queries use windowing functions?",
     "options": [
-      "A) Azure Stream Analytics",
-      "B) Azure Data Factory",
-      "C) Azure Backup",
-      "D) Azure Table Storage"
+      "A) To restrict which users may read the stream",
+      "B) To compress the events before they are stored",
+      "C) To group events arriving within a time interval so aggregates can be computed over a continuous stream",
+      "D) To convert streaming data into a relational schema"
     ],
-    "correctAnswer": "A",
-    "correctAnswerText": "A) Azure Stream Analytics",
-    "difficulty": 2,
-    "explanation": "Azure Stream Analytics runs continuous queries over data in motion, typically arriving from Event Hubs or IoT Hub, and writes results to storage, dashboards, functions, or downstream services. Queries are written in a SQL-like language with windowing functions, so aggregations over the last minute or hour and threshold detection are straightforward to express. Because it is a managed job there is no cluster to operate, and it scales with streaming units. This is the real-time counterpart to Data Factory, which orchestrates scheduled batch movement rather than reacting to a stream.",
-    "whyOthersWrong": "The others orchestrate batch pipelines, protect data, or store rows rather than process streams.",
+    "correctAnswer": "C",
+    "correctAnswerText": "C) To group events arriving within a time interval so aggregates can be computed over a continuous stream",
+    "difficulty": 3,
+    "explanation": "A stream has no end, so an aggregate such as a count or an average is meaningless until the query says over what period it should be computed. Windowing supplies that boundary: tumbling windows divide time into fixed non-overlapping blocks, hopping windows overlap by a stated interval, sliding windows emit whenever an event enters or leaves, and session windows group activity separated by gaps of inactivity. Choosing among them is what turns raw telemetry into statements such as the average temperature over each five-minute block. Threshold alerting is usually expressed the same way, comparing a windowed aggregate rather than a single reading.",
+    "whyOthersWrong": "The others describe access control, compression, or schema conversion, while windowing exists to bound an aggregate in time.",
     "whyWrong": {
-      "B": "Data Factory orchestrates scheduled data movement and transformation.",
-      "C": "Azure Backup protects data.",
-      "D": "Table Storage stores rows and performs no analysis."
+      "A": "Access to a stream is controlled by permissions, not by query syntax.",
+      "B": "Windowing does not compress anything.",
+      "D": "A window defines a time boundary, not a schema."
     }
   },
   {
     "id": 1230,
-    "uid": "P5TQM",
-    "text": "Which Azure service orchestrates data movement and transformation pipelines between many sources and destinations?",
+    "uid": "ENB4J",
+    "text": "What does a self-hosted integration runtime allow Azure Data Factory to do?",
     "options": [
-      "A) Azure Data Factory",
-      "B) Azure Event Grid",
-      "C) Azure Logic Apps",
-      "D) Azure Batch"
+      "A) Run pipelines without an Azure subscription",
+      "B) Transform data without writing any pipeline logic",
+      "C) Store the pipeline output on the local machine permanently",
+      "D) Reach data sources behind a corporate firewall without exposing them to the internet"
     ],
-    "correctAnswer": "A",
-    "correctAnswerText": "A) Azure Data Factory",
-    "difficulty": 2,
-    "explanation": "Azure Data Factory is the managed orchestration service for data pipelines. It connects to a wide range of on-premises and cloud sources, moves data, and either transforms it with mapping data flows or delegates transformation to compute such as Databricks or Synapse, all on a schedule or in response to a trigger. A self-hosted integration runtime reaches sources behind a firewall without exposing them to the internet. Monitoring, retry, and dependency handling are built in, which is what separates it from writing and operating custom copy jobs.",
-    "whyOthersWrong": "The others route events, automate business workflows, or run parallel compute jobs.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) Reach data sources behind a corporate firewall without exposing them to the internet",
+    "difficulty": 3,
+    "explanation": "The default integration runtime is managed by Azure and can only reach endpoints that are publicly addressable. A self-hosted runtime is a small agent installed on a machine inside the private network, and it makes only outbound connections to Data Factory, so an on-premises database can be read without opening any inbound port or publishing it to the internet. It can be installed on several machines for resilience and throughput, and it is also what allows a pipeline to reach resources in another cloud's private network. The subscription, the pipeline definitions, and the orchestration all remain in Azure.",
+    "whyOthersWrong": "The others remove the need for a subscription, promise transformation without logic, or make the agent a storage location, none of which it does.",
     "whyWrong": {
-      "B": "Event Grid routes discrete events between services.",
-      "C": "Logic Apps automates business workflows rather than data pipelines at scale.",
-      "D": "Azure Batch runs parallel compute jobs."
+      "A": "The service and its pipelines still live in an Azure subscription.",
+      "B": "Transformations still have to be defined in the pipeline.",
+      "C": "The agent moves data; it is not a destination for pipeline output."
     }
   },
   {
     "id": 1231,
-    "uid": "FRXDM",
-    "text": "Which Azure service combines data warehousing and big data analytics in a single workspace with both serverless and provisioned query options?",
+    "uid": "97928",
+    "text": "How is the serverless SQL pool in Azure Synapse Analytics billed?",
     "options": [
-      "A) Azure Cosmos DB",
-      "B) Azure Synapse Analytics",
-      "C) Azure Cache for Redis",
-      "D) Azure Data Box"
+      "A) Per terabyte of data processed by the queries",
+      "B) Per hour that the workspace exists",
+      "C) Per query, at a flat rate regardless of size",
+      "D) Per user granted access to the workspace"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Synapse Analytics",
-    "difficulty": 2,
-    "explanation": "Azure Synapse Analytics brings several previously separate capabilities into one workspace: Spark pools for big data processing, dedicated SQL pools for a provisioned data warehouse, serverless SQL for querying files in a data lake without loading them first, and pipelines built on the Data Factory engine for integration. Working in one place means the same data can be queried by both SQL and Spark without moving it, with unified security and monitoring. Serverless SQL is particularly useful for exploration, since it is billed per terabyte scanned rather than by a running cluster.",
-    "whyOthersWrong": "The others are an operational database, a cache, and a data transfer appliance.",
+    "correctAnswer": "A",
+    "correctAnswerText": "A) Per terabyte of data processed by the queries",
+    "difficulty": 3,
+    "explanation": "The serverless pool has no cluster to start, size, or pause, and nothing is charged while no query runs. Cost is driven entirely by how much data each query has to read, measured in terabytes processed, which makes exploratory work over a data lake inexpensive and turns query efficiency into a direct cost lever. Partitioning the files, storing them in a columnar format such as Parquet, and selecting only the required columns can reduce the bill by an order of magnitude for the same result. A dedicated SQL pool is the opposite model: reserved capacity billed while it is provisioned, which suits steady predictable warehouse workloads.",
+    "whyOthersWrong": "The others bill for the workspace, for each query at a flat rate, or per user, none of which is how serverless consumption is measured.",
     "whyWrong": {
-      "A": "Cosmos DB is an operational NoSQL database.",
-      "C": "Azure Cache for Redis is an in-memory cache.",
-      "D": "Azure Data Box ships data offline."
+      "B": "A workspace with no running queries generates no serverless charge.",
+      "C": "A query scanning far more data costs far more; the rate is not flat.",
+      "D": "Users are granted access through role assignments at no charge."
     }
   },
   {
@@ -4915,44 +4915,44 @@
   },
   {
     "id": 1235,
-    "uid": "ZHXA3",
-    "text": "Which service is designed for building, training, and tracking custom machine learning models with a managed workspace and compute?",
+    "uid": "J8B7V",
+    "text": "What does automated machine learning provide?",
     "options": [
-      "A) Azure AI Search",
-      "B) Azure Bot Service",
-      "C) Azure Synapse Analytics",
-      "D) Azure Machine Learning"
+      "A) It labels the training data automatically",
+      "B) It guarantees that the resulting model is free of bias",
+      "C) It tries many algorithms and settings automatically and ranks the resulting models",
+      "D) It deploys models without any compute resources"
     ],
-    "correctAnswer": "D",
-    "correctAnswerText": "D) Azure Machine Learning",
+    "correctAnswer": "C",
+    "correctAnswerText": "C) It tries many algorithms and settings automatically and ranks the resulting models",
     "difficulty": 2,
-    "explanation": "Azure Machine Learning is the managed platform for the full model lifecycle: preparing data, training, tracking experiments and metrics, registering models, and deploying them as managed online or batch endpoints. Compute is provisioned as clusters on demand and released when training finishes, and pipelines make the process repeatable. It supports both a visual designer and code-first work in notebooks, along with automated machine learning for baseline models. It is the right answer when the problem requires your own model, whereas Azure AI services cover the cases a prebuilt model already solves.",
-    "whyOthersWrong": "The others index content, host conversational agents, or analyse data rather than train models.",
+    "explanation": "Automated machine learning takes a prepared dataset, a target column, and a metric to optimize, then trains many candidate models across different algorithms and preprocessing choices and presents them ranked by that metric. It compresses the slow part of early experimentation and gives a defensible baseline that a hand-built model has to beat to justify its cost. What it does not do is supply the data: labelling, cleaning, and deciding whether the features are appropriate remain human work, and so does judging fairness, which requires examining outcomes across groups rather than reading a single score. Training still consumes compute, which is provisioned and billed as usual.",
+    "whyOthersWrong": "The others label data, promise fairness, or remove the need for compute, none of which automation supplies.",
     "whyWrong": {
-      "A": "Azure AI Search indexes content for retrieval.",
-      "B": "Bot Service hosts conversational applications.",
-      "C": "Synapse Analytics is for data warehousing and analytics."
+      "A": "Labelling is a separate task; automated training needs labelled data as input.",
+      "B": "Fairness must be assessed deliberately and is not guaranteed by any training run.",
+      "D": "Training and deployment both consume compute that is billed."
     }
   },
   {
     "id": 1236,
-    "uid": "3PSEB",
-    "text": "Which Azure IoT service is the cloud-side endpoint that provides bidirectional, per-device secure communication with millions of devices?",
+    "uid": "2AJFX",
+    "text": "What is a device twin in Azure IoT Hub?",
     "options": [
-      "A) Azure Event Grid",
-      "B) Azure Digital Twins",
-      "C) Azure IoT Hub",
-      "D) Azure Sphere"
+      "A) A second physical device kept as a spare",
+      "B) A duplicate of the hub in a paired region",
+      "C) A simulator used to test the solution before hardware arrives",
+      "D) A JSON document in the cloud holding the device's reported state and its desired configuration"
     ],
-    "correctAnswer": "C",
-    "correctAnswerText": "C) Azure IoT Hub",
-    "difficulty": 2,
-    "explanation": "Azure IoT Hub is the cloud-side endpoint for device communication at scale. Each device has its own identity and credentials, which allows per-device authentication, revocation, and bidirectional messaging including cloud-to-device commands, device twins for state synchronization, and direct methods. It scales to millions of devices and routes telemetry onward to storage, analytics, or event services through message routing. The Device Provisioning Service handles zero-touch enrolment at manufacturing scale. General-purpose messaging services can move the data but lack the device registry and per-device security model.",
-    "whyOthersWrong": "The others route events, model environments, or secure the device hardware itself.",
+    "correctAnswer": "D",
+    "correctAnswerText": "D) A JSON document in the cloud holding the device's reported state and its desired configuration",
+    "difficulty": 3,
+    "explanation": "Each device registered with IoT Hub has a twin: a JSON document stored in the service containing tags, properties the device reports about itself, and properties the solution desires it to have. A back-end application sets a desired property and the device applies it whenever it is next connected, which is how configuration reaches fleets that are intermittently offline without anyone holding a live session. Reported properties travel the other way, so the hub always holds the last known state even while the device is asleep. Twins can also be queried in bulk, which is how a fleet is filtered by firmware version or by any tag the solution assigns.",
+    "whyOthersWrong": "The others describe spare hardware, a regional copy of the service, or a simulator, while a twin is a state document for one device.",
     "whyWrong": {
-      "A": "Event Grid routes discrete events between services.",
-      "B": "Azure Digital Twins models physical environments.",
-      "D": "Azure Sphere secures microcontroller-based devices."
+      "A": "A twin is data in the cloud, not a second piece of hardware.",
+      "B": "It represents one device, not a copy of the hub.",
+      "C": "Simulated devices are a testing technique, unrelated to twins."
     }
   },
   {
@@ -4978,23 +4978,23 @@
   },
   {
     "id": 1238,
-    "uid": "BWDZJ",
-    "text": "Which Azure service is a fully managed message broker offering queues and publish-subscribe topics with features such as sessions, dead-lettering, and transactions?",
+    "uid": "VESZ9",
+    "text": "What distinguishes an event from a message in an Azure messaging architecture?",
     "options": [
-      "A) Azure Queue Storage",
-      "B) Azure Service Bus",
-      "C) Azure Event Grid",
-      "D) Azure Relay"
+      "A) An event is encrypted while a message is sent in clear text",
+      "B) Events are delivered in order while messages are not",
+      "C) An event is a lightweight notification that something happened; a message carries data the receiver is expected to process",
+      "D) An event can only be sent between resources in the same region"
     ],
-    "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Service Bus",
+    "correctAnswer": "C",
+    "correctAnswerText": "C) An event is a lightweight notification that something happened; a message carries data the receiver is expected to process",
     "difficulty": 2,
-    "explanation": "Azure Service Bus is the enterprise message broker. Queues provide point-to-point delivery and topics with subscriptions provide publish-subscribe, and the feature set is what distinguishes it: sessions for first-in-first-out ordering of related messages, dead-letter queues for messages that cannot be processed, transactions across several operations, duplicate detection, and scheduled delivery. Those guarantees cost more per message than a simple queue, which is why Queue Storage remains appropriate when they are not needed. Event Grid and Event Hubs solve the different problems of event routing and high-volume streaming.",
-    "whyOthersWrong": "The others provide a simple queue, event routing, or hybrid connectivity without those enterprise features.",
+    "explanation": "An event announces a fact — a blob was created, a resource was deleted — and the publisher neither knows nor cares what any subscriber does about it, so the payload is typically small and may carry only a reference to the thing that changed. A message is sent with an expectation: the sender has a contract with the receiver, the content is the work item itself, and delivery guarantees matter. That distinction is what separates Event Grid and Event Hubs from Service Bus, and choosing the wrong side leads either to a broker used for simple notifications or to an event service asked for guarantees it does not offer. Ordering, encryption, and regional reach are configuration details rather than the difference between the two.",
+    "whyOthersWrong": "The others draw the line at encryption, ordering, or region, while the real distinction is whether the publisher expects specific processing.",
     "whyWrong": {
-      "A": "Queue Storage is a simple queue without sessions or transactions.",
-      "C": "Event Grid routes events and does not act as a broker with these features.",
-      "D": "Azure Relay exposes on-premises services without opening firewall ports."
+      "A": "Both are protected in transit; encryption does not define the difference.",
+      "B": "Ordering is a property of the chosen service, not of events as a category.",
+      "D": "Events can be delivered across regions and to external endpoints."
     }
   },
   {
