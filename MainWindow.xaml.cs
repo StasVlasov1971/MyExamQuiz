@@ -25,9 +25,9 @@ namespace AzureExamQuestions
             MaxHeight = Math.Max(MinHeight, SystemParameters.WorkArea.Height - 40);
 
             // SizeToContent измеряет содержимое без ограничения по высоте, поэтому
-            // MaxHeight только обрезает кадр, а прокрутка не включается. Если упёрлись
-            // в потолок, переводим окно в обычный режим — тогда ScrollViewer получает
-            // ограниченную высоту и показывает полосу прокрутки.
+            // MaxHeight только обрезал бы кадр вместе с кнопкой «Начать тест».
+            // Если упёрлись в потолок экрана, переводим окно в обычный режим:
+            // тогда подвал остаётся прижатым к низу видимой части окна.
             Loaded += (_, _) =>
             {
                 if (SizeToContent == SizeToContent.Height && ActualHeight >= MaxHeight - 0.5)

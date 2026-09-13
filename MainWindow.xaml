@@ -13,8 +13,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="78"/>
-            <!-- Звёздочка, а не Auto: иначе карточка берёт полную желаемую высоту
-                 независимо от высоты окна, и прокрутка внутри неё не включается. -->
+            <!-- Звёздочка, а не Auto: карточка занимает оставшуюся высоту окна,
+                 и подвал с кнопкой «Начать тест» остаётся прижатым к низу. -->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -73,10 +73,7 @@
                     </Grid>
                 </StackPanel>
 
-                <!-- Main controls: прокручиваются, если не помещаются по высоте -->
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Disabled"
-                              Padding="0,0,6,0">
+                <!-- Main controls -->
                 <StackPanel>
                     <TextBlock Text="Настройка теста" FontSize="17" FontWeight="SemiBold"
                                Foreground="#323130" Margin="0,0,0,10"/>
@@ -252,7 +249,6 @@
                         </Border>
                     </Grid>
                 </StackPanel>
-                </ScrollViewer>
 
             </DockPanel>
         </Border>
