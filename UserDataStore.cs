@@ -38,6 +38,17 @@ namespace AzureExamQuestions
 
         private static string Locate()
         {
+            // Путь из настроек имеет приоритет над поиском по дереву.
+            if (AppConfig.UserDataDirectory is { } configured)
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(configured);
+                    return configured;
+                }
+                catch { /* не создалась — ищем дальше обычным способом */ }
+            }
+
             var dir = new DirectoryInfo(AppContext.BaseDirectory);
             for (int level = 0; level < SearchDepth && dir is not null; level++, dir = dir.Parent)
             {

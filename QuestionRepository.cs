@@ -7,8 +7,8 @@ using System.Text.Json;
 namespace AzureExamQuestions
 {
     /// <summary>
-    /// Загружает описания экзаменов и наборы вопросов из JSON-файлов в папке Data,
-    /// расположенной рядом с исполняемым файлом.
+    /// Загружает описания экзаменов и наборы вопросов из JSON-файлов. Каталог
+    /// задаётся в appsettings.json; если настройки нет — папка Data рядом с exe.
     ///
     /// Языковые версии одного набора лежат в файлах вида &lt;база&gt;.&lt;язык&gt;.json
     /// (az-900.rus.json и az-900.eng.json). Файлы с одинаковой базой — это один
@@ -18,8 +18,9 @@ namespace AzureExamQuestions
     {
         public const string ExamsFileName = "exams.json";
 
+        /// <summary>Каталог с вопросами: из appsettings.json, иначе папка Data рядом с exe.</summary>
         public static string DataDirectory { get; } =
-            Path.Combine(AppContext.BaseDirectory, "Data");
+            AppConfig.DataDirectory ?? Path.Combine(AppContext.BaseDirectory, "Data");
 
         private static readonly JsonSerializerOptions JsonOpts = new()
         {

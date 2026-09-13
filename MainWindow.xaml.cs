@@ -37,6 +37,7 @@ namespace AzureExamQuestions
                 }
             };
 
+            WarnAboutBrokenConfig();
             LoadExams();
             UpdateBookmarkCountText();
         }
@@ -73,6 +74,14 @@ namespace AzureExamQuestions
             {
                 ShowDataError(ex);
             }
+        }
+
+        /// <summary>Файл настроек есть, но испорчен — об этом нужно сказать сразу.</summary>
+        private static void WarnAboutBrokenConfig()
+        {
+            if (AppConfig.Error is { } error)
+                MessageBox.Show(error, "Ошибка в настройках",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         /// <summary>
