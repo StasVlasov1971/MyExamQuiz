@@ -148,12 +148,21 @@ namespace AzureExamQuestions
                     Cursor          = System.Windows.Input.Cursors.Hand
                 };
 
+                // Текст варианта — отдельный TextBlock с переносом: строка в Content
+                // не переносится, и длинный вариант обрезался бы по ширине.
+                var label = new TextBlock
+                {
+                    Text         = option,
+                    TextWrapping = TextWrapping.Wrap,
+                    LineHeight   = 20
+                };
+
                 Control ctrl;
                 if (IsMultiAnswer)
                 {
                     var cb = new CheckBox
                     {
-                        Content = option, FontSize = 14, Tag = letter,
+                        Content = label, FontSize = 14, Tag = letter,
                         IsChecked = chosen,
                         VerticalContentAlignment = VerticalAlignment.Center
                     };
@@ -165,7 +174,7 @@ namespace AzureExamQuestions
                 {
                     var rb = new RadioButton
                     {
-                        Content = option, GroupName = "QuizAnswer", FontSize = 14, Tag = letter,
+                        Content = label, GroupName = "QuizAnswer", FontSize = 14, Tag = letter,
                         IsChecked = chosen,
                         VerticalContentAlignment = VerticalAlignment.Center
                     };
