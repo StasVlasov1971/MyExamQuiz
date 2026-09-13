@@ -23,6 +23,9 @@ namespace AzureExamQuestions
         public TimeSpan TimeSpent { get; init; }
         public List<WrongAnswer> WrongAnswers { get; init; } = new();
         public string ExamTitle { get; init; } = "";
+
+        /// <summary>Ключ набора для статистики.</summary>
+        public string ExamKey { get; init; } = "";
         public int TimerSeconds { get; init; } = 90;
 
         /// <summary>Языковые версии набора и выбранный язык — для повтора ошибок.</summary>

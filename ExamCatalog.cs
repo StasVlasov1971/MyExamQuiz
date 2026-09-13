@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace AzureExamQuestions
@@ -17,6 +18,9 @@ namespace AzureExamQuestions
                     var languages = QuestionRepository.DiscoverLanguages(src);
                     return new ExamDefinition
                     {
+                        Key             = !string.IsNullOrWhiteSpace(src.QuestionsBase)
+                                          ? src.QuestionsBase.Trim()
+                                          : Path.GetFileNameWithoutExtension(src.QuestionsFile),
                         Code            = src.Code,
                         Name            = src.Name,
                         Description     = src.Description,

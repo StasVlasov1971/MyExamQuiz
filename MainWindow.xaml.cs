@@ -177,6 +177,26 @@ namespace AzureExamQuestions
                 CountSlider.Value = available;
 
             UpdateBookmarkCountText();
+            UpdateCoverageText();
+        }
+
+        /// <summary>Показывает, на сколько вопросов набора уже отвечали в каждом из режимов.</summary>
+        private void UpdateCoverageText()
+        {
+            if (CoverageText == null || _selectedExam is null) return;
+
+            try
+            {
+                var keys  = _selectedExam.GetBundles().Select(b => b.Key).ToList();
+                int study = StatsService.AnsweredCount(_selectedExam.Key, QuizMode.Study, keys);
+                int exam  = StatsService.AnsweredCount(_selectedExam.Key, QuizMode.Exam, keys);
+                CoverageText.Text =
+                    $"Отвечено: обучение {study} из {keys.Count}  •  экзамен {exam} из {keys.Count}";
+            }
+            catch (Exception ex)
+            {
+                ShowDataError(ex);
+            }
         }
 
         private void StudyModeRadio_Checked(object sender, RoutedEventArgs e)
@@ -226,7 +246,8 @@ namespace AzureExamQuestions
             int timerSec = mode == QuizMode.Exam ? (int)TimerSlider.Value : 0;
 
             new QuizWindow(questions, _selectedExam.DisplayTitle, mode, timerSec,
-                           _selectedExam.Languages, SelectedLanguageCode).Show();
+                           _selectedExam.Languages, SelectedLanguageCode,
+                           _selectedExam.Key).Show();
             Close();
         }
     }

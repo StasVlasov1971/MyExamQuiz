@@ -98,6 +98,11 @@
                                    Text="В режиме обучения язык можно переключать прямо во время теста (клавиша L)."/>
                     </StackPanel>
 
+                    <!-- Покрытие набора: на сколько вопросов уже отвечали в каждом режиме -->
+                    <TextBlock x:Name="CoverageText"
+                               FontSize="11" Foreground="#8A8886"
+                               Margin="2,0,0,14" TextWrapping="Wrap"/>
+
                     <Separator Background="#E1DFDD" Margin="0,0,0,16"/>
 
                     <!-- Mode selection -->

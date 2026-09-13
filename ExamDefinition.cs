@@ -6,6 +6,9 @@ namespace AzureExamQuestions
 {
     public class ExamDefinition
     {
+        /// <summary>Ключ набора для статистики: общая часть имени файлов, например "az-900".</summary>
+        public string Key { get; set; } = "";
+
         public string Code { get; set; } = "";
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";

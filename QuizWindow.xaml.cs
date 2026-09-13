@@ -31,6 +31,14 @@ namespace AzureExamQuestions
         private List<string> _answerCorrect  = new();
         private bool _answerIsCorrect;
 
+        private readonly string _examKey;
+
+        /// <summary>Писать ли статистику. У повтора ошибок — нет: это не новая встреча с вопросом.</summary>
+        private readonly bool _countStats;
+
+        /// <summary>Вопросы, уже учтённые в статистике за этот прогон: по одному разу на вопрос.</summary>
+        private readonly HashSet<string> _statRecorded = new(StringComparer.OrdinalIgnoreCase);
+
         private readonly List<WrongAnswer> _wrongAnswers = new();
         private readonly List<(Control Ctrl, Border Wrapper)> _answerItems = new();
 
@@ -49,10 +57,13 @@ namespace AzureExamQuestions
 
         public QuizWindow(List<QuestionBundle> bundles, string examTitle = "",
                           QuizMode mode = QuizMode.Study, int timerSeconds = 90,
-                          List<QuestionLanguage>? languages = null, string language = "")
+                          List<QuestionLanguage>? languages = null, string language = "",
+                          string examKey = "", bool countStats = true)
         {
             InitializeComponent();
             _bundles   = bundles;
+            _examKey   = examKey;
+            _countStats = countStats;
             _languages = languages ?? new List<QuestionLanguage>();
             _mode      = mode;
             _examTitle = examTitle;
@@ -497,6 +508,12 @@ namespace AzureExamQuestions
             _answerCorrect   = correct;
             _answerIsCorrect = isCorrect;
 
+            // Статистика: по одному разу на вопрос за прогон. Пустой выбор бывает только
+            // в экзамене, когда истёк таймер, — это отдельный исход, а не неверный ответ.
+            if (_countStats && _statRecorded.Add(CurrentBundle.Key))
+                StatsService.Record(_examKey, _mode, CurrentBundle.Key,
+                                    selected.Count == 0 ? null : isCorrect);
+
             if (isCorrect)
             {
                 _correctCount++;
@@ -602,6 +619,7 @@ namespace AzureExamQuestions
                 TimeSpent    = DateTime.Now - _startTime,
                 WrongAnswers = wrong,
                 ExamTitle    = _examTitle,
+                ExamKey      = _examKey,
                 TimerSeconds = _secondsPerQuestion,
                 Languages    = _languages,
                 Language     = _language

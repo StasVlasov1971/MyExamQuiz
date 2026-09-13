@@ -142,7 +142,8 @@ namespace AzureExamQuestions
                 .Select(w => w.Bundle ?? QuestionBundle.Single(w.Question, _result.Language))
                 .ToList();
             new QuizWindow(wrongQuestions, _result.ExamTitle, _result.Mode, _result.TimerSeconds,
-                           _result.Languages, _result.Language).Show();
+                           _result.Languages, _result.Language, _result.ExamKey,
+                           countStats: false).Show();
             Close();
         }
     }
