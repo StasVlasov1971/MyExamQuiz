@@ -256,13 +256,13 @@
     "uid": "GHXZX",
     "text": "What is the primary purpose of an Availability Zone in Azure?",
     "options": [
-      "A) To provide a geographically separate group of datacenters within a single region for high availability.",
+      "A) A geographically separate group of datacenters inside one region for availability",
       "B) To replicate data to a different geographic region for disaster recovery.",
-      "C) To organize resources for billing and access management.",
-      "D) To offer discounted pricing for non-critical workloads."
+      "C) To organize the resources for billing and for access management purposes.",
+      "D) To offer discounted pricing for any non-critical workloads you run."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) To provide a geographically separate group of datacenters within a single region for high availability.",
+    "correctAnswerText": "A) A geographically separate group of datacenters inside one region for availability",
     "difficulty": 2,
     "explanation": "An availability zone is a physically separate location within a single Azure region, with its own power, cooling, and network. Spreading instances across zones means the loss of one datacenter does not take the application down, while the zones stay close enough for latency between them to remain very low. This is a within-region construct: protecting against the loss of an entire region requires deploying to a second region. Not every Azure region offers zones, so it is worth checking availability when you design for this level of resilience.",
     "whyOthersWrong": "The others describe cross-region replication, management containers, and pricing options.",
@@ -382,13 +382,13 @@
     "uid": "QX2M6",
     "text": "In the Azure pricing model, what is the primary benefit of purchasing a 'Reserved Instance' for a virtual machine?",
     "options": [
-      "A) It provides a dedicated physical server for better performance.",
-      "B) It guarantees the VM will never be rebooted for host maintenance.",
-      "C) It offers a significant discount (up to 72%) compared to pay-as-you-go pricing for a committed term (1 or 3 years).",
-      "D) It allows unlimited scaling of the VM without additional cost."
+      "A) It provides a dedicated physical server for noticeably better performance.",
+      "B) It guarantees the VM will never be rebooted for any host maintenance.",
+      "C) It gives a large discount (up to 72%) for a one or three year commitment",
+      "D) It allows unlimited scaling of the VM without any additional cost."
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) It offers a significant discount (up to 72%) compared to pay-as-you-go pricing for a committed term (1 or 3 years).",
+    "correctAnswerText": "C) It gives a large discount (up to 72%) for a one or three year commitment",
     "difficulty": 1,
     "explanation": "A reservation is a commitment: you agree to a specific virtual machine size in a specific region for one or three years, and Azure discounts the compute rate heavily in return. The discount can reach roughly 72 percent against pay-as-you-go for a three-year term, which makes it the standard choice for steady production workloads. It changes only how the compute is billed, not how the machine behaves, so there is no dedicated hardware and no exemption from host maintenance. If your workload shape is less predictable, a savings plan commits to an hourly spend instead and can be used across sizes and regions.",
     "whyOthersWrong": "The others promise dedicated hardware, exemption from maintenance, or unlimited scaling, none of which a reservation provides.",
@@ -403,13 +403,13 @@
     "uid": "BCXVR",
     "text": "Which Azure service provides a unified dashboard for monitoring the security posture of your Azure, hybrid, and multi-cloud resources, and provides security recommendations?",
     "options": [
-      "A) Azure Monitor",
-      "B) Azure Advisor",
-      "C) Azure Policy",
-      "D) Microsoft Defender for Cloud (formerly Azure Security Center)"
+      "A) Azure Monitor, which collects metrics and log data",
+      "B) Azure Advisor, which produces recommendations",
+      "C) Azure Policy, which enforces resource configuration",
+      "D) Microsoft Defender for Cloud, formerly Security Center"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Microsoft Defender for Cloud (formerly Azure Security Center)",
+    "correctAnswerText": "D) Microsoft Defender for Cloud, formerly Security Center",
     "difficulty": 2,
     "explanation": "Microsoft Defender for Cloud is the security posture management and workload protection service, and it covers Azure, on-premises, and other clouds through Azure Arc. It continuously assesses configuration, expresses the result as a secure score, and issues prioritized recommendations for closing the gaps it finds. It also includes a regulatory compliance view that maps your environment against standards such as ISO 27001 and PCI DSS. It is distinct from Microsoft Sentinel, which is the SIEM that collects and correlates security events across the whole estate.",
     "whyOthersWrong": "The others collect telemetry, advise on general best practice, or enforce configuration rules.",
@@ -487,13 +487,13 @@
     "uid": "MXJ4S",
     "text": "In the context of Azure costs, what is the primary purpose of applying *tags* to resources?",
     "options": [
-      "A) To group resources for billing and cost analysis by department, project, or cost center.",
-      "B) To automatically shut down resources during non-business hours.",
-      "C) To increase the performance of the tagged resources.",
-      "D) To enforce geographic compliance policies."
+      "A) To group resources for billing and cost analysis by department or project",
+      "B) To automatically shut the resources down outside business hours each day.",
+      "C) To increase the performance of all of the tagged resources at once.",
+      "D) To enforce the geographic compliance policies of the company everywhere."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) To group resources for billing and cost analysis by department, project, or cost center.",
+    "correctAnswerText": "A) To group resources for billing and cost analysis by department or project",
     "difficulty": 1,
     "explanation": "Tags are name-value pairs attached to resources purely as metadata, and their main practical value is cost reporting. Because tags flow through to the billing data, Cost Management can break spend down by department, project, environment, or cost center and support chargeback. Tags are not inherited automatically from a resource group to the resources inside it, which is why organizations use Azure Policy to require or append them. They have no effect on how a resource performs or where it runs.",
     "whyOthersWrong": "The others describe automation, performance, and geographic enforcement, none of which tags perform by themselves.",
@@ -613,10 +613,10 @@
     "uid": "EG5V9",
     "text": "A company plans to migrate a large on-premises archive of media files (totaling 500 TB) to Azure Blob Storage. The internet connection is slow and unreliable. Which Azure service is designed for secure, large-scale offline data transfer in this scenario?",
     "options": [
-      "A) Azure Data Factory",
-      "B) AzCopy over the internet",
+      "A) Azure Data Factory running copy pipelines",
+      "B) AzCopy over the existing internet connection",
       "C) Azure Import/Export service (ship physical disks)",
-      "D) Azure StorSimple"
+      "D) Azure StorSimple hybrid storage appliance"
     ],
     "correctAnswer": "C",
     "correctAnswerText": "C) Azure Import/Export service (ship physical disks)",
@@ -634,13 +634,13 @@
     "uid": "QH2BA",
     "text": "What is the primary difference between Azure Service Level Agreement (SLA) for a single Virtual Machine (with no availability features) and an SLA for a Virtual Machine deployed in an Availability Set?",
     "options": [
-      "A) The SLA for a VM in an Availability Set is higher because it provides protection against hardware failures and planned maintenance within a datacenter.",
-      "B) The SLA for a VM in an Availability Set is always 100%.",
+      "A) The SLA for a VM in an availability set is higher: it survives hardware failures",
+      "B) The SLA for a VM in an availability set is always exactly 100 percent.",
       "C) The SLA for a single VM is higher because it has fewer points of failure.",
-      "D) There is no difference; both have the same SLA."
+      "D) There is no difference at all; both of them carry the same published SLA."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) The SLA for a VM in an Availability Set is higher because it provides protection against hardware failures and planned maintenance within a datacenter.",
+    "correctAnswerText": "A) The SLA for a VM in an availability set is higher: it survives hardware failures",
     "difficulty": 3,
     "explanation": "A single virtual machine has no redundancy, so its SLA reflects the risk of the one host it runs on failing or being rebooted for maintenance. Placing two or more machines in an availability set spreads them across fault domains, which have separate power and network, and across update domains, which are rebooted at different times during planned maintenance. That redundancy is what raises the published SLA to 99.95 percent. No Azure SLA is ever 100 percent, and the higher figure applies to the set as a whole rather than to any individual machine in it.",
     "whyOthersWrong": "The others claim a perfect SLA, reverse the comparison, or deny any difference.",
@@ -739,13 +739,13 @@
     "uid": "E8KZ3",
     "text": "What is the main purpose of the 'Azure Advisor' service?",
     "options": [
-      "A) To monitor application performance and diagnose issues.",
-      "B) To provide personalized recommendations for optimizing Azure resources in terms of cost, performance, security, and reliability.",
-      "C) To enforce corporate governance policies across subscriptions.",
+      "A) To monitor application performance and diagnose issues in the code.",
+      "B) To give personalized recommendations on cost, performance and security",
+      "C) To enforce corporate governance policies across all subscriptions.",
       "D) To automatically apply the latest security patches to virtual machines."
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) To provide personalized recommendations for optimizing Azure resources in terms of cost, performance, security, and reliability.",
+    "correctAnswerText": "B) To give personalized recommendations on cost, performance and security",
     "difficulty": 1,
     "explanation": "Azure Advisor inspects the resources you actually have and produces personalized recommendations rather than generic advice. Its recommendations are grouped into five categories: reliability, security, performance, cost, and operational excellence. Typical suggestions include resizing or shutting down underutilized virtual machines, buying reservations for steady workloads, and enabling redundancy where a single point of failure exists. It only advises; acting on a recommendation is always a separate, deliberate step.",
     "whyOthersWrong": "The others monitor applications, enforce governance, or patch machines.",
@@ -802,13 +802,13 @@
     "uid": "SJDKY",
     "text": "What is the primary use case for Azure Content Delivery Network (CDN)?",
     "options": [
-      "A) To deliver high-bandwidth static and dynamic web content to users with low latency by caching it at edge locations.",
-      "B) To store large amounts of unstructured data globally.",
-      "C) To provide a global load balancing solution for web applications.",
-      "D) To encrypt web traffic between the user and the application."
+      "A) To deliver web content with low latency by caching it at edge locations",
+      "B) To store very large amounts of unstructured data across the globe.",
+      "C) To provide a global load balancing solution for all web applications.",
+      "D) To encrypt the web traffic between the user and the application."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) To deliver high-bandwidth static and dynamic web content to users with low latency by caching it at edge locations.",
+    "correctAnswerText": "A) To deliver web content with low latency by caching it at edge locations",
     "difficulty": 1,
     "explanation": "A content delivery network caches content at points of presence close to the user, so requests are served from the edge instead of travelling back to the origin every time. That cuts latency for the user and reduces load and egress from the origin, which matters most for large static assets and popular downloads. Modern CDNs also accelerate dynamic content through optimized routing and connection reuse. Cache behaviour is controlled by rules and expiry headers, and content can be purged when it changes.",
     "whyOthersWrong": "The others describe object storage, global load balancing, and encryption.",
@@ -949,13 +949,13 @@
     "uid": "72CDP",
     "text": "Which statement accurately describes the difference between Azure Active Directory (Azure AD) Free and Azure AD Premium P1/P2 licenses in the context of security?",
     "options": [
-      "A) Azure AD Free does not support single sign-on (SSO) for any applications.",
+      "A) Azure AD Free does not support single sign-on to any applications whatsoever.",
       "B) Azure AD Free includes self-service password reset for all users, while Premium does not.",
       "C) Multi-factor authentication (MFA) is only available with Azure AD Premium licenses.",
-      "D) Azure AD Premium licenses provide advanced identity protection and conditional access policies, while Azure AD Free has basic security features."
+      "D) Premium adds identity protection and conditional access; Free has basic security"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Azure AD Premium licenses provide advanced identity protection and conditional access policies, while Azure AD Free has basic security features.",
+    "correctAnswerText": "D) Premium adds identity protection and conditional access; Free has basic security",
     "difficulty": 3,
     "explanation": "The free tier of Microsoft Entra ID covers the basics: user and group management, single sign-on to many applications, and directory synchronization from on-premises. The premium plans add the security capabilities organizations usually need at scale, notably Conditional Access in P1 and Identity Protection with Privileged Identity Management in P2. Conditional Access is the one to remember, because it is the policy engine that decides whether a given sign-in is allowed, blocked, or challenged. Licensing is per user, so plans can be mixed across a directory.",
     "whyOthersWrong": "The others deny single sign-on in the free tier, reverse which tier includes self-service password reset, or misplace multifactor authentication.",
@@ -1012,13 +1012,13 @@
     "uid": "2DF64",
     "text": "According to Microsoft, who can access customer data stored in Azure?",
     "options": [
-      "A) Selected Microsoft personnel may access data only under limited circumstances with explicit customer consent or for troubleshooting at the customer's request.",
+      "A) Selected Microsoft staff, only in limited cases with consent or at the customer's request",
       "B) Microsoft support engineers can access data at any time for maintenance purposes.",
-      "C) No one from Microsoft can ever access customer data under any circumstances.",
-      "D) Microsoft uses automated systems to scan all customer data for security threats, and engineers review flagged content."
+      "C) No one from Microsoft can ever access customer data under any circumstances at all.",
+      "D) Microsoft scans all customer data automatically, and engineers review flagged content."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) Selected Microsoft personnel may access data only under limited circumstances with explicit customer consent or for troubleshooting at the customer's request.",
+    "correctAnswerText": "A) Selected Microsoft staff, only in limited cases with consent or at the customer's request",
     "difficulty": 3,
     "explanation": "Microsoft's position is that customer data belongs to the customer, and access by Microsoft personnel is the exception rather than the routine. Access is limited to specific circumstances, generally when the customer has asked for support and granted it, and it is time-bound, logged, and subject to approval. Customer Lockbox extends this further by requiring the customer to approve individual access requests. Microsoft does not mine customer data for advertising, and its commitments here are set out in the Product Terms and the Trust Center.",
     "whyOthersWrong": "The others grant unrestricted access, deny any access at all, or describe routine content scanning that does not happen.",
@@ -1180,13 +1180,13 @@
     "uid": "J9QNY",
     "text": "What is the main benefit of using *Managed Disks* for Azure Virtual Machines compared to unmanaged (storage account) disks?",
     "options": [
-      "A) Managed Disks are always cheaper.",
-      "B) Managed Disks offer higher performance at all tiers.",
-      "C) Managed Disks simplify disk management by handling storage accounts automatically and provide better reliability with availability sets.",
-      "D) Managed Disks allow you to directly access the underlying storage account for advanced configurations."
+      "A) Managed disks are always cheaper than unmanaged ones in every scenario.",
+      "B) Managed disks offer higher performance at absolutely all tiers of storage.",
+      "C) Managed disks handle the storage accounts for you and pair well with availability sets",
+      "D) Managed disks let you access the underlying storage account for advanced configuration."
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) Managed Disks simplify disk management by handling storage accounts automatically and provide better reliability with availability sets.",
+    "correctAnswerText": "C) Managed disks handle the storage accounts for you and pair well with availability sets",
     "difficulty": 2,
     "explanation": "With managed disks you choose the disk type and size, and Azure creates and manages the storage account behind it. That removes the old need to plan storage accounts and watch their IOPS limits, which was a common source of throttling with unmanaged disks. Azure also places the disks of machines in an availability set into different storage scale units, so a single storage failure cannot take the whole set down. Managed disks are encrypted at rest by default and support snapshots and role-based access control directly on the disk resource.",
     "whyOthersWrong": "The others claim a lower price, higher performance at every tier, or direct access to the storage account, none of which is the benefit.",
@@ -1222,13 +1222,13 @@
     "uid": "MNXGR",
     "text": "You receive a notification from 'Service Health' in the Azure portal. This notification most likely concerns:",
     "options": [
-      "A) A performance issue in your specific Azure SQL database.",
-      "B) A security vulnerability detected in one of your virtual machines.",
+      "A) A performance issue inside one specific Azure SQL database of yours.",
+      "B) A security vulnerability detected on one of your virtual machines in Azure.",
       "C) A recommendation to resize an underutilized virtual machine to save costs.",
-      "D) A planned maintenance event or an ongoing incident affecting Azure services in a region you are using."
+      "D) A planned maintenance event or an incident affecting Azure in your region"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) A planned maintenance event or an ongoing incident affecting Azure services in a region you are using.",
+    "correctAnswerText": "D) A planned maintenance event or an incident affecting Azure in your region",
     "difficulty": 2,
     "explanation": "Service Health is personalized: it reports incidents, planned maintenance, and health advisories that affect the specific subscriptions, services, and regions you use. That makes it the right place to look when something outside your control may be affecting your workloads, and alerts can be configured to notify the on-call team. Azure Status is the public, global view intended for widespread outages. Resource Health is narrower still and reports on the state of one specific resource.",
     "whyOthersWrong": "The others concern one of your resources, a security finding, or a cost recommendation.",
@@ -1327,13 +1327,13 @@
     "uid": "8G3B6",
     "text": "What is the main characteristic of a *serverless* compute service like Azure Functions?",
     "options": [
-      "A) It runs on dedicated physical servers for maximum performance.",
-      "B) You never have to write any code for the application.",
+      "A) It runs on dedicated physical servers reserved for maximum performance.",
+      "B) You never have to write any application code of your own at all.",
       "C) It requires you to pre-purchase compute capacity for one or three years.",
-      "D) The cloud provider dynamically manages the allocation and scaling of the underlying infrastructure; you only manage your code and pay per execution."
+      "D) The provider allocates and scales the infrastructure; you pay per execution"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) The cloud provider dynamically manages the allocation and scaling of the underlying infrastructure; you only manage your code and pay per execution.",
+    "correctAnswerText": "D) The provider allocates and scales the infrastructure; you pay per execution",
     "difficulty": 2,
     "explanation": "Serverless does not mean there are no servers; it means the servers are entirely the provider's concern. Azure allocates capacity when a trigger fires, scales out as the event rate grows, and scales back to zero when nothing is happening. Billing follows execution rather than reserved capacity, so an idle function costs nothing on the consumption plan. What you keep is the code and its configuration, and what you give up is control over the host, which is why long-running or OS-dependent work is a poor fit.",
     "whyOthersWrong": "The others describe dedicated hardware, no-code tooling, or a capacity commitment, none of which is what serverless means.",
@@ -1348,13 +1348,13 @@
     "uid": "T2GAK",
     "text": "In the context of Azure networking, what is the primary purpose of a *Network Security Group (NSG)*?",
     "options": [
-      "A) To filter network traffic to and from Azure resources within a Virtual Network by defining rules based on source/destination IP, port, and protocol.",
+      "A) To filter network traffic to and from Azure resources by address, port and protocol",
       "B) To provide a private, dedicated connection between an on-premises network and Azure.",
       "C) To distribute incoming internet traffic across multiple virtual machines.",
       "D) To translate between private and public IP addresses for outbound internet connectivity."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) To filter network traffic to and from Azure resources within a Virtual Network by defining rules based on source/destination IP, port, and protocol.",
+    "correctAnswerText": "A) To filter network traffic to and from Azure resources by address, port and protocol",
     "difficulty": 2,
     "explanation": "A network security group is a stateful packet filter that allows or denies traffic based on source and destination address, port, and protocol. It can be attached to a subnet, to a network interface, or to both, and when both are present the rules are evaluated together. Rules are processed in priority order, and default rules already permit traffic within the virtual network and from the load balancer while denying inbound traffic from the internet. Because it works at layers 3 and 4, it cannot inspect the contents of a request, which is what a web application firewall or Azure Firewall is for.",
     "whyOthersWrong": "The others provide private connectivity, distribute inbound traffic, or handle address translation.",
@@ -1390,13 +1390,13 @@
     "uid": "GBYEX",
     "text": "Which of the following statements best describes the *Total Cost of Ownership (TCO) Calculator*?",
     "options": [
-      "A) It compares the costs of running an on-premises infrastructure versus running an equivalent workload in Azure over time.",
+      "A) It compares on-premises running costs with the equivalent workload in Azure",
       "B) It provides a detailed forecast of monthly Azure spend for a specific architecture.",
       "C) It analyzes your current Azure usage and recommends immediate cost-saving actions.",
       "D) It allows you to set spending limits and alerts for your Azure subscriptions."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) It compares the costs of running an on-premises infrastructure versus running an equivalent workload in Azure over time.",
+    "correctAnswerText": "A) It compares on-premises running costs with the equivalent workload in Azure",
     "difficulty": 2,
     "explanation": "The TCO calculator answers a comparison question: what does the current on-premises estate cost, and what would the equivalent workload cost in Azure? You describe the servers, storage, and networking you have today, and the tool adds the costs that are easy to forget, such as electricity, cooling, datacenter space, and IT labour. The output is a multi-year comparison intended to support a business case. It is not a design estimator; the pricing calculator does that job for an architecture that does not exist yet.",
     "whyOthersWrong": "The others forecast the cost of a design, recommend savings on existing resources, or control spending limits.",
@@ -1495,13 +1495,13 @@
     "uid": "E45TS",
     "text": "What is the primary purpose of Azure Blueprints?",
     "options": [
-      "A) To visually diagram your application architecture before deployment.",
-      "B) To define a repeatable set of governance resources and policies (like RBAC, Policy, ARM templates) that can be deployed together to standardize environments.",
-      "C) To create a detailed project plan for migrating workloads to Azure.",
-      "D) To generate compliance reports for auditing purposes."
+      "A) To visually diagram the application architecture before any deployment.",
+      "B) To define a repeatable set of governance resources and policies deployed together",
+      "C) To create a detailed project plan for migrating the workloads to Azure.",
+      "D) To generate compliance reports for external auditing purposes and regulators."
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) To define a repeatable set of governance resources and policies (like RBAC, Policy, ARM templates) that can be deployed together to standardize environments.",
+    "correctAnswerText": "B) To define a repeatable set of governance resources and policies deployed together",
     "difficulty": 3,
     "explanation": "Azure Blueprints packages the artifacts that define an environment, ARM templates, policy assignments, and role assignments, into a single versioned definition that can be assigned repeatedly. That is what makes new subscriptions land in a compliant state on day one rather than being corrected afterwards. Blueprint assignments keep a relationship to the definition, so drift can be detected and the environment can be locked. Microsoft has since indicated that template specs together with deployment stacks are the successor approach, but Blueprints remains the fundamentals-level answer for repeatable governance.",
     "whyOthersWrong": "The others describe diagramming, project planning, and compliance reporting.",
@@ -1537,13 +1537,13 @@
     "uid": "MTASV",
     "text": "A container image contains your web application and its dependencies. What does a *container orchestration* platform, like Kubernetes (e.g., Azure Kubernetes Service - AKS), primarily manage?",
     "options": [
-      "A) The source code of the application inside the container.",
-      "B) The security patches for the operating system inside each container.",
-      "C) The development environment for building the container image.",
-      "D) The lifecycle, scaling, networking, and availability of multiple containers across a cluster of nodes."
+      "A) The source code of the application that runs inside the container.",
+      "B) The security patches for the operating system inside each of the containers.",
+      "C) The development environment used for building the container image.",
+      "D) The lifecycle, scaling, networking and availability of containers in a cluster"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) The lifecycle, scaling, networking, and availability of multiple containers across a cluster of nodes.",
+    "correctAnswerText": "D) The lifecycle, scaling, networking and availability of containers in a cluster",
     "difficulty": 2,
     "explanation": "A container image is just a packaged application; something has to decide where copies of it run and keep them running. That is the orchestrator's job: scheduling containers onto nodes, restarting them when they fail, scaling the number of replicas, giving them stable network identities, and rolling out new versions without downtime. It also manages the cluster resources those containers share, such as storage and secrets. It does not build the image or maintain the software inside it; that remains part of your build pipeline.",
     "whyOthersWrong": "The others concern the application source, the operating system inside the image, and the developer's build environment.",
@@ -1558,13 +1558,13 @@
     "uid": "SJ8EM",
     "text": "You are designing an application that will have a front-end web app and a back-end database. You want to ensure that the database is not accessible directly from the internet, but only from the web app. Which Azure networking concept should you use?",
     "options": [
-      "A) Place both the web app and the database in the same Availability Zone.",
-      "B) Place the database in a private subnet and the web app in a public subnet within the same Virtual Network, using Network Security Groups (NSGs) to restrict traffic.",
-      "C) Deploy the database in a different subscription.",
-      "D) Use Azure Front Door in front of the database."
+      "A) Place both the web app and the database inside the same Availability Zone.",
+      "B) Put the database in a private subnet and the web app in a public one, with NSGs",
+      "C) Deploy the database into an entirely different Azure subscription.",
+      "D) Place Azure Front Door directly in front of the database endpoint."
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Place the database in a private subnet and the web app in a public subnet within the same Virtual Network, using Network Security Groups (NSGs) to restrict traffic.",
+    "correctAnswerText": "B) Put the database in a private subnet and the web app in a public one, with NSGs",
     "difficulty": 3,
     "explanation": "Splitting the tiers into separate subnets within one virtual network and applying network security groups is the standard pattern, because it puts the control exactly where the traffic crosses. A rule can allow inbound traffic to the database subnet only from the web subnet, on the database port, and deny everything else including the internet. Both tiers stay in the same virtual network, so traffic between them is fast and free of gateways. Adding a private endpoint or a service endpoint is the equivalent technique when the database is a platform service rather than a virtual machine.",
     "whyOthersWrong": "The others place resources for resilience or billing, or put a public entry point in front of the database.",
@@ -1579,13 +1579,13 @@
     "uid": "9BCW4",
     "text": "Which statement accurately describes a key difference between Azure DevOps and GitHub in the context of Azure services?",
     "options": [
-      "A) Azure DevOps is only for CI/CD pipelines, while GitHub is only for source code repository.",
-      "B) GitHub cannot be integrated with Azure services at all.",
+      "A) Azure DevOps is only for CI/CD pipelines, while GitHub is only a source code repository.",
+      "B) GitHub cannot be integrated with Azure services in any way, even through GitHub Actions.",
       "C) Azure DevOps is a Microsoft product, while GitHub is an open-source platform not supported by Microsoft.",
-      "D) Both offer similar core services (repos, pipelines, boards), but Azure DevOps is more tightly integrated with Azure for deployment and management, while GitHub is broader and now owned by Microsoft."
+      "D) Both offer similar core services, but Azure DevOps is tighter with Azure and GitHub is broader"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Both offer similar core services (repos, pipelines, boards), but Azure DevOps is more tightly integrated with Azure for deployment and management, while GitHub is broader and now owned by Microsoft.",
+    "correctAnswerText": "D) Both offer similar core services, but Azure DevOps is tighter with Azure and GitHub is broader",
     "difficulty": 3,
     "explanation": "Azure DevOps and GitHub overlap heavily: both offer Git repositories, pipelines, and work tracking, and both are Microsoft products since the 2018 acquisition. The practical difference is emphasis. Azure DevOps grew up around enterprise delivery and integrates tightly with Azure deployment and governance, while GitHub is the larger open-source community platform and brings Actions, Codespaces, and Advanced Security. Microsoft supports both and lets you mix them, for example GitHub repositories with Azure Pipelines, so the choice is usually about team preference rather than capability.",
     "whyOthersWrong": "The others reduce each product to a single feature, deny integration, or misstate the ownership.",
@@ -1621,13 +1621,13 @@
     "uid": "AFQP8",
     "text": "What is the *primary benefit* of using the Azure Spot Virtual Machines pricing model?",
     "options": [
-      "A) Guaranteed availability and no risk of eviction.",
-      "B) Dedicated physical isolation from other customers' VMs.",
-      "C) Automatic scaling based on CPU load.",
-      "D) Significant cost savings (up to 90%) for interruptible workloads like batch processing, rendering, or testing."
+      "A) Guaranteed availability with no risk of eviction at any time at all.",
+      "B) Dedicated physical isolation from the virtual machines of other customers.",
+      "C) Automatic scaling of the instance count based on current CPU load.",
+      "D) Large savings (up to 90%) on interruptible work like batch jobs or rendering"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Significant cost savings (up to 90%) for interruptible workloads like batch processing, rendering, or testing.",
+    "correctAnswerText": "D) Large savings (up to 90%) on interruptible work like batch jobs or rendering",
     "difficulty": 2,
     "explanation": "Spot virtual machines run on Azure's unused capacity, and because that capacity can be reclaimed at any moment, the discount is very large, up to roughly 90 percent against pay-as-you-go. Eviction can happen with thirty seconds of notice, either because capacity is needed elsewhere or because the price exceeded the maximum you set. That makes them excellent for batch processing, rendering, and test runs that can be checkpointed and restarted, and unsuitable for anything that must stay up. There is no availability SLA for spot instances, which is the direct consequence of how they are priced.",
     "whyOthersWrong": "The others describe guaranteed capacity, hardware isolation, or autoscaling, none of which spot pricing provides.",
@@ -1642,13 +1642,13 @@
     "uid": "H54JD",
     "text": "For a globally distributed SaaS application, which combination of Azure services would best provide low-latency access to static content (images, CSS, JS) for users worldwide and protect the application from common web exploits like SQL injection?",
     "options": [
-      "A) Azure Content Delivery Network (CDN) + Web Application Firewall (WAF) on Azure Front Door/Application Gateway",
-      "B) Azure Traffic Manager + Azure SQL Database",
-      "C) Azure Load Balancer + Azure DDoS Protection",
-      "D) Azure ExpressRoute + Azure Firewall"
+      "A) Azure CDN plus a web application firewall (WAF) on Front Door",
+      "B) Azure Traffic Manager plus an Azure SQL Database backend",
+      "C) Azure Load Balancer plus Azure DDoS Protection at the edge",
+      "D) Azure ExpressRoute plus Azure Firewall in the hub network"
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) Azure Content Delivery Network (CDN) + Web Application Firewall (WAF) on Azure Front Door/Application Gateway",
+    "correctAnswerText": "A) Azure CDN plus a web application firewall (WAF) on Front Door",
     "difficulty": 3,
     "explanation": "The two requirements are different problems and need different services. A content delivery network caches static assets at edge locations close to users, which is what removes the latency of fetching images, CSS, and scripts from a single origin. A web application firewall inspects HTTP requests and blocks exploit patterns such as SQL injection and cross-site scripting, and it is available on both Application Gateway and Front Door. Azure Front Door is often chosen because it combines edge delivery, caching, and the WAF in one global service.",
     "whyOthersWrong": "The others combine services that do not cache static content at the edge or do not inspect application-layer requests.",
@@ -1663,13 +1663,13 @@
     "uid": "RTAKH",
     "text": "In the context of cloud economics, what does the term 'Economies of Scale' refer to from the perspective of a cloud provider like Microsoft?",
     "options": [
-      "A) The cost advantage that a large provider gains due to its ability to purchase and operate massive, efficient datacenters, which results in lower prices for customers.",
-      "B) The ability for a single customer to reduce their costs by using more services.",
-      "C) The practice of scaling down resources during off-peak hours to save money.",
-      "D) The discount offered when a customer commits to using a service for 1 or 3 years (Reserved Instances)."
+      "A) The cost advantage a large provider gains from operating huge efficient datacenters",
+      "B) The ability for a single customer to cut their own costs by using more services.",
+      "C) The practice of scaling resources down during off-peak hours to save money.",
+      "D) The discount offered when a customer commits to a service for 1 or 3 years."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) The cost advantage that a large provider gains due to its ability to purchase and operate massive, efficient datacenters, which results in lower prices for customers.",
+    "correctAnswerText": "A) The cost advantage a large provider gains from operating huge efficient datacenters",
     "difficulty": 3,
     "explanation": "Economies of scale describe why a hyperscale provider's unit cost is lower than a single enterprise could achieve. Buying servers, power, and bandwidth in enormous volume attracts prices no individual customer can negotiate, and purpose-built datacenters achieve efficiency, measured as power usage effectiveness, that a converted server room cannot. Fixed costs such as design, automation, and security are spread across millions of customers. Those savings are what allow the provider to price below the customer's own cost while still making a margin.",
     "whyOthersWrong": "The others describe customer-side savings, scheduling, and commitment discounts.",
@@ -1705,13 +1705,13 @@
     "uid": "SCNAC",
     "text": "What do security defaults provide in a Microsoft Entra tenant?",
     "options": [
-      "A) A discount on Microsoft Entra ID premium licences",
-      "B) An automatic daily backup of the directory",
-      "C) A report listing every permission granted in the tenant",
-      "D) A preconfigured baseline that enforces multifactor authentication registration and blocks legacy authentication"
+      "A) A discount on the price of Microsoft Entra ID premium licences for the tenant",
+      "B) An automatic daily backup of the whole directory to Azure storage",
+      "C) A report listing every single permission granted inside the tenant",
+      "D) A baseline that enforces multifactor registration and blocks legacy authentication"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) A preconfigured baseline that enforces multifactor authentication registration and blocks legacy authentication",
+    "correctAnswerText": "D) A baseline that enforces multifactor registration and blocks legacy authentication",
     "difficulty": 3,
     "explanation": "Security defaults are a single switch that applies a baseline of protections to tenants that have no Conditional Access policies of their own: every user must register for multifactor authentication, administrators are challenged every time they sign in, users are challenged when the sign-in looks risky, and legacy authentication protocols that cannot enforce a second factor are blocked. They are free and are enabled by default in newer tenants, which makes them the sensible starting point for a small organization. They are deliberately not configurable, so the moment an exception is genuinely needed, the answer is to turn them off and express the requirement through Conditional Access, which needs a paid plan.",
     "whyOthersWrong": "The others describe licensing discounts, backups, or a permissions report, none of which is what this baseline does.",
@@ -1726,13 +1726,13 @@
     "uid": "47TCR",
     "text": "What is a cold start on a serverless platform?",
     "options": [
-      "A) The time a platform takes to install operating system updates",
-      "B) The first deployment of an application to production",
-      "C) The delay when a request has to wait for a new instance to be initialized because none is running",
-      "D) A restart triggered when an application runs out of memory"
+      "A) The time the platform takes to install operating system updates on a host",
+      "B) The very first deployment of an application into production use",
+      "C) The delay when a request waits for a new instance because none is running",
+      "D) A restart triggered when the application runs out of available memory"
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) The delay when a request has to wait for a new instance to be initialized because none is running",
+    "correctAnswerText": "C) The delay when a request waits for a new instance because none is running",
     "difficulty": 3,
     "explanation": "A serverless platform removes idle instances so that nothing is billed while there is no traffic, and the consequence is that the first request after a quiet period has to wait while a new instance is created and the runtime and application are loaded. That added latency is the cold start, and it is most visible for large dependency sets and for runtimes that need to compile on startup. It is the direct cost of paying only for execution, and mitigations trade some of that saving back: a premium or always-ready plan keeps instances warm, and smaller deployments initialize faster. For a background job the delay rarely matters, while for an interactive request path it may decide the hosting choice.",
     "whyOthersWrong": "The others describe patching, an initial deployment, or an out-of-memory restart, none of which is the latency caused by starting a new instance.",
@@ -1747,13 +1747,13 @@
     "uid": "JHQ27",
     "text": "What is the primary purpose of Azure Resource Manager (ARM) templates?",
     "options": [
-      "A) To write procedural scripts for deploying resources",
-      "B) To monitor the performance of deployed resources",
-      "C) To define the desired state of your Azure infrastructure using declarative JSON syntax",
-      "D) To set up alerts for resource costs"
+      "A) To write procedural scripts that deploy the resources in order",
+      "B) To monitor the performance of the deployed resources over time",
+      "C) To define the desired state of infrastructure in declarative JSON",
+      "D) To set up alerts about the costs of the resources each month"
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) To define the desired state of your Azure infrastructure using declarative JSON syntax",
+    "correctAnswerText": "C) To define the desired state of infrastructure in declarative JSON",
     "difficulty": 2,
     "explanation": "An ARM template describes the desired state of a set of resources in declarative JSON, and Azure Resource Manager works out the operations needed to reach that state. Deployments are idempotent, so running the same template again converges the environment instead of creating duplicates, and parameters let one template serve several environments. Because templates are text, they belong in source control and integrate with CI/CD pipelines like any other code. Bicep offers the same capability with much less syntax and compiles to identical ARM JSON.",
     "whyOthersWrong": "The others describe procedural scripting, monitoring, and cost alerting.",
@@ -1831,13 +1831,13 @@
     "uid": "3F5D2",
     "text": "What is the main benefit of using Azure Automanage for virtual machines?",
     "options": [
-      "A) It automatically migrates VMs to the cloud",
-      "B) It automatically shuts down VMs when they are not in use",
-      "C) It automatically applies best practices for monitoring, backup, and security across the VM lifecycle",
-      "D) It automatically converts VMs to containers"
+      "A) It automatically migrates virtual machines into the cloud for you.",
+      "B) It automatically shuts down virtual machines when they are idle.",
+      "C) It applies best practices for monitoring, backup and security automatically",
+      "D) It automatically converts virtual machines into containers for you."
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) It automatically applies best practices for monitoring, backup, and security across the VM lifecycle",
+    "correctAnswerText": "C) It applies best practices for monitoring, backup and security automatically",
     "difficulty": 3,
     "explanation": "Azure Automanage applies Microsoft's recommended baseline to a virtual machine and then keeps it applied. Enabling it configures services such as Azure Backup, Microsoft Defender for Cloud, monitoring agents, update management, and change tracking according to a best-practice profile, without an engineer configuring each one. If a setting drifts from the profile, Automanage brings it back. This is about consistency and reducing manual configuration work across a fleet, not about migration, cost scheduling, or changing how the workload is packaged.",
     "whyOthersWrong": "The others describe migration, scheduled shutdown, and containerization.",
@@ -1978,13 +1978,13 @@
     "uid": "P6373",
     "text": "What does Azure Hybrid Benefit allow you to do?",
     "options": [
-      "A) Get free Azure support",
-      "B) Use your existing on-premises Windows Server and SQL Server licenses with Software Assurance to save money on Azure VMs and SQL Database",
-      "C) Connect your on-premises network to Azure for free",
-      "D) Migrate your data to Azure without cost"
+      "A) Get Azure support of any level entirely free of charge for a year",
+      "B) Use existing Windows Server and SQL Server licences to cut the cost of Azure",
+      "C) Connect your on-premises network to Azure at no cost whatsoever",
+      "D) Migrate all of your data into Azure without paying anything for transfer"
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Use your existing on-premises Windows Server and SQL Server licenses with Software Assurance to save money on Azure VMs and SQL Database",
+    "correctAnswerText": "B) Use existing Windows Server and SQL Server licences to cut the cost of Azure",
     "difficulty": 2,
     "explanation": "Azure Hybrid Benefit lets you apply Windows Server or SQL Server licenses you already own, provided they carry active Software Assurance or an equivalent subscription, to workloads in Azure. The virtual machine is then billed at the Linux compute rate, with the Windows licensing cost removed, and the equivalent applies to SQL Server on Azure SQL Database and SQL Managed Instance. Savings are substantial and stack with reservations, which is why the two are usually combined for steady production workloads. It changes only the licensing component of the price, not the compute or storage.",
     "whyOthersWrong": "The others promise free support, free connectivity, or free migration, none of which the benefit provides.",
@@ -2062,13 +2062,13 @@
     "uid": "JMH55",
     "text": "What is the purpose of Azure Monitor Application Insights?",
     "options": [
-      "A) To monitor the health of Azure datacenters",
-      "B) To manage user access to applications",
-      "C) To back up application data",
-      "D) To provide an application performance management (APM) service for live web applications, detecting issues and diagnosing crashes"
+      "A) To monitor the health of the Azure datacenters themselves worldwide",
+      "B) To manage which users have access to the applications and their data",
+      "C) To back up the data that the applications keep in Azure storage",
+      "D) To provide application performance management for live web applications"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) To provide an application performance management (APM) service for live web applications, detecting issues and diagnosing crashes",
+    "correctAnswerText": "D) To provide application performance management for live web applications",
     "difficulty": 2,
     "explanation": "Application Insights is the application performance management component of Azure Monitor. It collects request rates and durations, dependency calls to databases and external services, exceptions, traces, and client-side telemetry, then presents them as live metrics, failure analysis, and an application map. Distributed tracing links a single user request across components, which is what turns a vague report of slowness into an identifiable bottleneck. Its data lands in a Log Analytics workspace, so it can be queried with Kusto and combined with infrastructure telemetry.",
     "whyOthersWrong": "The others report platform health, manage access, or protect data.",
@@ -2208,13 +2208,13 @@
     "uid": "T9JV9",
     "text": "What is the primary networking benefit of using Global VNet Peering compared to a VPN Gateway connection between two Azure virtual networks in different regions?",
     "options": [
-      "A) Global VNet Peering provides end-to-end encryption of the traffic.",
+      "A) Global VNet peering provides end-to-end encryption of all the traffic.",
       "B) Global VNet Peering is less expensive because it uses the public internet.",
       "C) Global VNet Peering requires a physical circuit from a connectivity provider.",
-      "D) Global VNet Peering traffic travels over the Microsoft backbone network, offering lower latency and higher bandwidth without encryption overhead."
+      "D) Peering traffic uses the Microsoft backbone: lower latency, higher bandwidth"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Global VNet Peering traffic travels over the Microsoft backbone network, offering lower latency and higher bandwidth without encryption overhead.",
+    "correctAnswerText": "D) Peering traffic uses the Microsoft backbone: lower latency, higher bandwidth",
     "difficulty": 4,
     "explanation": "Global VNet peering carries traffic between regions across the Microsoft backbone rather than the public internet, which gives higher throughput and lower, more consistent latency than a VPN gateway. There is no gateway in the path, so there is no tunnel to size, no encryption overhead, and no gateway resource to pay for or maintain. The traffic is not encrypted by peering itself, which is the trade-off; where encryption is mandatory the application must provide it or a VPN must be used. Data transferred between regions is still billed.",
     "whyOthersWrong": "The others credit peering with encryption, internet transport, or a physical circuit that it does not use.",
@@ -2229,13 +2229,13 @@
     "uid": "WM5W8",
     "text": "What is a request unit in Azure Cosmos DB?",
     "options": [
-      "A) The number of documents returned by a query",
-      "B) A normalized measure of the cost of a database operation, covering processor, memory, and IO",
-      "C) The monthly invoice line for the database account",
-      "D) A limit on how many applications may connect at once"
+      "A) The number of documents that a query ends up returning to the caller",
+      "B) A normalized measure of what a database operation costs in CPU, memory and IO",
+      "C) The monthly invoice line printed for the database account in the bill",
+      "D) A limit on how many applications may connect to it at once in total"
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) A normalized measure of the cost of a database operation, covering processor, memory, and IO",
+    "correctAnswerText": "B) A normalized measure of what a database operation costs in CPU, memory and IO",
     "difficulty": 4,
     "explanation": "Cosmos DB abstracts the resources an operation consumes into a single currency called the request unit, so a read, a write, or a query is priced by the processor time, memory, and IO it actually required rather than by its type. Throughput is provisioned or autoscaled in request units per second, and exceeding that rate causes requests to be throttled and retried rather than to fail outright. Because a badly shaped query can cost many times what an efficient one does, tuning the data model and the partition key is what keeps the figure down. Serverless accounts bill per request unit consumed instead of reserving a rate.",
     "whyOthersWrong": "The others count documents, describe an invoice line, or limit connections, while a request unit measures the resource cost of an operation.",
@@ -2271,13 +2271,13 @@
     "uid": "XCS52",
     "text": "Which of the following is a key characteristic that distinguishes a public cloud from a private cloud?",
     "options": [
-      "A) The public cloud's resources are shared among multiple customers (multi-tenant), while a private cloud's resources are dedicated to a single organization.",
-      "B) The public cloud uses virtualization, while a private cloud does not.",
-      "C) The public cloud is always more expensive than a private cloud.",
-      "D) The public cloud can only be accessed over the internet, while a private cloud can only be accessed from a local network."
+      "A) Public cloud resources are shared by many customers; private cloud resources are dedicated",
+      "B) The public cloud uses virtualization, while a private cloud never does at all.",
+      "C) The public cloud is always more expensive than a private cloud in the long run.",
+      "D) The public cloud is reachable only over the internet; a private one only locally."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) The public cloud's resources are shared among multiple customers (multi-tenant), while a private cloud's resources are dedicated to a single organization.",
+    "correctAnswerText": "A) Public cloud resources are shared by many customers; private cloud resources are dedicated",
     "difficulty": 2,
     "explanation": "Tenancy is the defining distinction: the public cloud pools infrastructure and serves many unrelated customers from it, while a private cloud is dedicated to a single organization. Everything else follows from that, including consumption pricing, near-instant provisioning, and the fact that the customer cannot see the physical hardware. Both models use virtualization, both can be reached over a network or privately, and neither is universally cheaper. Location is not the distinguishing factor either, since a private cloud may be hosted by a third party.",
     "whyOthersWrong": "The others claim differences in virtualization, cost, or connectivity that do not reliably hold.",
@@ -2355,13 +2355,13 @@
     "uid": "HPKVM",
     "text": "Which statement accurately describes a primary use case for Azure Batch?",
     "options": [
-      "A) To host a continuously running web application with variable traffic.",
-      "B) To orchestrate complex microservices composed of dozens of containers.",
-      "C) To process a large number of financial risk simulations that require thousands of CPU cores for a few hours.",
+      "A) To host a continuously running web application that has variable traffic.",
+      "B) To orchestrate complex microservices made up of dozens of containers each.",
+      "C) To run many financial risk simulations needing thousands of cores for hours",
       "D) To provide a serverless environment for running small pieces of event-driven code."
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) To process a large number of financial risk simulations that require thousands of CPU cores for a few hours.",
+    "correctAnswerText": "C) To run many financial risk simulations needing thousands of cores for hours",
     "difficulty": 3,
     "explanation": "Azure Batch fits work that is finite, highly parallel, and compute-hungry: thousands of independent simulations that must run for a few hours and then stop. Batch creates the pool, distributes tasks across the nodes, retries failures, and tears the pool down when the job completes, so nothing sits idle afterwards. Using low-priority or spot nodes lowers the cost further for work that can tolerate interruption. Continuously running services, container orchestration, and small event-driven functions all belong to other services.",
     "whyOthersWrong": "The others describe a long-running web application, a container orchestration platform, and event-driven functions.",
@@ -2378,11 +2378,11 @@
     "options": [
       "A) VNet Peering provides a more secure connection because it encrypts all traffic by default.",
       "B) VNet Peering is a better solution for connecting an on-premises network to Azure.",
-      "C) VNet Peering offers higher bandwidth and lower latency because traffic flows through the Microsoft backbone network, not over the public internet.",
-      "D) VNet Peering is always free of charge."
+      "C) Peering gives higher bandwidth and lower latency because it uses the Microsoft backbone",
+      "D) VNet peering is always entirely free of charge in every scenario."
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) VNet Peering offers higher bandwidth and lower latency because traffic flows through the Microsoft backbone network, not over the public internet.",
+    "correctAnswerText": "C) Peering gives higher bandwidth and lower latency because it uses the Microsoft backbone",
     "difficulty": 4,
     "explanation": "Peering keeps traffic on the Microsoft backbone, so it avoids both the public internet and the throughput ceiling of a VPN gateway, which is limited by the gateway SKU you choose. There is no tunnel, so there is no encryption overhead and no gateway to deploy, monitor, or pay an hourly charge for. The networks must have non-overlapping address spaces, and peering is not transitive, so hub-and-spoke topologies need explicit routing or a Virtual WAN hub. Data transfer across the peering is still billed.",
     "whyOthersWrong": "The others credit peering with encryption, with on-premises connectivity, or with being free.",
@@ -2439,13 +2439,13 @@
     "uid": "QG5NJ",
     "text": "When comparing ExpressRoute to a Site-to-Site VPN, which of the following is a true statement?",
     "options": [
-      "A) ExpressRoute provides a connection that is logically isolated from the public internet, while VPN traffic is encrypted and sent over the internet.",
+      "A) ExpressRoute is logically isolated from the internet; VPN is encrypted over it",
       "B) ExpressRoute connections are easier and faster to set up than VPN connections.",
       "C) ExpressRoute is generally less expensive than a VPN for the same amount of bandwidth.",
       "D) ExpressRoute does not require any hardware on the customer's premises."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) ExpressRoute provides a connection that is logically isolated from the public internet, while VPN traffic is encrypted and sent over the internet.",
+    "correctAnswerText": "A) ExpressRoute is logically isolated from the internet; VPN is encrypted over it",
     "difficulty": 3,
     "explanation": "The essential difference is the transport. ExpressRoute runs over a private circuit provisioned by a connectivity provider, so the traffic is logically isolated from the public internet and gets predictable bandwidth and latency. A site-to-site VPN encrypts traffic and sends it across the internet, so its performance depends on that path. ExpressRoute usually costs more and takes longer to provision because a third party has to deliver the circuit, and it still requires edge routing equipment. Running a VPN as a backup path for an ExpressRoute circuit is a common design.",
     "whyOthersWrong": "The others claim ExpressRoute is quicker to set up, cheaper, or free of on-premises equipment, none of which holds.",
@@ -2481,10 +2481,10 @@
     "uid": "RHRF7",
     "text": "In a hybrid cloud model, which Azure service is most commonly used to establish identity federation and enable single sign-on (SSO) between on-premises Active Directory and cloud applications?",
     "options": [
-      "A) Azure AD Domain Services",
+      "A) Azure AD Domain Services in the virtual network",
       "B) Azure Active Directory (Azure AD) with Azure AD Connect",
-      "C) Network Security Groups (NSG)",
-      "D) Azure ExpressRoute"
+      "C) Network Security Groups (NSG) applied per subnet",
+      "D) Azure ExpressRoute providing a private circuit"
     ],
     "correctAnswer": "B",
     "correctAnswerText": "B) Azure Active Directory (Azure AD) with Azure AD Connect",
@@ -2502,13 +2502,13 @@
     "uid": "NQAEJ",
     "text": "Which of the following best describes the economic advantage of moving from a capital expenditure (CapEx) model to an operational expenditure (OpEx) model with cloud computing?",
     "options": [
-      "A) It requires a larger upfront investment but has lower long-term costs.",
+      "A) It requires a larger upfront investment but gives lower long-term costs.",
       "B) It guarantees that the total cost of ownership (TCO) will be lower over five years.",
-      "C) It eliminates all costs associated with IT infrastructure.",
-      "D) It converts large upfront costs into smaller, predictable periodic payments, improving cash flow and reducing financial risk."
+      "C) It eliminates every cost associated with the IT infrastructure entirely.",
+      "D) Large upfront costs become smaller predictable payments, improving cash flow"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) It converts large upfront costs into smaller, predictable periodic payments, improving cash flow and reducing financial risk.",
+    "correctAnswerText": "D) Large upfront costs become smaller predictable payments, improving cash flow",
     "difficulty": 2,
     "explanation": "Shifting from CapEx to OpEx replaces one large purchase, made years before the capacity is fully used, with smaller recurring charges that follow actual consumption. Cash stays in the business rather than being locked into depreciating hardware, and the financial risk of over-provisioning disappears because unused capacity can simply be switched off. Spend also becomes attributable, since resources can be tagged to the project or department that created them. What the shift does not promise is a lower total cost, and a workload running flat out around the clock may well be cheaper on owned hardware.",
     "whyOthersWrong": "The others increase the upfront investment, guarantee a cost outcome, or claim infrastructure costs disappear.",
@@ -2902,12 +2902,12 @@
     "text": "Which statement BEST describes when Azure Logic Apps is preferred over Azure Functions for workflow automation?",
     "options": [
       "A) When the workflow requires complex custom code algorithms written in C# or Python.",
-      "B) When the workflow needs to integrate many different SaaS connectors (like SAP, Salesforce, SharePoint) with minimal coding using a visual designer.",
-      "C) When sub-millisecond response time is required.",
+      "B) When the workflow must connect many SaaS connectors with little code in a designer",
+      "C) When a sub-millisecond response time is strictly required from the workflow.",
       "D) When the workflow needs to process hundreds of thousands of events per second."
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) When the workflow needs to integrate many different SaaS connectors (like SAP, Salesforce, SharePoint) with minimal coding using a visual designer.",
+    "correctAnswerText": "B) When the workflow must connect many SaaS connectors with little code in a designer",
     "difficulty": 3,
     "explanation": "The choice between Logic Apps and Functions is mostly about how much of the work is integration versus computation. Logic Apps wins when the workflow is mainly connecting systems, because hundreds of managed connectors and a visual designer remove both the code and the authentication plumbing. Functions wins when the value is in custom logic, when performance matters, or when the work belongs in a language and test framework the team already uses. The two compose well, and a common pattern is a Logic App orchestrating the flow with a Function called for the one step that needs real code.",
     "whyOthersWrong": "The others describe cases where custom code, extreme latency, or extreme throughput make Functions or a streaming service the better fit.",
@@ -3090,13 +3090,13 @@
     "uid": "JK43T",
     "text": "Which principle is a core element of the Zero Trust security model?",
     "options": [
-      "A) Trust all traffic originating from inside the corporate network perimeter.",
-      "B) Verify explicitly — always authenticate and authorize based on all available data points, regardless of location.",
+      "A) Trust all of the traffic originating inside the corporate network perimeter.",
+      "B) Verify explicitly: always authenticate and authorize on all available signals",
       "C) Grant the highest level of access by default to reduce friction for users.",
       "D) Use a single, shared credential for all application services to simplify management."
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Verify explicitly — always authenticate and authorize based on all available data points, regardless of location.",
+    "correctAnswerText": "B) Verify explicitly: always authenticate and authorize on all available signals",
     "difficulty": 2,
     "explanation": "Zero Trust replaces implicit network trust with explicit verification. Its three principles are to verify explicitly, using all available signals such as identity, device health, location, and risk; to use least privileged access, including just-in-time and just-enough access; and to assume breach, which means segmenting, encrypting, and monitoring as though an attacker is already inside. Being on the corporate network confers no privilege in this model. Conditional Access, multifactor authentication, and Privileged Identity Management are the practical Azure implementations.",
     "whyOthersWrong": "The others describe the perimeter model that Zero Trust replaces, or practices that weaken security outright.",
@@ -3720,13 +3720,13 @@
     "uid": "PTP2X",
     "text": "When comparing Azure Blob Storage access tiers, which statement correctly describes the cost trade-off between the Hot tier and the Archive tier?",
     "options": [
-      "A) Hot tier has lower storage cost but higher access/read cost than Archive.",
+      "A) Hot tier has lower storage cost but a higher access and read cost than Archive.",
       "B) Both tiers have the same storage cost, but Archive charges for early deletion.",
-      "C) Archive tier always has higher total costs than Hot tier.",
-      "D) Hot tier has higher storage cost per GB but lower access/read cost; Archive has very low storage cost but high retrieval cost and latency (rehydration)."
+      "C) The archive tier always has higher total costs than the hot tier does.",
+      "D) Hot costs more to store but less to read; archive is the other way round"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Hot tier has higher storage cost per GB but lower access/read cost; Archive has very low storage cost but high retrieval cost and latency (rehydration).",
+    "correctAnswerText": "D) Hot costs more to store but less to read; archive is the other way round",
     "difficulty": 3,
     "explanation": "Access tiers trade storage price against access price. Hot has the highest per-gigabyte storage cost but the lowest transaction and retrieval costs, so it suits data being read regularly. Archive inverts that: storage is very cheap, but reading requires rehydration that takes hours and incurs a retrieval charge, and there is a 180-day minimum retention with an early deletion fee. Cool and cold sit between them with 30-day and 90-day minimums. The economics only work if the access pattern matches the tier, which is why lifecycle policies move data as it ages.",
     "whyOthersWrong": "The others reverse the trade-off, equate the storage costs, or claim archive is always more expensive overall.",
@@ -3804,13 +3804,13 @@
     "uid": "9APPQ",
     "text": "Which of the following is TRUE about the Azure Free Account offer?",
     "options": [
-      "A) It provides unlimited usage of all Azure services for 12 months.",
+      "A) It provides unlimited usage of every Azure service for a full 12 months.",
       "B) It is available only for enterprise organizations with a minimum of 100 employees.",
-      "C) It does not require a credit card to sign up.",
-      "D) It provides $200 credit for the first 30 days, free access to selected services for 12 months, and a set of always-free services."
+      "C) It does not require a credit card of any kind to sign up at all.",
+      "D) $200 credit for 30 days, selected services free for 12 months, plus always-free ones"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) It provides $200 credit for the first 30 days, free access to selected services for 12 months, and a set of always-free services.",
+    "correctAnswerText": "D) $200 credit for 30 days, selected services free for 12 months, plus always-free ones",
     "difficulty": 2,
     "explanation": "The free account has three separate components that are easy to confuse. There is a credit, currently 200 US dollars, valid for the first 30 days; a set of popular services free for the first 12 months within monthly limits, such as a quantity of B1s virtual machine hours and blob storage; and a longer list of services that are always free within their limits, such as a number of Azure Functions executions per month. A payment card is required for identity verification, but charges only begin if you explicitly move to pay-as-you-go. Usage beyond the stated limits is billed normally.",
     "whyOthersWrong": "The others promise unlimited usage, restrict eligibility to enterprises, or claim no card is needed.",
@@ -3888,13 +3888,13 @@
     "uid": "ZH8CZ",
     "text": "What is the difference between 'Azure Status', 'Azure Service Health', and 'Resource Health'?",
     "options": [
-      "A) Azure Status shows global Azure outages publicly; Service Health shows issues impacting YOUR subscriptions/regions; Resource Health shows the health of YOUR specific resources.",
-      "B) They are three names for the same dashboard.",
+      "A) Status shows global outages; Service Health your subscriptions; Resource Health your resources",
+      "B) They are simply three different names for one and the same dashboard in the portal.",
       "C) Azure Status is for IaaS only; Service Health is for PaaS; Resource Health is for SaaS.",
-      "D) Resource Health requires a paid support plan to access."
+      "D) Resource Health requires a paid support plan before it can be accessed at all."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) Azure Status shows global Azure outages publicly; Service Health shows issues impacting YOUR subscriptions/regions; Resource Health shows the health of YOUR specific resources.",
+    "correctAnswerText": "A) Status shows global outages; Service Health your subscriptions; Resource Health your resources",
     "difficulty": 3,
     "explanation": "The three views differ by scope. Azure Status is a public page describing widespread incidents affecting many customers, and it is the last to update because it is intended for broad outages. Service Health is personalized to your subscriptions and reports incidents, planned maintenance, and advisories for the services and regions you actually use, and it can raise alerts. Resource Health is narrower still, reporting whether one specific resource is available, degraded, or unavailable, and why. In practice you configure alerts on Service Health and Resource Health, and read Azure Status only when something very large is happening.",
     "whyOthersWrong": "The others equate the three, split them by service model, or invent a licensing requirement.",
@@ -3909,13 +3909,13 @@
     "uid": "RSRZ5",
     "text": "What is an Azure Policy *initiative* (also known as a policy set definition)?",
     "options": [
-      "A) A collection of multiple policy definitions grouped together to achieve a broader compliance goal (e.g., all policies for ISO 27001 compliance).",
+      "A) A collection of policy definitions grouped for a broader compliance goal",
       "B) A single rule that denies or audits a specific resource configuration.",
-      "C) A custom RBAC role with specific permissions.",
-      "D) A budget alert that enforces spending limits."
+      "C) A custom RBAC role that carries a specific set of permissions.",
+      "D) A budget alert that enforces the configured spending limits."
     ],
     "correctAnswer": "A",
-    "correctAnswerText": "A) A collection of multiple policy definitions grouped together to achieve a broader compliance goal (e.g., all policies for ISO 27001 compliance).",
+    "correctAnswerText": "A) A collection of policy definitions grouped for a broader compliance goal",
     "difficulty": 2,
     "explanation": "An initiative, formally a policy set definition, bundles related policy definitions so they are assigned and reported on as a single unit. That matters for compliance work, where a standard such as ISO 27001 maps to dozens of individual rules; assigning one initiative gives one compliance percentage rather than dozens of separate results. Parameters can be set once at the initiative level and passed to the policies inside it. Microsoft ships built-in initiatives for common regulatory standards and for the Microsoft cloud security benchmark.",
     "whyOthersWrong": "The others describe a single policy, an access role, or a spending control.",
@@ -4057,12 +4057,12 @@
     "text": "What does it mean when an Azure service is in 'Public Preview' status?",
     "options": [
       "A) The service is fully supported with an SLA and recommended for production workloads.",
-      "B) The service is available to all customers for evaluation and feedback, but may have limited SLAs and is not recommended for production workloads.",
-      "C) The service is available only to Microsoft internal teams.",
-      "D) The service has been deprecated and will be removed soon."
+      "B) Open to all customers for evaluation, with a limited SLA and not for production",
+      "C) The service is available only to internal Microsoft engineering teams.",
+      "D) The service has been deprecated and will be removed in the near future."
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) The service is available to all customers for evaluation and feedback, but may have limited SLAs and is not recommended for production workloads.",
+    "correctAnswerText": "B) Open to all customers for evaluation, with a limited SLA and not for production",
     "difficulty": 1,
     "explanation": "Public preview means Microsoft has opened a feature to all customers for evaluation and feedback. The feature may change or be withdrawn, is generally excluded from the service level agreement, and support is limited, which is why it is not recommended for production. Preview features are governed by supplemental terms, and pricing is often discounted or free during the period. Private preview is the earlier stage available only to invited customers, and general availability is the point at which the feature is production-ready and covered by its SLA.",
     "whyOthersWrong": "The others describe general availability, private preview, and retirement.",
@@ -4435,12 +4435,12 @@
     "text": "When deploying Virtual Machines in an Azure Availability Set, what do *Fault Domains* and *Update Domains* protect against, respectively?",
     "options": [
       "A) Fault Domains protect against planned maintenance; Update Domains protect against hardware failures.",
-      "B) Fault Domains protect against hardware failures (shared power/networking); Update Domains protect against planned Azure maintenance reboots.",
-      "C) Both Fault Domains and Update Domains protect against hardware failures only.",
+      "B) Fault domains guard against hardware failures; update domains against planned maintenance reboots",
+      "C) Both fault domains and update domains protect against hardware failures only, nothing else.",
       "D) Update Domains protect against hardware failures; Fault Domains protect against planned maintenance."
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Fault Domains protect against hardware failures (shared power/networking); Update Domains protect against planned Azure maintenance reboots.",
+    "correctAnswerText": "B) Fault domains guard against hardware failures; update domains against planned maintenance reboots",
     "difficulty": 3,
     "explanation": "Fault domains and update domains address two different causes of a machine going offline. A fault domain is a group of racks sharing a power source and network switch, so distributing machines across fault domains means a hardware or power failure takes down only part of the set. An update domain is a scheduling group for planned platform maintenance: Azure reboots one update domain at a time, waiting before moving to the next, so the rest of the set keeps serving. An availability set spreads machines across both automatically, which is why two or more machines in a set carry a higher SLA than one alone.",
     "whyOthersWrong": "The others swap the two or claim both address the same kind of failure.",
@@ -4728,13 +4728,13 @@
     "uid": "EMK6D",
     "text": "Which statement BEST describes the primary difference between Azure Functions and Azure Logic Apps?",
     "options": [
-      "A) Azure Functions only supports C#; Logic Apps supports all languages.",
-      "B) Azure Functions is a code-first serverless compute service for custom logic; Azure Logic Apps is a low-code workflow orchestration service with 400+ pre-built connectors.",
+      "A) Azure Functions supports only C#, while Logic Apps supports every language.",
+      "B) Functions is code-first serverless compute; Logic Apps is low-code workflow orchestration",
       "C) Logic Apps can run for unlimited duration; Functions have a maximum of 5 minutes.",
       "D) Azure Functions can only be triggered by HTTP; Logic Apps supports all trigger types."
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Azure Functions is a code-first serverless compute service for custom logic; Azure Logic Apps is a low-code workflow orchestration service with 400+ pre-built connectors.",
+    "correctAnswerText": "B) Functions is code-first serverless compute; Logic Apps is low-code workflow orchestration",
     "difficulty": 2,
     "explanation": "Functions and Logic Apps solve overlapping problems from opposite directions. Functions is code-first: you write the logic in a supported language, it runs on a trigger, and it scales automatically, which suits custom computation and performance-sensitive work. Logic Apps is configuration-first: a visual designer and hundreds of managed connectors let a workflow reach SaaS and enterprise systems without writing integration or authentication code. Functions is cheaper for pure compute; Logic Apps saves far more time when the work is mostly connecting systems, and the two are frequently combined.",
     "whyOthersWrong": "The others invent language restrictions, duration limits, or trigger limits that do not match either service.",
@@ -4770,13 +4770,13 @@
     "uid": "TSV5Z",
     "text": "Which statement accurately describes a key aspect of Azure's global infrastructure?",
     "options": [
-      "A) Azure has datacenters in only 5 geographic regions worldwide.",
+      "A) Azure has datacenters in only five geographic regions across the world.",
       "B) Each Azure region consists of a single datacenter to maximize resource density.",
       "C) All Azure regions are located in the United States to comply with US data protection laws.",
-      "D) Azure consists of 60+ regions worldwide, many consisting of multiple physical datacenters connected by a high-speed private fiber network."
+      "D) Azure has more than 60 regions, many with several datacenters on a private fibre network"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Azure consists of 60+ regions worldwide, many consisting of multiple physical datacenters connected by a high-speed private fiber network.",
+    "correctAnswerText": "D) Azure has more than 60 regions, many with several datacenters on a private fibre network",
     "difficulty": 1,
     "explanation": "Azure operates more regions than any other cloud provider, well over sixty, grouped into geographies that act as data residency boundaries. A region is not a single building: most consist of several physical datacenters within a latency-defined perimeter, joined by a dedicated regional network, and many are further divided into availability zones. All of it is connected by one of the largest private fibre backbones in the world, which is why traffic between Azure regions does not traverse the public internet. Service availability varies by region, so it is always worth checking before committing to a location.",
     "whyOthersWrong": "The others understate the footprint, reduce a region to one datacenter, or place everything in one country.",
@@ -4896,13 +4896,13 @@
     "uid": "TG2SE",
     "text": "Which of the following BEST illustrates the cloud benefit of *manageability*?",
     "options": [
-      "A) Being able to automatically scale resources when CPU usage exceeds 80%.",
-      "B) Maintaining 99.99% availability through redundant infrastructure.",
-      "C) Being able to deploy resources using templates, monitor health, and receive alerts — from the portal, CLI, API, or PowerShell — without physical access to hardware.",
-      "D) Encrypting all data at rest and in transit automatically."
+      "A) Being able to scale resources automatically when CPU usage exceeds 80 percent.",
+      "B) Maintaining 99.99 percent availability through redundant infrastructure.",
+      "C) Deploying by templates, monitoring health and getting alerts without touching hardware",
+      "D) Encrypting all of the data at rest and in transit automatically and by default."
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) Being able to deploy resources using templates, monitor health, and receive alerts — from the portal, CLI, API, or PowerShell — without physical access to hardware.",
+    "correctAnswerText": "C) Deploying by templates, monitoring health and getting alerts without touching hardware",
     "difficulty": 2,
     "explanation": "Manageability has two halves in the Azure framing. Management of the cloud is about how resources are provisioned and maintained: templates and infrastructure as code, automatic scaling, monitoring and alerting, and automated recovery. Management in the cloud is about how you interact with the platform: the portal, CLI, PowerShell, REST APIs, and SDKs, all reaching the same control plane from anywhere without physical access to hardware. The example that combines templates, monitoring, and multiple management surfaces captures both halves, whereas autoscaling alone is elasticity and redundancy alone is reliability.",
     "whyOthersWrong": "The others illustrate elasticity, reliability, and security instead.",
@@ -4917,13 +4917,13 @@
     "uid": "HYM8N",
     "text": "What is the difference between *vertical scaling* (scaling up/down) and *horizontal scaling* (scaling out/in)?",
     "options": [
-      "A) Vertical scaling adds more instances; horizontal scaling increases the size of existing instances.",
-      "B) Vertical scaling is used for stateless applications; horizontal scaling is for stateful applications.",
-      "C) There is no meaningful difference — both achieve the same result.",
-      "D) Vertical scaling increases the capacity of an existing resource (e.g., more CPU/RAM); horizontal scaling adds more instances of the same resource."
+      "A) Vertical scaling adds more instances; horizontal increases the size of existing ones.",
+      "B) Vertical scaling is for stateless applications; horizontal scaling is for stateful ones.",
+      "C) There is no meaningful difference between them; both achieve the same result.",
+      "D) Vertical scaling grows the capacity of an existing resource; horizontal adds instances"
     ],
     "correctAnswer": "D",
-    "correctAnswerText": "D) Vertical scaling increases the capacity of an existing resource (e.g., more CPU/RAM); horizontal scaling adds more instances of the same resource.",
+    "correctAnswerText": "D) Vertical scaling grows the capacity of an existing resource; horizontal adds instances",
     "difficulty": 1,
     "explanation": "Vertical scaling changes the size of one instance, adding CPU and memory, and it is simple because the application does not need to change. Its limits are that there is a maximum size, the instance usually restarts during the resize, and it remains a single point of failure. Horizontal scaling adds more instances behind a load balancer, which improves both capacity and resilience and has a much higher ceiling, but it requires the application to be stateless or to externalize its state. Cloud designs generally prefer horizontal scaling for exactly those reasons.",
     "whyOthersWrong": "The others swap the definitions, tie each to a workload type, or deny any difference.",
@@ -4960,12 +4960,12 @@
     "text": "Which statement is TRUE about data encryption at rest in Azure?",
     "options": [
       "A) Customers must manually enable encryption for each storage service; it is not on by default.",
-      "B) Azure encrypts all customer data at rest by default using platform-managed keys, with the option to use customer-managed keys in Azure Key Vault.",
-      "C) Encryption at rest is only available for Premium storage tiers.",
+      "B) Azure encrypts data at rest by default with platform keys; customer keys are optional",
+      "C) Encryption at rest is available only for the premium tiers of storage.",
       "D) Only Azure SQL Database supports encryption at rest; other services require third-party tools."
     ],
     "correctAnswer": "B",
-    "correctAnswerText": "B) Azure encrypts all customer data at rest by default using platform-managed keys, with the option to use customer-managed keys in Azure Key Vault.",
+    "correctAnswerText": "B) Azure encrypts data at rest by default with platform keys; customer keys are optional",
     "difficulty": 2,
     "explanation": "Encryption at rest is on by default across Azure storage services, using Storage Service Encryption with 256-bit AES and platform-managed keys, and it cannot be turned off. Customers who need control of the key can switch to customer-managed keys held in Azure Key Vault or Managed HSM, which allows rotation and revocation on their own schedule, and some services support customer-provided keys per request. Azure SQL uses Transparent Data Encryption in the same way, enabled by default with the option of a customer-managed key. Choosing customer-managed keys shifts responsibility for key availability to you.",
     "whyOthersWrong": "The others claim encryption is off by default, limited to premium tiers, or limited to one service.",
@@ -4980,13 +4980,13 @@
     "uid": "QEEVQ",
     "text": "Which statement is TRUE about data encryption in transit in Azure?",
     "options": [
-      "A) Azure does not encrypt data in transit; customers must implement their own TLS.",
-      "B) Encryption in transit is only available with Azure ExpressRoute connections.",
-      "C) Data transferred between Azure datacenters and between users and Azure services is protected using industry-standard protocols such as TLS, and Azure enforces HTTPS for most services.",
-      "D) Azure encrypts data in transit only for SaaS services; IaaS and PaaS require manual configuration."
+      "A) Azure does not encrypt data in transit at all; customers must implement their own TLS.",
+      "B) Encryption in transit is available only with Azure ExpressRoute connections.",
+      "C) Traffic between Azure datacenters and between users and services is protected with TLS",
+      "D) Azure encrypts data in transit only for SaaS; IaaS and PaaS need manual setup."
     ],
     "correctAnswer": "C",
-    "correctAnswerText": "C) Data transferred between Azure datacenters and between users and Azure services is protected using industry-standard protocols such as TLS, and Azure enforces HTTPS for most services.",
+    "correctAnswerText": "C) Traffic between Azure datacenters and between users and services is protected with TLS",
     "difficulty": 2,
     "explanation": "Traffic to Azure services is protected with TLS, and most services now require HTTPS and reject older protocol versions. Traffic between Azure datacenters travels on Microsoft's private backbone and is encrypted at the physical layer, and additional in-transit encryption is available for specific workloads, such as encryption between virtual machines in the same virtual network on supported SKUs. Storage accounts have a secure transfer required setting that refuses unencrypted connections outright, which is a common policy target. None of this removes the need for the application to use TLS correctly on its own endpoints.",
     "whyOthersWrong": "The others deny that Azure encrypts in transit, tie it to ExpressRoute, or limit it to SaaS.",

@@ -7,9 +7,7 @@ namespace AzureExamQuestions
 {
     internal static class BookmarkService
     {
-        private static readonly string FilePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "MyExamQuiz", "bookmarks.json");
+        private static readonly string FilePath = UserDataStore.PathFor("bookmarks.json");
 
         private static HashSet<int>? _cache;
 

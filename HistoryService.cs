@@ -7,9 +7,7 @@ namespace AzureExamQuestions
 {
     internal static class HistoryService
     {
-        private static readonly string FilePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "MyExamQuiz", "history.json");
+        private static readonly string FilePath = UserDataStore.PathFor("history.json");
 
         private static readonly JsonSerializerOptions JsonOpts = new() { WriteIndented = true };
 

@@ -28,8 +28,7 @@ namespace AzureExamQuestions
                 new(StringComparer.OrdinalIgnoreCase);
         }
 
-        private static readonly string Directory = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MyExamQuiz");
+        private static string Directory => UserDataStore.Directory;
 
         private static readonly JsonSerializerOptions JsonOpts = new()
         {
