@@ -1,0 +1,22 @@
+[
+  {
+    "code": "AZ-900",
+    "name": "Azure Fundamentals",
+    "description": "Основы облачных вычислений и Microsoft Azure",
+    "questionsBase": "az-900",
+    "defaultLanguage": "rus"
+  },
+  {
+    "code": "AZ-900 · набор 2",
+    "name": "Azure Fundamentals",
+    "description": "Альтернативный банк из 240 вопросов, не пересекающийся с основным набором AZ-900",
+    "questionsBase": "az-900-set2",
+    "defaultLanguage": "rus"
+  },
+  {
+    "code": "AZ-104",
+    "name": "Azure Administrator",
+    "description": "Администрирование и управление ресурсами Azure",
+    "questionsFile": "az-104.json"
+  }
+]

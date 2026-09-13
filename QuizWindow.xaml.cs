@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -11,14 +12,24 @@ namespace AzureExamQuestions
 {
     public partial class QuizWindow : Window
     {
-        private readonly List<Question> _questions;
+        private readonly List<QuestionBundle> _bundles;
+        private readonly List<QuestionLanguage> _languages;
         private readonly QuizMode _mode;
         private readonly string _examTitle;
         private readonly DateTime _startTime = DateTime.Now;
 
+        /// <summary>Код языка, на котором сейчас показываются вопросы.</summary>
+        private string _language;
+
         private int _currentIndex = 0;
         private int _correctCount = 0;
         private bool _answered = false;
+
+        // Состояние уже отвеченного вопроса — нужно, чтобы перерисовать его
+        // на другом языке, не потеряв выбор пользователя и разбор ответа.
+        private List<string> _answerSelected = new();
+        private List<string> _answerCorrect  = new();
+        private bool _answerIsCorrect;
 
         private readonly List<WrongAnswer> _wrongAnswers = new();
         private readonly List<(Control Ctrl, Border Wrapper)> _answerItems = new();
@@ -36,13 +47,18 @@ namespace AzureExamQuestions
         private static readonly SolidColorBrush NeutralBack  = Brushes.White;
         private static readonly SolidColorBrush NeutralBorder = new(Color.FromRgb(225, 223, 221));
 
-        public QuizWindow(List<Question> questions, string examTitle = "",
-                          QuizMode mode = QuizMode.Study, int timerSeconds = 90)
+        public QuizWindow(List<QuestionBundle> bundles, string examTitle = "",
+                          QuizMode mode = QuizMode.Study, int timerSeconds = 90,
+                          List<QuestionLanguage>? languages = null, string language = "")
         {
             InitializeComponent();
-            _questions = questions;
-            _mode = mode;
+            _bundles   = bundles;
+            _languages = languages ?? new List<QuestionLanguage>();
+            _mode      = mode;
             _examTitle = examTitle;
+            _language  = string.IsNullOrWhiteSpace(language)
+                ? (_languages.FirstOrDefault()?.Code ?? "")
+                : language;
             _secondsPerQuestion = timerSeconds > 0 ? timerSeconds : 90;
 
             if (!string.IsNullOrEmpty(examTitle))
@@ -56,19 +72,59 @@ namespace AzureExamQuestions
                 _timer.Tick += Timer_Tick;
             }
 
+            LanguageButton.Visibility = CanSwitchLanguage ? Visibility.Visible : Visibility.Collapsed;
+            UpdateLanguageButton();
+
             LoadQuestion();
         }
 
-        private Question Current => _questions[_currentIndex];
+        private QuestionBundle CurrentBundle => _bundles[_currentIndex];
+        private Question Current => CurrentBundle.Get(_language);
         private bool IsMultiAnswer => Current.CorrectAnswer.Contains(',');
 
+        /// <summary>Язык переключается только в режиме обучения и только если версий несколько.</summary>
+        private bool CanSwitchLanguage => _mode == QuizMode.Study && _languages.Count > 1;
+
+        // ─────────────────────────── вопрос ───────────────────────────
+
+        /// <summary>Готовит новый вопрос: сбрасывает состояние и рисует его с нуля.</summary>
         private void LoadQuestion()
         {
             _answered = false;
+            _answerSelected = new List<string>();
+            _answerCorrect  = new List<string>();
+
+            RenderQuestion();
+
+            ActionButton.Content   = "Ответить";
+            ActionButton.IsEnabled = false;
+            UpdateStats();
+            UpdateBookmarkButton();
+            UpdateHint();
+
+            if (_mode == QuizMode.Exam)
+            {
+                _paused                 = false;
+                PauseOverlay.Visibility = Visibility.Collapsed;
+                PauseButton.Content     = "⏸";
+                PauseButton.ToolTip     = "Пауза (P)";
+                PauseButton.IsEnabled   = true;
+                PauseButton.Opacity     = 1.0;
+                StartTimer();
+            }
+        }
+
+        /// <summary>
+        /// Рисует текущий вопрос на текущем языке. Если ответ уже дан, восстанавливает
+        /// выбор пользователя, подсветку вариантов и разбор — так смена языка
+        /// не сбрасывает состояние вопроса.
+        /// </summary>
+        private void RenderQuestion()
+        {
             _answerItems.Clear();
 
             var q = Current;
-            QuestionNumberText.Text = $"Вопрос {_currentIndex + 1} из {_questions.Count}";
+            QuestionNumberText.Text = $"Вопрос {_currentIndex + 1} из {_bundles.Count}";
             DifficultyText.Text     = new string('★', q.Difficulty) + new string('☆', 5 - q.Difficulty);
             QuestionText.Text       = q.Text;
 
@@ -79,6 +135,7 @@ namespace AzureExamQuestions
             foreach (var option in q.Options)
             {
                 string letter = QuizHelper.ExtractLetter(option);
+                bool   chosen = _answerSelected.Contains(letter);
 
                 var wrapper = new Border
                 {
@@ -97,6 +154,7 @@ namespace AzureExamQuestions
                     var cb = new CheckBox
                     {
                         Content = option, FontSize = 14, Tag = letter,
+                        IsChecked = chosen,
                         VerticalContentAlignment = VerticalAlignment.Center
                     };
                     cb.Checked   += OnSelectionChanged;
@@ -108,6 +166,7 @@ namespace AzureExamQuestions
                     var rb = new RadioButton
                     {
                         Content = option, GroupName = "QuizAnswer", FontSize = 14, Tag = letter,
+                        IsChecked = chosen,
                         VerticalContentAlignment = VerticalAlignment.Center
                     };
                     rb.Checked += OnSelectionChanged;
@@ -126,26 +185,146 @@ namespace AzureExamQuestions
                 _answerItems.Add((ctrl, wrapper));
             }
 
-            ActionButton.Content   = "Ответить";
-            ActionButton.IsEnabled = false;
-            UpdateStats();
-            UpdateBookmarkButton();
-
-            HintText.Text = _mode == QuizMode.Exam
-                ? "A–D: выбор  •  Enter: подтвердить  •  P: пауза"
-                : "A–D: выбор  •  Enter: подтвердить";
-
-            if (_mode == QuizMode.Exam)
+            if (_answered)
             {
-                _paused                 = false;
-                PauseOverlay.Visibility = Visibility.Collapsed;
-                PauseButton.Content     = "⏸";
-                PauseButton.ToolTip     = "Пауза (P)";
-                PauseButton.IsEnabled   = true;
-                PauseButton.Opacity     = 1.0;
-                StartTimer();
+                ApplyAnsweredVisuals();
+                if (_mode == QuizMode.Study)
+                    ShowFeedback();
             }
         }
+
+        /// <summary>Подсветка вариантов после ответа: зелёный — верный, красный — ошибочно выбранный.</summary>
+        private void ApplyAnsweredVisuals()
+        {
+            foreach (var (ctrl, wrapper) in _answerItems)
+            {
+                string letter          = ctrl.Tag?.ToString() ?? "";
+                bool   isCorrectOption = _answerCorrect.Contains(letter);
+                bool   isChosen        = _answerSelected.Contains(letter);
+
+                if (isCorrectOption)
+                {
+                    wrapper.Background  = GreenBack;
+                    wrapper.BorderBrush = GreenBorder;
+                }
+                else if (isChosen)
+                {
+                    wrapper.Background  = RedBack;
+                    wrapper.BorderBrush = RedBorder;
+                }
+
+                ctrl.IsEnabled = false;
+            }
+        }
+
+        /// <summary>Разбор ответа в режиме обучения — три необязательные части пояснения.</summary>
+        private void ShowFeedback()
+        {
+            var q = Current;
+
+            WhyWrongText.Visibility   = Visibility.Collapsed;
+            WhyCorrectText.Visibility = Visibility.Collapsed;
+            WhyOthersText.Visibility  = Visibility.Collapsed;
+
+            if (_answerIsCorrect)
+            {
+                FeedbackText.Text       = "✓  Правильно!";
+                FeedbackText.Foreground = new SolidColorBrush(Color.FromRgb(16, 124, 16));
+            }
+            else
+            {
+                FeedbackText.Text       = $"✗  Неверно.   Правильный ответ: {q.CorrectAnswerText}";
+                FeedbackText.Foreground = new SolidColorBrush(Color.FromRgb(164, 38, 44));
+
+                // 1) Почему выбранный вариант неверен
+                var reasons = _answerSelected
+                    .Where(letter => !_answerCorrect.Contains(letter))
+                    .Select(letter => q.GetWhyWrong(letter))
+                    .Where(text => !string.IsNullOrWhiteSpace(text))
+                    .Select(text => text!)
+                    .ToList();
+
+                if (reasons.Count > 0)
+                    SetLabeledText(WhyWrongText, "Почему ваш ответ неверен:",
+                        string.Join(Environment.NewLine, reasons),
+                        new SolidColorBrush(Color.FromRgb(164, 38, 44)));
+            }
+
+            // 2) Почему верен правильный ответ — один и тот же текст для обоих случаев
+            if (q.HasExplanation)
+                SetLabeledText(WhyCorrectText,
+                    _answerIsCorrect ? "Почему это верно:" : $"Почему верен ответ {q.CorrectAnswer}:",
+                    q.Explanation!,
+                    new SolidColorBrush(Color.FromRgb(16, 124, 16)));
+
+            // 3) Кратко — почему неверны остальные варианты.
+            //    Показываем только при верном ответе: при неверном уже выведена
+            //    точная причина по выбранному варианту, и сводка была бы повтором.
+            if (_answerIsCorrect && q.HasWhyOthersWrong)
+                SetLabeledText(WhyOthersText, "Почему остальные неверны:",
+                    q.WhyOthersWrong!,
+                    new SolidColorBrush(Color.FromRgb(72, 70, 68)));
+
+            FeedbackBorder.Visibility = Visibility.Visible;
+        }
+
+        // ─────────────────────────── язык ───────────────────────────
+
+        private void UpdateLanguageButton()
+        {
+            if (!CanSwitchLanguage) return;
+
+            var current = _languages.FirstOrDefault(l =>
+                string.Equals(l.Code, _language, StringComparison.OrdinalIgnoreCase)) ?? _languages[0];
+            var next = NextLanguage();
+
+            LanguageButton.Content = current.Code.ToUpperInvariant();
+            LanguageButton.ToolTip = $"Язык: {current.DisplayName} → {next.DisplayName}  (L)";
+        }
+
+        private QuestionLanguage NextLanguage()
+        {
+            int idx = _languages.FindIndex(l =>
+                string.Equals(l.Code, _language, StringComparison.OrdinalIgnoreCase));
+            if (idx < 0) idx = 0;
+            return _languages[(idx + 1) % _languages.Count];
+        }
+
+        /// <summary>Переключает язык и перерисовывает вопрос, сохраняя все ответы и счёт.</summary>
+        private void SwitchLanguage()
+        {
+            if (!CanSwitchLanguage) return;
+
+            _language = NextLanguage().Code;
+            UpdateLanguageButton();
+            RenderQuestion();
+            UpdateHint();
+        }
+
+        private void LanguageButton_Click(object sender, RoutedEventArgs e) => SwitchLanguage();
+
+        private void UpdateHint()
+        {
+            string hint;
+            if (_answered)
+            {
+                bool isLast = _currentIndex >= _bundles.Count - 1;
+                hint = isLast ? "Enter: завершить тест" : "Enter: следующий вопрос";
+            }
+            else
+            {
+                hint = _mode == QuizMode.Exam
+                    ? "A–D: выбор  •  Enter: подтвердить  •  P: пауза"
+                    : "A–D: выбор  •  Enter: подтвердить";
+            }
+
+            if (CanSwitchLanguage)
+                hint += "  •  L: язык";
+
+            HintText.Text = hint;
+        }
+
+        // ─────────────────────────── таймер ───────────────────────────
 
         private void StartTimer()
         {
@@ -185,6 +364,13 @@ namespace AzureExamQuestions
             if (e.Key == Key.P && _mode == QuizMode.Exam && !_answered)
             {
                 if (_paused) ResumeQuiz(); else PauseQuiz();
+                e.Handled = true;
+                return;
+            }
+
+            if (e.Key == Key.L && CanSwitchLanguage)
+            {
+                SwitchLanguage();
                 e.Handled = true;
                 return;
             }
@@ -249,6 +435,8 @@ namespace AzureExamQuestions
                 : Brushes.White;
         }
 
+        // ─────────────────────────── ответ ───────────────────────────
+
         private void OnSelectionChanged(object sender, RoutedEventArgs e)
         {
             if (!_answered)
@@ -277,7 +465,7 @@ namespace AzureExamQuestions
             }
 
             _currentIndex++;
-            if (_currentIndex >= _questions.Count)
+            if (_currentIndex >= _bundles.Count)
                 ShowResults();
             else
                 LoadQuestion();
@@ -296,6 +484,10 @@ namespace AzureExamQuestions
                             .ToList();
             bool isCorrect = selected.OrderBy(s => s).SequenceEqual(correct);
 
+            _answerSelected  = new List<string>(selected);
+            _answerCorrect   = correct;
+            _answerIsCorrect = isCorrect;
+
             if (isCorrect)
             {
                 _correctCount++;
@@ -305,50 +497,20 @@ namespace AzureExamQuestions
                 _wrongAnswers.Add(new WrongAnswer
                 {
                     Question     = q,
-                    UserSelected = new List<string>(selected)
+                    UserSelected = new List<string>(selected),
+                    Bundle       = CurrentBundle
                 });
             }
 
-            // Always highlight options
-            foreach (var (ctrl, wrapper) in _answerItems)
-            {
-                string letter          = ctrl.Tag?.ToString() ?? "";
-                bool   isCorrectOption = correct.Contains(letter);
-                bool   isChosen        = selected.Contains(letter);
-
-                if (isCorrectOption)
-                {
-                    wrapper.Background  = GreenBack;
-                    wrapper.BorderBrush = GreenBorder;
-                }
-                else if (isChosen)
-                {
-                    wrapper.Background  = RedBack;
-                    wrapper.BorderBrush = RedBorder;
-                }
-
-                ctrl.IsEnabled = false;
-            }
+            ApplyAnsweredVisuals();
 
             if (_mode == QuizMode.Study)
-            {
-                if (isCorrect)
-                {
-                    FeedbackText.Text       = "✓  Правильно!";
-                    FeedbackText.Foreground = new SolidColorBrush(Color.FromRgb(16, 124, 16));
-                }
-                else
-                {
-                    FeedbackText.Text       = $"✗  Неверно.   Правильный ответ: {q.CorrectAnswerText}";
-                    FeedbackText.Foreground = new SolidColorBrush(Color.FromRgb(164, 38, 44));
-                }
-                FeedbackBorder.Visibility = Visibility.Visible;
-            }
+                ShowFeedback();
 
-            bool isLast            = _currentIndex >= _questions.Count - 1;
+            bool isLast            = _currentIndex >= _bundles.Count - 1;
             ActionButton.Content   = isLast ? "Завершить тест" : "Следующий вопрос  →";
             ActionButton.IsEnabled = true;
-            HintText.Text          = isLast ? "Enter: завершить тест" : "Enter: следующий вопрос";
+            UpdateHint();
 
             if (_mode == QuizMode.Exam)
             {
@@ -359,11 +521,20 @@ namespace AzureExamQuestions
             UpdateStats();
         }
 
+        /// <summary>Выводит "Заголовок: текст" и делает блок видимым.</summary>
+        private static void SetLabeledText(TextBlock target, string label, string body, Brush labelBrush)
+        {
+            target.Inlines.Clear();
+            target.Inlines.Add(new Run(label) { FontWeight = FontWeights.SemiBold, Foreground = labelBrush });
+            target.Inlines.Add(new Run(" " + body));
+            target.Visibility = Visibility.Visible;
+        }
+
         private void UpdateStats()
         {
             int answeredCount = _currentIndex + (_answered ? 1 : 0);
             int wrongCount    = answeredCount - _correctCount;
-            int remaining     = _questions.Count - answeredCount;
+            int remaining     = _bundles.Count - answeredCount;
 
             int pct = answeredCount > 0
                 ? (int)Math.Round((double)_correctCount / answeredCount * 100)
@@ -394,7 +565,7 @@ namespace AzureExamQuestions
 
         private void UpdateProgressBar(int answered, int wrong)
         {
-            int total   = _questions.Count;
+            int total   = _bundles.Count;
             int correct = answered - wrong;
             // Use star-ratio columns: correct* wrong* remain*
             ColCorrect.Width = new GridLength(correct, GridUnitType.Star);
@@ -404,15 +575,27 @@ namespace AzureExamQuestions
 
         private void ShowResults()
         {
+            // Разбор ошибок показываем на том языке, на котором тест завершён.
+            var wrong = _wrongAnswers
+                .Select(wa => new WrongAnswer
+                {
+                    Question     = wa.Bundle?.Get(_language) ?? wa.Question,
+                    UserSelected = wa.UserSelected,
+                    Bundle       = wa.Bundle
+                })
+                .ToList();
+
             var result = new QuizResult
             {
-                Total        = _questions.Count,
+                Total        = _bundles.Count,
                 Correct      = _correctCount,
                 Mode         = _mode,
                 TimeSpent    = DateTime.Now - _startTime,
-                WrongAnswers = _wrongAnswers,
+                WrongAnswers = wrong,
                 ExamTitle    = _examTitle,
-                TimerSeconds = _secondsPerQuestion
+                TimerSeconds = _secondsPerQuestion,
+                Languages    = _languages,
+                Language     = _language
             };
             new ResultWindow(result).Show();
             Close();

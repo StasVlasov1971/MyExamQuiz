@@ -138,8 +138,11 @@ namespace AzureExamQuestions
 
         private void RetryWrongButton_Click(object sender, RoutedEventArgs e)
         {
-            var wrongQuestions = _result.WrongAnswers.Select(w => w.Question).ToList();
-            new QuizWindow(wrongQuestions, _result.ExamTitle, _result.Mode, _result.TimerSeconds).Show();
+            var wrongQuestions = _result.WrongAnswers
+                .Select(w => w.Bundle ?? QuestionBundle.Single(w.Question, _result.Language))
+                .ToList();
+            new QuizWindow(wrongQuestions, _result.ExamTitle, _result.Mode, _result.TimerSeconds,
+                           _result.Languages, _result.Language).Show();
             Close();
         }
     }

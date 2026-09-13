@@ -8,4 +8,10 @@
     <RootNamespace>AzureExamQuestions</RootNamespace>
     <AssemblyName>MyExamQuiz</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Data\**\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

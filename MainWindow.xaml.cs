@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,6 +9,12 @@ namespace AzureExamQuestions
     public partial class MainWindow : Window
     {
         private ExamDefinition? _selectedExam;
+
+        /// <summary>Пока идёт заполнение списка языков, его SelectionChanged игнорируется.</summary>
+        private bool _fillingLanguages;
+
+        /// <summary>Об ошибке чтения вопросов сообщаем один раз, а не на каждое движение ползунка.</summary>
+        private bool _dataErrorShown;
 
         public MainWindow()
         {
@@ -35,12 +42,40 @@ namespace AzureExamQuestions
 
         private void LoadExams()
         {
-            var exams = ExamCatalog.GetAll();
-            foreach (var exam in exams)
-                ExamComboBox.Items.Add(exam);
+            try
+            {
+                var exams = ExamCatalog.GetAll();
+                foreach (var exam in exams)
+                    ExamComboBox.Items.Add(exam);
 
-            ExamComboBox.DisplayMemberPath = "DisplayTitle";
-            ExamComboBox.SelectedIndex = 0;   // AZ-900 по умолчанию
+                ExamComboBox.DisplayMemberPath = "DisplayTitle";
+                ExamComboBox.SelectedIndex = 0;   // AZ-900 по умолчанию
+            }
+            catch (Exception ex)
+            {
+                ShowDataError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Показывает ошибку данных и блокирует старт. Вопросы читаются лениво, поэтому
+        /// такая ошибка может всплыть уже после открытия окна — без этого приложение
+        /// просто падало бы.
+        /// </summary>
+        private void ShowDataError(Exception ex)
+        {
+            if (StartButton != null)
+                StartButton.IsEnabled = false;
+
+            if (_dataErrorShown) return;
+            _dataErrorShown = true;
+
+            MessageBox.Show(
+                $@"Не удалось загрузить вопросы из папки:
+{QuestionRepository.DataDirectory}
+
+{ex.Message}",
+                "Ошибка загрузки данных", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void ExamComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -51,8 +86,45 @@ namespace AzureExamQuestions
             if (ExamDescText != null)
                 ExamDescText.Text = _selectedExam.Description;
 
+            FillLanguages(_selectedExam);
             UpdateAvailableCount();
         }
+
+        /// <summary>Заполняет список языков; для одноязычного набора прячет весь блок.</summary>
+        private void FillLanguages(ExamDefinition exam)
+        {
+            if (LanguageComboBox == null || LanguagePanel == null) return;
+
+            _fillingLanguages = true;
+            try
+            {
+                LanguageComboBox.Items.Clear();
+                foreach (var lang in exam.Languages)
+                    LanguageComboBox.Items.Add(lang);
+
+                var preferred = exam.PreferredLanguage;
+                LanguageComboBox.SelectedItem = preferred ?? (exam.Languages.Count > 0 ? exam.Languages[0] : null);
+                if (LanguageComboBox.SelectedItem is null && LanguageComboBox.Items.Count > 0)
+                    LanguageComboBox.SelectedIndex = 0;
+            }
+            finally
+            {
+                _fillingLanguages = false;
+            }
+
+            LanguagePanel.Visibility = exam.IsMultiLanguage ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_fillingLanguages) return;
+            UpdateAvailableCount();
+        }
+
+        private string SelectedLanguageCode =>
+            (LanguageComboBox?.SelectedItem as QuestionLanguage)?.Code
+            ?? _selectedExam?.PreferredLanguage?.Code
+            ?? "";
 
         private void DifficultySlider_ValueChanged(object sender,
             RoutedPropertyChangedEventArgs<double> e)
@@ -69,19 +141,35 @@ namespace AzureExamQuestions
             CountValueText.Text = ((int)CountSlider.Value).ToString();
         }
 
-        private void UpdateAvailableCount()
+        /// <summary>Вопросы выбранного экзамена после фильтров сложности и избранного.</summary>
+        private List<QuestionBundle> BuildPool()
         {
-            if (AvailableText == null || CountSlider == null || _selectedExam is null) return;
+            if (_selectedExam is null) return new List<QuestionBundle>();
 
             int minDiff = (int)DifficultySlider.Value;
             bool bookmarksOnly = BookmarksOnlyCheck?.IsChecked == true;
 
-            var pool = _selectedExam.GetQuestions()
-                .Where(q => q.Difficulty >= minDiff);
-            if (bookmarksOnly)
-                pool = pool.Where(q => BookmarkService.IsBookmarked(q.Id));
+            try
+            {
+                var pool = _selectedExam.GetBundles()
+                    .Where(b => b.Difficulty >= minDiff);
+                if (bookmarksOnly)
+                    pool = pool.Where(b => BookmarkService.IsBookmarked(b.Id));
 
-            int available = pool.Count();
+                return pool.ToList();
+            }
+            catch (Exception ex)
+            {
+                ShowDataError(ex);
+                return new List<QuestionBundle>();
+            }
+        }
+
+        private void UpdateAvailableCount()
+        {
+            if (AvailableText == null || CountSlider == null || _selectedExam is null) return;
+
+            int available = BuildPool().Count;
 
             AvailableText.Text  = $"(доступно: {available})";
             CountSlider.Maximum = Math.Max(1, available);
@@ -120,17 +208,9 @@ namespace AzureExamQuestions
         {
             if (_selectedExam is null) return;
 
-            int minDiff = (int)DifficultySlider.Value;
-            int count   = (int)CountSlider.Value;
+            int count = (int)CountSlider.Value;
 
-            bool bookmarksOnly = BookmarksOnlyCheck?.IsChecked == true;
-
-            var pool = _selectedExam.GetQuestions()
-                .Where(q => q.Difficulty >= minDiff);
-            if (bookmarksOnly)
-                pool = pool.Where(q => BookmarkService.IsBookmarked(q.Id));
-
-            var questions = pool
+            var questions = BuildPool()
                 .OrderBy(_ => Guid.NewGuid())
                 .Take(count)
                 .ToList();
@@ -145,7 +225,8 @@ namespace AzureExamQuestions
             var mode = ExamModeRadio.IsChecked == true ? QuizMode.Exam : QuizMode.Study;
             int timerSec = mode == QuizMode.Exam ? (int)TimerSlider.Value : 0;
 
-            new QuizWindow(questions, _selectedExam.DisplayTitle, mode, timerSec).Show();
+            new QuizWindow(questions, _selectedExam.DisplayTitle, mode, timerSec,
+                           _selectedExam.Languages, SelectedLanguageCode).Show();
             Close();
         }
     }

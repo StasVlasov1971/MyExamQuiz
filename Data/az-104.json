@@ -1,0 +1,422 @@
+[
+  {
+    "id": 1,
+    "uid": "BC223",
+    "text": "An administrator needs to grant a user the ability to create and manage virtual machines, but must NOT allow them to manage virtual networks or assign permissions to others. Which built-in RBAC role is most appropriate?",
+    "options": [
+      "A) Contributor",
+      "B) Virtual Machine Contributor",
+      "C) Owner",
+      "D) Network Contributor"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Virtual Machine Contributor",
+    "difficulty": 2
+  },
+  {
+    "id": 2,
+    "uid": "NPVQT",
+    "text": "You need to move several Azure resources (VMs, storage accounts) from Subscription A to Subscription B within the same Azure AD tenant. Which statement is TRUE about this operation?",
+    "options": [
+      "A) Resources cannot be moved between subscriptions.",
+      "B) Most resource types can be moved; the resources are temporarily unavailable during the move.",
+      "C) Moving resources changes their resource IDs, which may break existing references.",
+      "D) B and C are both correct."
+    ],
+    "correctAnswer": "D",
+    "correctAnswerText": "D) B and C are both correct.",
+    "difficulty": 3
+  },
+  {
+    "id": 3,
+    "uid": "C7ESA",
+    "text": "An administrator needs to temporarily grant a vendor elevated Azure access for 48 hours to perform maintenance. The access must expire automatically. Which Azure AD feature should be used?",
+    "options": [
+      "A) Permanent RBAC role assignment at the subscription scope",
+      "B) Azure AD Privileged Identity Management (PIM) with a time-bounded eligible assignment",
+      "C) Azure Policy with a time-based condition",
+      "D) Azure Conditional Access policy"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Azure AD Privileged Identity Management (PIM) with a time-bounded eligible assignment",
+    "difficulty": 3
+  },
+  {
+    "id": 4,
+    "uid": "Z5EJ3",
+    "text": "Which Azure feature allows you to enforce that all resources in a subscription must have a specific tag (e.g., 'Environment'), and automatically add the tag to non-compliant resources that are missing it?",
+    "options": [
+      "A) Azure RBAC with a custom role",
+      "B) Azure Resource Locks",
+      "C) Azure Policy with the 'Modify' effect",
+      "D) Azure Blueprints with a tag artifact"
+    ],
+    "correctAnswer": "C",
+    "correctAnswerText": "C) Azure Policy with the 'Modify' effect",
+    "difficulty": 3
+  },
+  {
+    "id": 5,
+    "uid": "X6SYQ",
+    "text": "An organization wants to delegate password reset permissions to a helpdesk team for regular (non-admin) users only, without granting Global Administrator rights. Which Azure AD role is most appropriate?",
+    "options": [
+      "A) Security Administrator",
+      "B) User Administrator",
+      "C) Helpdesk Administrator",
+      "D) Authentication Administrator"
+    ],
+    "correctAnswer": "C",
+    "correctAnswerText": "C) Helpdesk Administrator",
+    "difficulty": 3
+  },
+  {
+    "id": 6,
+    "uid": "N8WPC",
+    "text": "You need to audit all control-plane operations (create, update, delete) performed on Azure resources in your subscription over the last 90 days. Which Azure service stores this information?",
+    "options": [
+      "A) Azure Monitor Metrics",
+      "B) Azure Activity Log",
+      "C) Azure Resource Graph",
+      "D) Azure Advisor"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Azure Activity Log",
+    "difficulty": 2
+  },
+  {
+    "id": 7,
+    "uid": "WS9TN",
+    "text": "Which Azure Storage redundancy option replicates data synchronously across three availability zones within the primary region, providing the highest durability within a single region?",
+    "options": [
+      "A) LRS — Locally Redundant Storage",
+      "B) ZRS — Zone-Redundant Storage",
+      "C) GRS — Geo-Redundant Storage",
+      "D) GZRS — Geo-Zone-Redundant Storage"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) ZRS — Zone-Redundant Storage",
+    "difficulty": 2
+  },
+  {
+    "id": 8,
+    "uid": "MHWE2",
+    "text": "You need to automatically move Azure Blob data to the Cool tier after 30 days and delete it after 365 days of no modification. What should you configure?",
+    "options": [
+      "A) Azure Backup retention policy",
+      "B) Blob Storage lifecycle management policy",
+      "C) Azure Policy with a storage rule",
+      "D) Blob versioning with soft delete"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Blob Storage lifecycle management policy",
+    "difficulty": 2
+  },
+  {
+    "id": 9,
+    "uid": "XA75N",
+    "text": "Which Azure Blob Storage access tier has the LOWEST storage cost per GB but requires a minimum storage duration of 180 days and has the highest retrieval cost?",
+    "options": [
+      "A) Hot tier",
+      "B) Cool tier",
+      "C) Cold tier",
+      "D) Archive tier"
+    ],
+    "correctAnswer": "D",
+    "correctAnswerText": "D) Archive tier",
+    "difficulty": 2
+  },
+  {
+    "id": 10,
+    "uid": "6GJGY",
+    "text": "Multiple Azure virtual machines need to share a common file system simultaneously using the SMB protocol. Which Azure storage service provides this capability?",
+    "options": [
+      "A) Azure Blob Storage (NFS mount)",
+      "B) Azure Files",
+      "C) Azure Managed Disks",
+      "D) Azure Queue Storage"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Azure Files",
+    "difficulty": 2
+  },
+  {
+    "id": 11,
+    "uid": "9X4H9",
+    "text": "You generate a Shared Access Signature (SAS) token for an Azure Storage blob. The token expires in 24 hours. Before it expires, you discover the token was accidentally exposed. What is the FASTEST way to revoke it?",
+    "options": [
+      "A) Delete the storage account and recreate it.",
+      "B) Rotate the storage account access key used to sign the SAS token.",
+      "C) Change the storage account replication option.",
+      "D) Disable public access on the container."
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Rotate the storage account access key used to sign the SAS token.",
+    "difficulty": 3
+  },
+  {
+    "id": 12,
+    "uid": "KJ8TK",
+    "text": "Which Azure VM disk type provides the highest IOPS and throughput with sub-millisecond latency, designed for IO-intensive workloads like SAP HANA and top-tier databases?",
+    "options": [
+      "A) Standard HDD",
+      "B) Standard SSD",
+      "C) Premium SSD v2",
+      "D) Ultra Disk"
+    ],
+    "correctAnswer": "D",
+    "correctAnswerText": "D) Ultra Disk",
+    "difficulty": 2
+  },
+  {
+    "id": 13,
+    "uid": "JCKBN",
+    "text": "An Azure VM's OS disk is running out of space. The VM is currently running in production with a supported OS. What is the RECOMMENDED approach to expand the disk with minimal disruption?",
+    "options": [
+      "A) Deallocate the VM, resize the disk, start the VM, then extend the partition inside the OS.",
+      "B) Use online disk resize (no deallocation required for supported VM sizes) then extend the partition inside the OS.",
+      "C) Attach a new data disk and migrate the OS partition manually.",
+      "D) Create a snapshot, restore to a new, larger VM."
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Use online disk resize (no deallocation required for supported VM sizes) then extend the partition inside the OS.",
+    "difficulty": 3
+  },
+  {
+    "id": 14,
+    "uid": "VS8HA",
+    "text": "You need to automatically shut down development VMs every day at 7 PM (with no auto-start). The SIMPLEST way to configure this per-VM with no custom scripting is:",
+    "options": [
+      "A) Azure Automation runbook with a schedule",
+      "B) Auto-shutdown feature built into each VM's settings in the portal",
+      "C) Azure Logic App triggered by a timer",
+      "D) Azure DevTest Labs policy"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Auto-shutdown feature built into each VM's settings in the portal",
+    "difficulty": 1
+  },
+  {
+    "id": 15,
+    "uid": "74WZ7",
+    "text": "You need to protect Azure VMs so that deleted or corrupted data can be restored to any point within the last 14 days. Which service provides VM-level backup and point-in-time restore?",
+    "options": [
+      "A) Azure Site Recovery",
+      "B) Azure Backup with a Recovery Services Vault",
+      "C) Azure Managed Disk snapshots only",
+      "D) Azure Archive Storage"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Azure Backup with a Recovery Services Vault",
+    "difficulty": 2
+  },
+  {
+    "id": 16,
+    "uid": "WGVKN",
+    "text": "A web application runs on five Azure VMs behind a load balancer. During deployments, you need to ensure at least 3 VMs remain available. The VMs must be protected from both planned maintenance and unplanned hardware failures in the SAME datacenter. Which feature should you use?",
+    "options": [
+      "A) Availability Zones across three regions",
+      "B) Availability Set with fault domains and update domains",
+      "C) Virtual Machine Scale Sets with default settings",
+      "D) Azure Site Recovery"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Availability Set with fault domains and update domains",
+    "difficulty": 3
+  },
+  {
+    "id": 17,
+    "uid": "857XM",
+    "text": "Which Azure Compute service is best suited for running large-scale parallel batch jobs (e.g., rendering 10,000 video frames) that require hundreds of VMs for a few hours without managing the cluster infrastructure?",
+    "options": [
+      "A) Azure Virtual Machine Scale Sets",
+      "B) Azure Kubernetes Service (AKS)",
+      "C) Azure Batch",
+      "D) Azure Container Instances"
+    ],
+    "correctAnswer": "C",
+    "correctAnswerText": "C) Azure Batch",
+    "difficulty": 2
+  },
+  {
+    "id": 18,
+    "uid": "SZE67",
+    "text": "An Azure App Service web app is experiencing slow response times. The CPU metric consistently exceeds 80% during business hours. You need to automatically add instances during peak load and reduce them at night. What should you configure?",
+    "options": [
+      "A) Change the App Service Plan to a higher SKU manually each morning",
+      "B) Enable Autoscale on the App Service Plan with CPU-based scale-out rules",
+      "C) Deploy to Azure Functions instead",
+      "D) Add a CDN in front of the app"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Enable Autoscale on the App Service Plan with CPU-based scale-out rules",
+    "difficulty": 2
+  },
+  {
+    "id": 19,
+    "uid": "D5KTB",
+    "text": "You need to allow only specific IP addresses to access an Azure VM using RDP (port 3389) and block all other inbound internet traffic. The SIMPLEST configuration is to:",
+    "options": [
+      "A) Configure an Azure Firewall rule",
+      "B) Add an inbound NSG rule allowing RDP from specific IPs, and ensure the default Deny rule blocks everything else",
+      "C) Use Azure DDoS Protection Standard",
+      "D) Enable Azure Bastion on the VNet"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Add an inbound NSG rule allowing RDP from specific IPs, and ensure the default Deny rule blocks everything else",
+    "difficulty": 2
+  },
+  {
+    "id": 20,
+    "uid": "V3R7T",
+    "text": "You need to route ALL internet-bound traffic from a VNet through a Network Virtual Appliance (NVA) for inspection, overriding the default Azure routing. What must you configure?",
+    "options": [
+      "A) A Network Security Group with a block rule",
+      "B) User-Defined Routes (UDR) with a route table attached to the subnet",
+      "C) VNet Peering with gateway transit",
+      "D) Azure Firewall Policy"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) User-Defined Routes (UDR) with a route table attached to the subnet",
+    "difficulty": 3
+  },
+  {
+    "id": 21,
+    "uid": "E6QX6",
+    "text": "Two VNets (VNet-A in East US, VNet-B in West Europe) need to communicate. The connection must use the Microsoft backbone network (not the public internet) and must NOT require a gateway. Which solution should you choose?",
+    "options": [
+      "A) Site-to-Site VPN between the two VNets",
+      "B) Global VNet Peering",
+      "C) Azure ExpressRoute with Global Reach",
+      "D) Azure Virtual WAN hub"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Global VNet Peering",
+    "difficulty": 2
+  },
+  {
+    "id": 22,
+    "uid": "VXZGX",
+    "text": "You need to allow VMs in a VNet to access Azure Storage over the Microsoft backbone network without assigning a public IP to the storage account. Which networking feature achieves this?",
+    "options": [
+      "A) Service Endpoints — routes traffic to the public endpoint over the backbone",
+      "B) Private Endpoint — assigns a private IP from the VNet to the storage account",
+      "C) VNet Peering to Microsoft's backbone",
+      "D) Azure ExpressRoute"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Private Endpoint — assigns a private IP from the VNet to the storage account",
+    "difficulty": 3
+  },
+  {
+    "id": 23,
+    "uid": "48S3F",
+    "text": "Which Azure load-balancing service operates at OSI Layer 4 (TCP/UDP), distributes traffic within a region, and supports health probes but does NOT inspect HTTP content or URL paths?",
+    "options": [
+      "A) Azure Application Gateway",
+      "B) Azure Front Door",
+      "C) Azure Load Balancer (Standard)",
+      "D) Azure Traffic Manager"
+    ],
+    "correctAnswer": "C",
+    "correctAnswerText": "C) Azure Load Balancer (Standard)",
+    "difficulty": 2
+  },
+  {
+    "id": 24,
+    "uid": "8WBP5",
+    "text": "An on-premises network must connect to Azure with a dedicated, private circuit (not over the public internet) providing up to 10 Gbps of consistent bandwidth for a mission-critical ERP system. Which Azure service should you use?",
+    "options": [
+      "A) Azure VPN Gateway (Site-to-Site)",
+      "B) Azure ExpressRoute",
+      "C) Global VNet Peering",
+      "D) Azure Virtual WAN"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Azure ExpressRoute",
+    "difficulty": 2
+  },
+  {
+    "id": 25,
+    "uid": "63HCS",
+    "text": "You want to allow remote administrators to connect to Azure VMs securely using RDP/SSH through the Azure portal, without exposing port 3389 or 22 on a public IP. Which Azure service provides this?",
+    "options": [
+      "A) Azure VPN Point-to-Site",
+      "B) Azure Bastion",
+      "C) Azure Firewall with DNAT rules",
+      "D) Just-in-Time (JIT) VM access in Microsoft Defender for Cloud"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Azure Bastion",
+    "difficulty": 2
+  },
+  {
+    "id": 26,
+    "uid": "SEF2P",
+    "text": "Which Azure DNS feature allows you to resolve Azure private endpoint hostnames (e.g., mystorageaccount.privatelink.blob.core.windows.net) from within a VNet?",
+    "options": [
+      "A) Azure Public DNS zone",
+      "B) Azure Private DNS zone linked to the VNet",
+      "C) Custom DNS server on the VNet",
+      "D) Azure Traffic Manager profile"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Azure Private DNS zone linked to the VNet",
+    "difficulty": 3
+  },
+  {
+    "id": 27,
+    "uid": "B336B",
+    "text": "An administrator needs to write complex queries to correlate log data from multiple Azure resources (VMs, App Services, SQL Databases) and visualize trends over time. Which Azure Monitor feature enables this?",
+    "options": [
+      "A) Azure Monitor Metrics explorer",
+      "B) Log Analytics workspace with KQL (Kusto Query Language)",
+      "C) Azure Monitor Alerts",
+      "D) Azure Service Health"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Log Analytics workspace with KQL (Kusto Query Language)",
+    "difficulty": 2
+  },
+  {
+    "id": 28,
+    "uid": "8W7VK",
+    "text": "You need to be notified via email when a VM's average CPU utilization exceeds 90% for more than 5 minutes. What should you configure in Azure Monitor?",
+    "options": [
+      "A) A Diagnostic Setting",
+      "B) A Metric Alert rule with an Action Group containing an email action",
+      "C) An Azure Advisor recommendation",
+      "D) A Log Analytics query scheduled every 5 minutes"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) A Metric Alert rule with an Action Group containing an email action",
+    "difficulty": 2
+  },
+  {
+    "id": 29,
+    "uid": "W9DWP",
+    "text": "You need to replicate Azure VMs to a secondary Azure region so that in the event of a regional disaster, you can fail over the workload with a recovery time of less than 1 hour. Which Azure service provides this?",
+    "options": [
+      "A) Azure Backup with geo-redundant storage",
+      "B) Azure Site Recovery (ASR)",
+      "C) Cross-region restore in Azure Backup",
+      "D) Availability Zones"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Azure Site Recovery (ASR)",
+    "difficulty": 2
+  },
+  {
+    "id": 30,
+    "uid": "ZBMFX",
+    "text": "Which Azure tool gives you a consolidated view of your Azure environment's health — including security vulnerabilities, compliance with policies, and actionable recommendations — across multiple subscriptions?",
+    "options": [
+      "A) Azure Advisor",
+      "B) Microsoft Defender for Cloud",
+      "C) Azure Monitor Workbooks",
+      "D) Azure Service Health"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "B) Microsoft Defender for Cloud",
+    "difficulty": 2
+  }
+]
