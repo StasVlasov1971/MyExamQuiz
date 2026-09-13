@@ -511,7 +511,7 @@ namespace AzureExamQuestions
             // Статистика: по одному разу на вопрос за прогон. Пустой выбор бывает только
             // в экзамене, когда истёк таймер, — это отдельный исход, а не неверный ответ.
             if (_countStats && _statRecorded.Add(CurrentBundle.Key))
-                StatsService.Record(_examKey, _mode, CurrentBundle.Key,
+                StatsService.Record(_examKey, _mode, CurrentBundle.Key, _language,
                                     selected.Count == 0 ? null : isCorrect);
 
             if (isCorrect)
