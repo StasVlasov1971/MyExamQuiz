@@ -11,13 +11,13 @@ namespace AzureExamQuestions
         /// После стольких верных ответов вес перестаёт уменьшаться: выученный вопрос
         /// должен изредка возвращаться, а не исчезать из выдачи насовсем.
         /// </summary>
-        public const int MaxCorrectAnswers = 9;
+        public const int MaxCorrectAnswers = 20;
 
         /// <summary>
         /// Вес вопроса при отборе «реже показывать выученные»: чем больше верных ответов,
         /// тем меньше вес. Вопрос, отвеченный верно N раз, выпадает в N+1 раз реже нового,
         /// но снижение останавливается на <see cref="MaxCorrectAnswers"/> — дальше вес
-        /// держится на уровне 1/10 от нового вопроса.
+        /// держится на уровне 1/21 от нового вопроса.
         /// </summary>
         public static double Weight(int correctAnswers) =>
             1.0 / (1 + Math.Clamp(correctAnswers, 0, MaxCorrectAnswers));
