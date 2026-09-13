@@ -19,6 +19,24 @@ namespace AzureExamQuestions
         public MainWindow()
         {
             InitializeComponent();
+
+            // Окно подгоняется по содержимому, но не должно вылезать за рабочую
+            // область экрана: на невысоких экранах настройки прокручиваются.
+            MaxHeight = Math.Max(MinHeight, SystemParameters.WorkArea.Height - 40);
+
+            // SizeToContent измеряет содержимое без ограничения по высоте, поэтому
+            // MaxHeight только обрезает кадр, а прокрутка не включается. Если упёрлись
+            // в потолок, переводим окно в обычный режим — тогда ScrollViewer получает
+            // ограниченную высоту и показывает полосу прокрутки.
+            Loaded += (_, _) =>
+            {
+                if (SizeToContent == SizeToContent.Height && ActualHeight >= MaxHeight - 0.5)
+                {
+                    SizeToContent = SizeToContent.Manual;
+                    Height = MaxHeight;
+                }
+            };
+
             LoadExams();
             UpdateBookmarkCountText();
         }
