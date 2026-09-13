@@ -199,12 +199,20 @@ namespace AzureExamQuestions
             }
         }
 
+        /// <summary>Сколько раз на вопрос отвечали верно в режиме обучения.</summary>
+        private int CorrectAnswersOf(QuestionBundle bundle) =>
+            _selectedExam is null
+                ? 0
+                : StatsService.Get(_selectedExam.Key, QuizMode.Study, bundle.Key)?.Correct ?? 0;
+
         private void StudyModeRadio_Checked(object sender, RoutedEventArgs e)
         {
             if (ModeDescText != null)
                 ModeDescText.Text = "Обучение: сразу показывает правильный ответ и объяснение.";
             if (TimerPanel != null)
                 TimerPanel.Visibility = Visibility.Collapsed;
+            if (AdaptivePanel != null)
+                AdaptivePanel.Visibility = Visibility.Visible;
         }
 
         private void ExamModeRadio_Checked(object sender, RoutedEventArgs e)
@@ -213,6 +221,13 @@ namespace AzureExamQuestions
                 ModeDescText.Text = "Экзамен: без подсказок, таймер, оценка по шкале 0–1000 (порог 700).";
             if (TimerPanel != null)
                 TimerPanel.Visibility = Visibility.Visible;
+            if (AdaptivePanel != null)
+                AdaptivePanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void AdaptiveCheck_Changed(object sender, RoutedEventArgs e)
+        {
+            // Отбор меняется, но состав доступных вопросов — нет.
         }
 
         private void TimerSlider_ValueChanged(object sender,
@@ -230,10 +245,14 @@ namespace AzureExamQuestions
 
             int count = (int)CountSlider.Value;
 
-            var questions = BuildPool()
-                .OrderBy(_ => Guid.NewGuid())
-                .Take(count)
-                .ToList();
+            var mode = ExamModeRadio.IsChecked == true ? QuizMode.Exam : QuizMode.Study;
+            bool adaptive = mode == QuizMode.Study && AdaptiveCheck?.IsChecked == true;
+
+            var rnd  = new Random();
+            var pool = BuildPool();
+            var questions = adaptive
+                ? QuestionPicker.PickWeighted(pool, count, CorrectAnswersOf, rnd)
+                : QuestionPicker.PickRandom(pool, count, rnd);
 
             if (questions.Count == 0)
             {
@@ -242,7 +261,6 @@ namespace AzureExamQuestions
                 return;
             }
 
-            var mode = ExamModeRadio.IsChecked == true ? QuizMode.Exam : QuizMode.Study;
             int timerSec = mode == QuizMode.Exam ? (int)TimerSlider.Value : 0;
 
             new QuizWindow(questions, _selectedExam.DisplayTitle, mode, timerSec,

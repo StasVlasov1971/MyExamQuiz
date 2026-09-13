@@ -125,6 +125,19 @@
                                Margin="2,2,0,12" TextWrapping="Wrap"
                                Text="Обучение: сразу показывает правильный ответ и объяснение."/>
 
+                    <!-- Отбор вопросов (только режим обучения) -->
+                    <StackPanel x:Name="AdaptivePanel" Margin="0,0,0,16">
+                        <CheckBox x:Name="AdaptiveCheck"
+                                  Content="Реже показывать выученные"
+                                  FontSize="13"
+                                  Checked="AdaptiveCheck_Changed"
+                                  Unchecked="AdaptiveCheck_Changed"/>
+                        <TextBlock x:Name="AdaptiveHintText"
+                                   FontSize="11" Foreground="#8A8886" FontStyle="Italic"
+                                   Margin="20,3,0,0" TextWrapping="Wrap"
+                                   Text="Вопрос, отвеченный верно N раз, выпадает в N+1 раз реже нового. Без галочки вопросы берутся равновероятно."/>
+                    </StackPanel>
+
                     <!-- Timer settings (exam mode only) -->
                     <StackPanel x:Name="TimerPanel" Visibility="Collapsed" Margin="0,0,0,16">
                         <Grid Margin="0,0,0,6">
